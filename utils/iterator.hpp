@@ -6,9 +6,12 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/01/25 15:57:39 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/01/26 15:54:34 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef ITERATOR_HPP
+#define ITERATOR_HPP
 
 namespace ft
 {
@@ -52,3 +55,4 @@ namespace ft
 	
 }
 
+#endif
