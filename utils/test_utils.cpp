@@ -6,16 +6,25 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 16:10:33 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/01/26 15:55:27 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/01/26 16:59:11 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "compare.hpp"
-#include "enable_if.hpp"
-#include "is_integral.hpp"
 #include <iostream>
 #include <vector>
 #include <cctype>       // std::tolower
+
+#if STL
+	#include <map>
+	#include <stack>
+	#include <vector>
+	namespace ft = std;
+#else
+	#include "compare.hpp"
+	#include "enable_if.hpp"
+	#include "is_integral.hpp"
+	#include "pair.hpp"
+#endif
 
 // a case-insensitive comparison function:
 bool mycomp (char c1, char c2)
@@ -73,5 +82,17 @@ int main()
 	else
 		std::cout << "The contents of both sequences differ.\n";
 
+	ft::pair <std::string,double> product1;                     // default constructor
+	ft::pair <std::string,double> product2 ("tomatoes",2.30);   // value init
+	ft::pair <std::string,double> product3 (product2);          // copy constructor
+
+	product1 = ft::make_pair(std::string("lightbulbs"),0.99);   // using make_pair (move)
+
+	product2.first = "shoes";                  // the type of first is string
+	product2.second = 39.90;                   // the type of second is double
+
+	std::cout << "The price of " << product1.first << " is $" << product1.second << '\n';
+	std::cout << "The price of " << product2.first << " is $" << product2.second << '\n';
+	std::cout << "The price of " << product3.first << " is $" << product3.second << '\n';
 	return (0);
 }

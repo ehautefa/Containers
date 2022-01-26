@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:50:24 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/01/26 15:53:52 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/01/26 16:59:57 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@ namespace	ft
 
 	template <>
 	struct is_integral<char> { static const bool	value = true;};
-
-	template <>
-	struct is_integral<char16_t> { static const bool	value = true;};
-
-	template <>
-	struct is_integral<char32_t> { static const bool	value = true;};
 
 	template <>
 	struct is_integral<wchar_t> { static const bool	value = true;};
