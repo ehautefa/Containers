@@ -21,8 +21,8 @@ MAIN=test_utils.cpp
 
 sed "s/STL/1/g" $MAIN > $MAIN1
 sed "s/STL/0/g" $MAIN > $MAIN2
-clang++ -Wall -Werror -Wextra $MAIN1 -o $BINARY1
-clang++ -Wall -Werror -Wextra $MAIN2 -o $BINARY2
+clang++ -Wall -Werror -Wextra -std=c++98 $MAIN1 -o $BINARY1
+clang++ -Wall -Werror -Wextra -std=c++98 $MAIN2 -o $BINARY2
 ./$BINARY1 > $RES1
 ./$BINARY2 > $RES2
 if diff -q $RES1 $RES2 > /dev/null

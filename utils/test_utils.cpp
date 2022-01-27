@@ -6,13 +6,14 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 16:10:33 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/01/26 16:59:11 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/01/27 12:40:50 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <vector>
-#include <cctype>       // std::tolower
+#include <cctype>
+#include <map>       // std::tolower
 
 #if STL
 	#include <map>
@@ -43,13 +44,6 @@ bool mypredicate (int i, int j) {
 
 int main()
 {
-	std::cout << "is_integral<trivial> == " << std::boolalpha
-		<< ft::is_integral<trivial>::value << std::endl;
-	std::cout << "is_integral<int> == " << std::boolalpha
-		<< ft::is_integral<int>::value << std::endl;
-	std::cout << "is_integral<float> == " << std::boolalpha
-		<< ft::is_integral<float>::value << std::endl;
-
   	char foo[]="Apple";
   	char bar[]="apartment";
 
@@ -94,5 +88,16 @@ int main()
 	std::cout << "The price of " << product1.first << " is $" << product1.second << '\n';
 	std::cout << "The price of " << product2.first << " is $" << product2.second << '\n';
 	std::cout << "The price of " << product3.first << " is $" << product3.second << '\n';
+   	{
+		ft::pair<int,int> foo (10,100);
+		ft::pair<int,int> bar (10,90);
+
+		if (foo==bar) std::cout << "foo and bar are equal\n";
+		// if (foo!=bar) std::cout << "foo and bar are not equal\n";
+		if (foo<= bar) std::cout << "foo is less than bar\n";
+		// if (foo> bar) std::cout << "foo is greater than bar\n";
+		// if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
+		// if (foo>=bar) std::cout << "foo is greater than or equal to bar\n"
+	}
 	return (0);
 }
