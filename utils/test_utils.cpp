@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 16:10:33 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/01/27 12:40:50 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/01/27 15:15:49 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@
 	#include <map>
 	#include <stack>
 	#include <vector>
+	#include <iterator>
 	namespace ft = std;
 #else
 	#include "compare.hpp"
 	#include "enable_if.hpp"
 	#include "is_integral.hpp"
 	#include "pair.hpp"
+	#include "iterator.hpp"
 #endif
 
 // a case-insensitive comparison function:
@@ -93,11 +95,25 @@ int main()
 		ft::pair<int,int> bar (10,90);
 
 		if (foo==bar) std::cout << "foo and bar are equal\n";
-		// if (foo!=bar) std::cout << "foo and bar are not equal\n";
+		if (foo!=bar) std::cout << "foo and bar are not equal\n";
 		if (foo<= bar) std::cout << "foo is less than bar\n";
-		// if (foo> bar) std::cout << "foo is greater than bar\n";
-		// if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
-		// if (foo>=bar) std::cout << "foo is greater than or equal to bar\n"
+		if (foo> bar) std::cout << "foo is greater than bar\n";
+		if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
+		if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
+	}
+	{
+		ft::pair <std::string,int> planet, homeplanet;
+
+		planet = ft::make_pair("Earth",6371);
+
+		homeplanet = planet;
+
+		std::cout << "Home planet: " << homeplanet.first << '\n';
+		std::cout << "Planet size: " << homeplanet.second << '\n';
+	}
+	{
+		int numbers[]={10,20,30,40,50};
+		ft::iterator<int>	test(numbers);
 	}
 	return (0);
 }
