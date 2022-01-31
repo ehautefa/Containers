@@ -28,16 +28,41 @@ Random access: elements accessed in any order, may store and retrieve values, pr
 #############		TO DO			#############
 
 
-ITERATOR						❌
-	member fcts			❌
-	Non-member fcts		❌
-	Overloads			❌
-	iterators_traits	❌
-	reverse_iterator	❌
-VECTOR							❌
-	member fcts			❌
-	Non-member fcts		❌
-	Overloads			❌			
+ITERATOR							❌
+	member fcts				❌
+	Non-member fcts			❌
+	Overloads				❌
+	iterators_traits		❌
+	reverse_iterator		❌
+VECTOR								✔
+	member fcts				✔
+		assign			❌		
+		at				❌	
+		back			❌		
+		begin			❌		
+		capacity		✅						
+		clear			✅					
+		empty			❌
+		end				❌
+		erase			❌
+		front			❌
+		get_allocator	✅			
+		insert			❌	
+		max_size		✅		
+		pop_back		❌		
+		push_back		✔		
+		rbegin			❌	
+		rend			❌	
+		reserve			✔	
+		resize			✔
+		size			✅	
+		swap			✅	
+	Non-member fcts			✔
+		rel operator	✔
+		swap			✅
+	Overloads				✅
+		operator=		✅
+		operatot[]		✅
 MAP								❌
 	member fcts			❌
 	Non-member fcts		❌

@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/01/31 17:23:04 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/01/31 19:43:31 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,13 @@ namespace	ft
 			
 		public:
 			/************* ~EXCEPTION~ *************/
-
+			class length_error : public std::exception {
+				public:
+			  		const char *what( void ) const throw() {
+						  return ("vector::_M_fill_insert");
+					  }
+			};
+			
 			/************* ~CONSTRUCTOR~ *************/
 			explicit vector (const allocator_type& alloc = allocator_type()) {
 				_alloc = alloc;
@@ -136,6 +142,12 @@ namespace	ft
 			// }
 
 			/************* ~METHOD~ *************/
+			void	clear() {
+				for (size_t i = _size; i > 0; --i)
+				{
+					_alloc.destroy(&_arr[i]);
+				}
+			}
 			void resize (size_type n, value_type val = value_type()) {
 				if (n < _size)
 				{
@@ -145,20 +157,40 @@ namespace	ft
 				}
 				else if (n > _size)
 				{
-					if (n > _capacity && n < this->max_size())
-					{
-						vector	tmp = *this;
-						_alloc.deallocate(_arr,_capacity);
-						while (_capacity < n)
-							_capacity *= 2;
-						_alloc.allocate(_capacity);
-						for (size_t i = 0; i < _size; i++)
-							_alloc.construct(&_arr[i], tmp[i]);
-					}
+					try {this->reserve(n);}
+					catch (std::exception & e) { std::cout << e.what() << std::endl;}
 					for (size_t i = _size; i < n; i++)
 						_alloc.construct(&_arr[i], val);
 					_size = n;
 				}
+			}
+
+			void reserve (size_type n) {
+				if (n > this->max_size())
+					throw length_error();
+				else if (n >= _capacity)
+				{
+					vector	tmp = *this;
+					this->clear();
+					_alloc.deallocate(_arr,_capacity);
+					std::cout << "SIZE2 : " << _size << std::endl;
+					while (_capacity <= n)
+						_capacity *= 2;
+					_alloc.allocate(_capacity);
+					for (size_t i = 0; i < _size; i++)
+						_alloc.construct(&_arr[i], tmp[i]);
+					std::cout << "CPACITY2 : " << _capacity << std::endl;
+				}
+			}
+			void push_back (const value_type& val) {
+				std::cout << "CAPACITY1 : " << _capacity << std::endl;
+				std::cout << "SIZE1 : " << _size << std::endl;
+				if (_size + 1 >= _capacity)
+					this->reserve(_size);
+				std::cout << "CAPACITY3 : " << _capacity << std::endl;
+				std::cout << "SIZE3 : " << _size << std::endl;
+				_alloc.construct(&_arr[_size], val);
+				_size++;
 			}
 
 			/************* ~SWAP~ *************/
