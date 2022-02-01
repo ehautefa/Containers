@@ -1,0 +1,17 @@
+myvector contains: 9 8 7 6 5 4 3 2 1 0
+0
+9
+100 100 100 100 
+100 100 100 100 
+foo : 100 foo : 100 foo : 100 
+bar : 200 bar : 200 
+foo and bar are not equal
+foo : 200 foo : 200 
+bar : 100 bar : 100 bar : 100 
+foo and bar are not equal
+ORIGIN:
+ 1 2 3 4 5 6 7 8 9
+RESIZE(5):
+ 1 2 3 4 5
+ 1 2 3 4 5 100 100 100
+test contains: 1 2 3 4 5 100 100 100 0 0 0 0

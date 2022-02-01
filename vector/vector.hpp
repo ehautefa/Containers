@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/01/31 19:43:31 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:52:28 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ namespace	ft
 				_alloc = alloc;
 				_capacity = 1;
 				_arr = _alloc.allocate(_capacity);
-				_alloc.construct(_arr, 0);
+				_alloc.construct(_arr, value_type());
 				_size = 0;			
 			}
 			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())  : _alloc(alloc){
@@ -89,9 +89,9 @@ namespace	ft
 				_arr = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&_arr[i], x[i]);
-
 			}
 			~vector() {
+				this->clear();
 				_alloc.deallocate(_arr, _capacity);
 			}
 
@@ -112,8 +112,16 @@ namespace	ft
 				return (_alloc.max_size());
 			}
 
+			bool empty() const {
+				if (_size == 0)
+					return true;
+				else
+					return false;
+			}
+
 			/************* ~OPERATOR~ *************/
 			vector& operator= (const vector& x) {
+				this->clear();
 				_alloc.deallocate(_arr, _capacity);
 				_alloc = x.get_allocator();
 				_size = x.size();
@@ -143,11 +151,11 @@ namespace	ft
 
 			/************* ~METHOD~ *************/
 			void	clear() {
-				for (size_t i = _size; i > 0; --i)
-				{
+				for (size_t i = 0; i < _size; i++)
 					_alloc.destroy(&_arr[i]);
-				}
+				_size = 0;
 			}
+			
 			void resize (size_type n, value_type val = value_type()) {
 				if (n < _size)
 				{
@@ -170,25 +178,24 @@ namespace	ft
 					throw length_error();
 				else if (n >= _capacity)
 				{
-					vector	tmp = *this;
+					// vector	tmp = *this;
 					this->clear();
 					_alloc.deallocate(_arr,_capacity);
-					std::cout << "SIZE2 : " << _size << std::endl;
 					while (_capacity <= n)
 						_capacity *= 2;
 					_alloc.allocate(_capacity);
-					for (size_t i = 0; i < _size; i++)
-						_alloc.construct(&_arr[i], tmp[i]);
-					std::cout << "CPACITY2 : " << _capacity << std::endl;
+					// _size = tmp.size();
+					// for (size_t i = 0; i < _size; i++)
 				}
 			}
+					// 	_alloc.construct(&_arr[i], tmp[i]);
+			
 			void push_back (const value_type& val) {
-				std::cout << "CAPACITY1 : " << _capacity << std::endl;
-				std::cout << "SIZE1 : " << _size << std::endl;
-				if (_size + 1 >= _capacity)
+				std::cout << "1:CAPACITY : " << _capacity << " SIZE : " << _size << std::endl;
+				std::cout  << this << std::endl;
+				if (_size >= _capacity)
 					this->reserve(_size);
-				std::cout << "CAPACITY3 : " << _capacity << std::endl;
-				std::cout << "SIZE3 : " << _size << std::endl;
+				std::cout << "4:CAPACITY : " << _capacity << " SIZE : " << _size << std::endl << std::endl;
 				_alloc.construct(&_arr[_size], val);
 				_size++;
 			}
