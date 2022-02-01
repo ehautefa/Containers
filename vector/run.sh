@@ -25,7 +25,7 @@ clang++ -Wall -Werror -Wextra -std=c++98 $MAIN1 -o $BINARY1
 clang++ -Wall -Werror -Wextra -std=c++98 $MAIN2 -o $BINARY2
 ./$BINARY1 > $RES1
 ./$BINARY2 > $RES2
-if diff -q $RES1 $RES2
+if diff -y $RES1 $RES2
 then
 	printf "$BOLDGREEN [success]$RESET\n"
 else

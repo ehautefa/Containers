@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/01 15:52:28 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/01 18:48:50 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ namespace	ft
 			/************* ~CONSTRUCTOR~ *************/
 			explicit vector (const allocator_type& alloc = allocator_type()) {
 				_alloc = alloc;
-				_capacity = 1;
-				_arr = _alloc.allocate(_capacity);
-				_alloc.construct(_arr, value_type());
-				_size = 0;			
+				_capacity = 0;
+				_arr = _alloc.allocate(0);
+				// _alloc.construct(_arr, value_type());
+				_size = 0;
 			}
 			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())  : _alloc(alloc){
 				_alloc = alloc;
@@ -71,9 +71,7 @@ namespace	ft
          	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) {
 				_alloc = alloc;
 				_size = last - first;
-				_capacity = 1;
-				while (_capacity < _size)
-					_capacity *= 2;
+				_capacity = _size;
 				std::cout << _size << std::endl;
 				_arr = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++)
@@ -176,26 +174,24 @@ namespace	ft
 			void reserve (size_type n) {
 				if (n > this->max_size())
 					throw length_error();
-				else if (n >= _capacity)
+				else if (n > _capacity)
 				{
-					// vector	tmp = *this;
+					vector	tmp = *this;
 					this->clear();
 					_alloc.deallocate(_arr,_capacity);
-					while (_capacity <= n)
-						_capacity *= 2;
-					_alloc.allocate(_capacity);
-					// _size = tmp.size();
-					// for (size_t i = 0; i < _size; i++)
+					_capacity = n;
+					_arr = _alloc.allocate(_capacity);
+					_size = tmp.size();
+					for (size_t i = 0; i < _size; i++)
+						_alloc.construct(&_arr[i], tmp[i]);
 				}
 			}
-					// 	_alloc.construct(&_arr[i], tmp[i]);
 			
 			void push_back (const value_type& val) {
-				std::cout << "1:CAPACITY : " << _capacity << " SIZE : " << _size << std::endl;
-				std::cout  << this << std::endl;
-				if (_size >= _capacity)
-					this->reserve(_size);
-				std::cout << "4:CAPACITY : " << _capacity << " SIZE : " << _size << std::endl << std::endl;
+				if (_size == 0 && _capacity == 0)
+					this->reserve(1);
+				else if (_size >= _capacity)
+					this->reserve(_size * 2);
 				_alloc.construct(&_arr[_size], val);
 				_size++;
 			}

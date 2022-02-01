@@ -37,26 +37,26 @@ ITERATOR							❌
 VECTOR								✔
 	member fcts				✔
 		assign			❌		
-		at				❌	
-		back			❌		
+		at					❌	
+		back				❌		
 		begin			❌		
 		capacity		✅						
 		clear			✅					
-		empty			❌
+		empty			✅
 		end				❌
 		erase			❌
-		front			❌
+		front				❌
 		get_allocator	✅			
 		insert			❌	
 		max_size		✅		
-		pop_back		❌		
-		push_back		✔		
-		rbegin			❌	
-		rend			❌	
-		reserve			✔	
-		resize			✔
-		size			✅	
-		swap			✅	
+		pop_back			❌		
+		push_back		✅		
+		rbegin			❌
+		rend			❌
+		reserve			✅	
+		resize			✅
+		size			✅
+		swap			✅
 	Non-member fcts			✔
 		rel operator	✔
 		swap			✅

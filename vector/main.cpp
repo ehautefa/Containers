@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:52:00 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/01 15:49:07 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/01 18:41:38 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,39 +148,41 @@ void	test_reserve() {
 
 	try
 	{
-		foo.reserve(7);
+		foo.reserve(10);
 		std::cout << foo.capacity() << std::endl;
 	}
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
-	}	
+	}
 }
 
 void	test_push_back()
 {
-	// ft::vector<int> foo;
-	// sz = foo.capacity();
-	// std::cout << "making foo grow:\n";
-	// for (int i=0; i<100; ++i) {
-	// 	foo.push_back(i);
-	// 	if (sz!=foo.capacity()) {
-	// 	sz = foo.capacity();
-	// 	std::cout << "capacity changed: " << sz << '\n';
-	// 	}
-	// }
+	ft::vector<int>::size_type sz;
+	
+	ft::vector<int> foo;
+	sz = foo.capacity();
+	std::cout << "making foo grow:\n";
+	for (int i=0; i<100; ++i) {
+		foo.push_back(i);
+		if (sz!=foo.capacity()) {
+		sz = foo.capacity();
+		std::cout << "capacity changed: " << sz << '\n';
+		}
+	}
 
-	// ft::vector<int> bar;
-	// sz = bar.capacity();
-	// bar.reserve(100);   // this is the only difference with foo above
-	// std::cout << "making bar grow:\n";
-	// for (int i=0; i<100; ++i) {
-	// 	bar.push_back(i);
-	// 	if (sz!=bar.capacity()) {
-	// 	sz = bar.capacity();
-	// 	std::cout << "capacity changed: " << sz << '\n';
-	// 	}
-	// }
+	ft::vector<int> bar;
+	sz = bar.capacity();
+	bar.reserve(100);   // this is the only difference with foo above
+	std::cout << "making bar grow:\n";
+	for (int i=0; i<100; ++i) {
+		bar.push_back(i);
+		if (sz!=bar.capacity()) {
+		sz = bar.capacity();
+		std::cout << "capacity changed: " << sz << '\n';
+		}
+	}
 }
 
 void test_vector() {
@@ -195,12 +197,12 @@ void test_vector() {
 
 int main ()
 {
-	// test_operator();
-	// test_constructor();
-	// test_rel_op_swap();
-	// test_resize();
-	// test_push_back();
-	// test_reserve();
+	test_operator();
+	test_constructor();
+	test_rel_op_swap();
+	test_resize();
+	test_push_back();
+	test_reserve();
 	test_vector();
 	return 0;
 }
