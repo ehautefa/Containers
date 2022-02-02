@@ -6,12 +6,13 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:52:00 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/01 18:41:38 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/02 14:34:32 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #if STL
 	#include <map>
@@ -43,12 +44,12 @@ void	test_operator()
 	std::cout << '\n';
 	try
   	{
-		  std::cout << myvector[-5] << std::endl;
+		  std::cout << myvector[1] << std::endl;
 		  std::cout << myvector[0] << std::endl;
   	}
   	catch(const std::exception& e)
   	{
-		  std::cerr << e.what() << '\n';
+		  std::cout << e.what() << '\n';
   	}
 }
 
@@ -153,7 +154,7 @@ void	test_reserve() {
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cout << e.what() << '\n';
 	}
 }
 
@@ -195,14 +196,105 @@ void test_vector() {
     myVector.reserve(47);
 }
 
+void	debug(ft::vector<int> & v)
+{
+	std::cout << "CAP: " << v.capacity() << " SIZE: " << v.size() << std::endl;
+	for(size_t i = 0; i < v.size(); i++)
+		std::cout << v[i] << " ";
+	std::cout << std::endl;
+}
+
+void test_resize2() {
+    ft::vector<int> v(6, 3);
+    debug(v);
+    v.reserve(10);
+    debug(v);
+    v.resize(7);
+    debug(v);
+    v.resize(12);
+    debug(v);
+    v.resize(3);
+    debug(v);
+	v.resize(16);
+    debug(v);
+	v.resize(28);
+    debug(v);
+}
+
+void	test_pop_back() {
+	ft::vector<int> myvector;
+	int sum (0);
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+
+	while (!myvector.empty())
+	{
+		sum+=myvector.back();
+		myvector.pop_back();
+	}
+
+	std::cout << "The elements of myvector add up to " << sum << '\n';
+}
+
+void	test_at() {
+	ft::vector<int> myvector (10, 3);
+
+	std::cout << "AT" << std::endl;
+	try
+	{
+		myvector.at(5);
+		myvector.at(0);
+		myvector.at(189);
+	}
+	catch(const std::exception& e)
+	{
+		std::cout << e.what() << '\n';
+	}
+	
+}
+
+void	test_front() {
+	ft::vector<int> myvector;
+
+	myvector.push_back(78);
+	myvector.push_back(16);
+
+	// now front equals 78, and back 16
+
+	myvector.front() -= myvector.back();
+
+	std::cout << "myvector.front() is now " << myvector.front() << '\n';
+
+}
+
+void	test_assign() {
+	ft::vector<int>	test(5, 3);
+
+	test.assign(4, 100);
+	debug(test);
+	test.assign(18, 890);
+	debug(test);
+	test.assign(1, 890);
+	debug(test);
+
+	std::vector<int> test_std(10, 42);
+	test.assign(test_std.begin(), test_std.end());
+	debug(test);
+}
+
 int main ()
 {
 	test_operator();
 	test_constructor();
 	test_rel_op_swap();
 	test_resize();
+	test_resize2();
 	test_push_back();
 	test_reserve();
 	test_vector();
+	test_at();
+	test_front();
+	test_assign();
 	return 0;
 }

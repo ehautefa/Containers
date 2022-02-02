@@ -22,9 +22,9 @@ MAIN=main.cpp
 sed "s/STL/1/g" $MAIN > $MAIN1
 sed "s/STL/0/g" $MAIN > $MAIN2
 clang++ -Wall -Werror -Wextra -std=c++98 $MAIN1 -o $BINARY1
-clang++ -Wall -Werror -Wextra -std=c++98 $MAIN2 -o $BINARY2
+clang++ -Wall -Werror -Wextra -g3 -std=c++98 $MAIN2 -o $BINARY2
 ./$BINARY1 > $RES1
-./$BINARY2 > $RES2
+valgrind --tool=memcheck --leak-check=full --leak-resolution=high --track-origins=yes --show-reachable=yes --log-file=valgrind.log ./$BINARY2 > $RES2
 if diff -y $RES1 $RES2
 then
 	printf "$BOLDGREEN [success]$RESET\n"
@@ -32,7 +32,7 @@ else
 	printf "$BOLDRED [error]$RESET\n"
 fi
 
-rm -f  $MAIN1 $MAIN2 $BINARY1 $BINARY2 #$RES1 $RES2
+rm -f  $MAIN1 $MAIN2 $BINARY1 $BINARY2 $RES1 $RES2
 
 
 

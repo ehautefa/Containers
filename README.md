@@ -36,20 +36,20 @@ ITERATOR							❌
 	reverse_iterator		❌
 VECTOR								✔
 	member fcts				✔
-		assign			❌		
-		at					❌	
-		back				❌		
+		assign			✅		
+		at				✅	
+		back			✅	
 		begin			❌		
 		capacity		✅						
 		clear			✅					
 		empty			✅
 		end				❌
 		erase			❌
-		front				❌
+		front			✅
 		get_allocator	✅			
 		insert			❌	
 		max_size		✅		
-		pop_back			❌		
+		pop_back		✅		
 		push_back		✅		
 		rbegin			❌
 		rend			❌
@@ -76,3 +76,7 @@ is_integral						✅
 equal/lexicographical compare	✅
 std::pair						✅
 std::make_pair					✅
+
+
+TO DO LIST
+remplacer std::distance par ft::distance

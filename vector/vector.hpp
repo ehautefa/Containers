@@ -6,13 +6,16 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/01 18:48:50 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/02 16:33:13 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <iterator>
+#include <cstdlib>
+#include "../utils/iterator.hpp"
 #include "../utils/enable_if.hpp"
+#include "../utils/utils.hpp"
 #include "../utils/is_integral.hpp"
 
 namespace	ft
@@ -29,10 +32,10 @@ namespace	ft
 			typedef const value_type&							const_reference;
 			typedef	typename Allocator::pointer					pointer;
 			typedef	typename Allocator::const_pointer			const_pointer;
-			// typedef typename std::iterator<iterator> 		iterator;
-			// typedef typename std::iterator<const_iterator> 	const_iterator;
-			// typedef typename std::reverse_iterator<iterator> reverse_iterator;
-			// typedef typename std::reverse_iterator<const_iterator> const_reverse_iterator;
+			typedef typename ft::iterator<iterator> 			iterator;
+			typedef typename ft::iterator<const_iterator> 		const_iterator;
+			// typedef typename ft::reverse_iterator<iterator> 	reverse_iterator;
+			// typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 			
 		private:
 			Type*			_arr;
@@ -41,32 +44,24 @@ namespace	ft
 			size_type		_capacity;
 			
 		public:
-			/************* ~EXCEPTION~ *************/
-			class length_error : public std::exception {
-				public:
-			  		const char *what( void ) const throw() {
-						  return ("vector::_M_fill_insert");
-					  }
-			};
 			
 			/************* ~CONSTRUCTOR~ *************/
 			explicit vector (const allocator_type& alloc = allocator_type()) {
 				_alloc = alloc;
 				_capacity = 0;
 				_arr = _alloc.allocate(0);
-				// _alloc.construct(_arr, value_type());
 				_size = 0;
 			}
+
 			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())  : _alloc(alloc){
 				_alloc = alloc;
 				_size = n;
-				_capacity = 1;
-				while (_capacity < _size)
-					_capacity *= 2;
+				_capacity = _size;
 				_arr = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&_arr[i], val);
 			}
+
 			template <class InputIterator, ft::enable_if<ft::is_integral<InputIterator>::value, bool> >
          	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) {
 				_alloc = alloc;
@@ -80,6 +75,7 @@ namespace	ft
 					first++;
 				}
 			}
+
 			vector (const vector& x) {
 				_alloc = x.get_allocator();
 				_size = x.size();
@@ -88,6 +84,7 @@ namespace	ft
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&_arr[i], x[i]);
 			}
+
 			~vector() {
 				this->clear();
 				_alloc.deallocate(_arr, _capacity);
@@ -115,6 +112,36 @@ namespace	ft
 					return true;
 				else
 					return false;
+			}
+
+			reference back() {
+				return (_arr[this->size() - 1]);
+			}
+
+			const_reference back() const {
+				return (_arr[this->size() - 1]);
+			}
+
+			reference front() {
+				return (_arr[0]);
+			}
+
+			const_reference front() const {
+				return (_arr[0]);
+			}
+
+			reference at (size_type n) {
+				std::string error_msg = "vector::_M_range_check: __n (which is " + itoa(n) + ") >= this->size() (which is " + itoa(_size) + ")";
+				if (n < 0 || n > _size - 1)
+					throw std::out_of_range(error_msg);
+				return (_arr[n]);
+			}
+
+			const_reference at (size_type n) const {
+				std::string error_msg = "vector::_M_range_check: __n (which is " + itoa(n) + ") >= this->size() (which is " + itoa(_size) + ")";
+				if (n < 0 || n > _size - 1)
+					throw std::out_of_range(error_msg);
+				return (_arr[n]);
 			}
 
 			/************* ~OPERATOR~ *************/
@@ -147,9 +174,79 @@ namespace	ft
 			// 	return (_arr[0]);	
 			// }
 
+			/************* ~METHOD WITH ITERATOR~ *************/
+			template <class InputIterator>
+  			void assign (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
+				size_type size = last - first;
+				this->clear();
+				if (size > _capacity) {
+					try {this->reserve(size);}
+					catch (std::exception & e) { throw e; }
+				}
+				for (size_type i = _size; i < size; i++) {
+					_alloc.construct(&_arr[i], *first);
+					++first;
+				}
+				_size = size;
+			}
+			
+			void assign (size_type n, const value_type& val) {
+				this->clear();
+				if (n > _capacity) {
+					try {this->reserve(n);}
+					catch (std::exception & e) { throw e; }
+				}
+				for (size_type i = _size; i < n; i++)
+					_alloc.construct(&_arr[i], val);
+				_size = n;
+			}
+
+			iterator erase (iterator position) {
+				while (position != this->end())
+				{
+					_alloc.destroy(position);
+					if (position + 1 != this->end())
+						_alloc.construct(position, *(position + 1));
+					++position;
+				}
+				_size--;
+			}
+
+			iterator erase (iterator first, iterator last) {
+				while (first != this->end())
+				{
+					_alloc.destroy(first);
+					if (last != this->end()) {
+						_alloc.construct(first, *last);
+						++last;
+					}
+					++first;
+				}
+				_size = _size - (last - first);
+			}
+
+			// iterator insert (iterator position, const value_type& val) {
+			// 	if (_size == _capacity) {
+			// 		try {this->reserve(_capacity * 2);}
+			// 		catch (std::exception & e) { throw e();}
+			// 	}
+			// 	while (position != this->end())
+			// 	{
+			// 		_alloc.destroy(position);
+			// 		if (position + 1 != this->end())
+			// 			_alloc.construct(position, *(position + 1));
+			// 		++position;
+			// 	}
+			// 	_size++;
+
+			// }
+    		// void insert (iterator position, size_type n, const value_type& val);
+			// template <class InputIterator>
+    		// void insert (iterator position, InputIterator first, InputIterator last);
+
 			/************* ~METHOD~ *************/
 			void	clear() {
-				for (size_t i = 0; i < _size; i++)
+				for (size_type i = 0; i < _size; i++)
 					_alloc.destroy(&_arr[i]);
 				_size = 0;
 			}
@@ -157,15 +254,20 @@ namespace	ft
 			void resize (size_type n, value_type val = value_type()) {
 				if (n < _size)
 				{
-					for (size_t i = n; i < _size; i++)
+					for (size_type i = n; i < _size; i++)
 						_alloc.destroy(&_arr[i]);
 					_size = n;
 				}
-				else if (n > _size)
+				else if (n > _size && n > _capacity)
 				{
-					try {this->reserve(n);}
-					catch (std::exception & e) { std::cout << e.what() << std::endl;}
-					for (size_t i = _size; i < n; i++)
+					try {this->reserve(n > 2 * _size ? n : 2 * _size);}
+					catch (std::exception & e) { throw e;}
+					for (size_type i = _size; i < n; i++)
+						_alloc.construct(&_arr[i], val);
+					_size = n;
+				}
+				else if (n > _size) {
+					for (size_type i = _size; i < n; i++)
 						_alloc.construct(&_arr[i], val);
 					_size = n;
 				}
@@ -173,7 +275,7 @@ namespace	ft
 
 			void reserve (size_type n) {
 				if (n > this->max_size())
-					throw length_error();
+					throw std::length_error("vector::_M_fill_insert");
 				else if (n > _capacity)
 				{
 					vector	tmp = *this;
@@ -182,9 +284,13 @@ namespace	ft
 					_capacity = n;
 					_arr = _alloc.allocate(_capacity);
 					_size = tmp.size();
-					for (size_t i = 0; i < _size; i++)
+					for (size_type i = 0; i < _size; i++)
 						_alloc.construct(&_arr[i], tmp[i]);
 				}
+			}
+
+			void	pop_back() {
+				this->resize(_size - 1);
 			}
 			
 			void push_back (const value_type& val) {
@@ -201,10 +307,7 @@ namespace	ft
 				vector	tmp = x;
 				x = *this;
 				*this = tmp;
-			}
-
-
-		
+			}	
 	};
 
 	/************* ~SWAP~ *************/
@@ -221,7 +324,7 @@ namespace	ft
 	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		if (lhs.size() != rhs.size())
 			return false;
-		for (size_t i = 0; i < lhs.size(); i++)
+		for (size_t	i = 0; i < lhs.size(); i++)
 		{
 			if (!(lhs[i] == rhs[i]))
 				return false;
