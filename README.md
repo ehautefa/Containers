@@ -39,11 +39,11 @@ VECTOR								✔
 		assign			✅		
 		at				✅	
 		back			✅	
-		begin			❌		
+		begin			✅		
 		capacity		✅						
 		clear			✅					
 		empty			✅
-		end				❌
+		end				✅
 		erase			❌
 		front			✅
 		get_allocator	✅			

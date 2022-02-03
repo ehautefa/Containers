@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/02 16:33:13 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/03 16:24:04 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ namespace	ft
 			typedef const value_type&							const_reference;
 			typedef	typename Allocator::pointer					pointer;
 			typedef	typename Allocator::const_pointer			const_pointer;
-			typedef typename ft::iterator<iterator> 			iterator;
-			typedef typename ft::iterator<const_iterator> 		const_iterator;
-			// typedef typename ft::reverse_iterator<iterator> 	reverse_iterator;
+			typedef Type*								 			iterator;
+			typedef const Type*									const_iterator;
+			typedef typename ft::reverse_iterator<iterator> 	reverse_iterator;
 			// typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 			
 		private:
@@ -166,13 +166,21 @@ namespace	ft
 			}
 
 			/************* ~ITERATOR~ *************/
-			// iterator begin() {
-			// 	return (_arr[0]);	
-			// }
+			iterator begin() {
+				return (&_arr[0]);	
+			}
 
-			// const_iterator begin() const {
-			// 	return (_arr[0]);	
-			// }
+			const_iterator begin() const {
+				return (&_arr[0]);	
+			}
+
+			iterator end() {
+				return (&_arr[_size]);	
+			}
+
+			const_iterator end() const {
+				return (&_arr[_size]);		
+			}
 
 			/************* ~METHOD WITH ITERATOR~ *************/
 			template <class InputIterator>
