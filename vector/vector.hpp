@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/03 16:24:04 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/03 17:03:30 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,22 @@ namespace	ft
 			const_iterator end() const {
 				return (&_arr[_size]);		
 			}
+
+			reverse_iterator rbegin() {
+				return (reverse_iterator(&_arr[_size]));	
+			}
+
+			// const_reverse_iterator rbegin() const {
+			// 	return (reverse_iterator(&_arr[_size]));	
+			// }
+
+			reverse_iterator rend() {
+				return (reverse_iterator(&_arr[0]));	
+			}
+
+			// const_reverse_iterator rend() const {
+			// 	return (const_reverse_iterator(&_arr[0]));		
+			// }
 
 			/************* ~METHOD WITH ITERATOR~ *************/
 			template <class InputIterator>
