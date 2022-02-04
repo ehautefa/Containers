@@ -51,8 +51,8 @@ VECTOR								✔
 		max_size		✅		
 		pop_back		✅		
 		push_back		✅		
-		rbegin			❌
-		rend			❌
+		rbegin			✅
+		rend			✅
 		reserve			✅	
 		resize			✅
 		size			✅

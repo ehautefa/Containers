@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/03 17:03:30 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/04 12:54:59 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "../utils/enable_if.hpp"
 #include "../utils/utils.hpp"
 #include "../utils/is_integral.hpp"
+#include "../utils/compare.hpp"
 
 namespace	ft
 {
@@ -183,7 +184,7 @@ namespace	ft
 			}
 
 			reverse_iterator rbegin() {
-				return (reverse_iterator(&_arr[_size]));	
+				return (reverse_iterator(this->end()));
 			}
 
 			// const_reverse_iterator rbegin() const {
@@ -191,7 +192,7 @@ namespace	ft
 			// }
 
 			reverse_iterator rend() {
-				return (reverse_iterator(&_arr[0]));	
+				return (reverse_iterator(this->begin()));	
 			}
 
 			// const_reverse_iterator rend() const {
@@ -357,12 +358,12 @@ namespace	ft
 	}
 	template <class T, class Alloc>
 	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (!(lhs == rhs));}
-	// template <class T, class Alloc>
- 	// bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));}
-	// template <class T, class Alloc>
-  	// bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (!(rhs < lhs));}
-	// template <class T, class Alloc>
-  	// bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (rhs < lhs);}
-	// template <class T, class Alloc>
-  	// bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (!(lhs < rhs)); }
+	template <class T, class Alloc>
+ 	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));}
+	template <class T, class Alloc>
+  	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (!(rhs < lhs));}
+	template <class T, class Alloc>
+  	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (rhs < lhs);}
+	template <class T, class Alloc>
+  	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (!(lhs < rhs)); }
 }
