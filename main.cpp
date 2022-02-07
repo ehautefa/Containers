@@ -82,9 +82,78 @@ void	test_reverse_iterator() {
   	std::cout << '\n';
 }
 
+void	test_erase() {
+	ft::vector<int> myvector;
+
+	for (int i=1; i<=10; i++) myvector.push_back(i);
+
+	for (unsigned i=0; i<myvector.size(); ++i)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+
+	myvector.erase (myvector.begin()+5);
+
+	for (unsigned i=0; i<myvector.size(); ++i)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+
+	myvector.erase (myvector.begin(),myvector.begin()+3);
+
+	std::cout << "TEST ERASE: ";
+	for (unsigned i=0; i<myvector.size(); ++i)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+}
+
+void	test_const_it() {
+	ft::vector<int>	myvec;
+	for (size_t i = 0; i < 13; i++)
+		myvec.push_back(i + 42);
+	ft::vector<int>::const_iterator	it = myvec.begin();
+	std::cout << "FIRST: " << *it << std::endl;
+	for (; it != myvec.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
+	ft::vector<int>::reverse_iterator	rit = myvec.rbegin();
+	for (; rit != myvec.rend(); rit++)
+		std::cout << *rit << " ";
+	std::cout << std::endl;
+	// ft::vector<int>::const_reverse_iterator test = myvec.rend();
+	// (void)test;
+}
+
+void	test_insert() {
+  ft::vector<int> myvector (3,100);
+  ft::vector<int>::iterator it;
+
+  it = myvector.begin();
+  it = myvector.insert ( it , 200 );
+
+  debug(myvector);
+
+//   myvector.insert (it,2,300);
+
+//   // "it" no longer valid, get a new one:
+//   it = myvector.begin();
+
+//   std::vector<int> anothervector (2,400);
+//   myvector.insert (it+2,anothervector.begin(),anothervector.end());
+
+//   int myarray [] = { 501,502,503 };
+//   myvector.insert (myvector.begin(), myarray, myarray+3);
+
+//   std::cout << "myvector contains:";
+//   for (it=myvector.begin(); it<myvector.end(); it++)
+//     std::cout << ' ' << *it;
+//   std::cout << '\n';
+}
+
 void	ft_test_iterator() {
 	test_constructor();
 	test_rv_base();
+	test_const_it();
+	test_erase();
+	test_insert();
 }
 
 int	main() {

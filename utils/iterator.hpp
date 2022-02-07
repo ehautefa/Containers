@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/04 12:53:44 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/07 13:55:48 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ namespace ft
 		reverse_iterator( void ) {}
 		explicit reverse_iterator( iterator_type it ) : _ptr(it - 1) {}
 		reverse_iterator( const reverse_iterator & src ) : _ptr(src._ptr) {}
-		reverse_iterator	&operator=(const reverse_iterator & rhs) {this->_ptr = rhs._ptr;return (*this);}
 		~reverse_iterator( void ) {}
 
 		/**** BASE ****/

@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/04 12:54:59 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/07 17:04:50 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace	ft
 			typedef Type*								 			iterator;
 			typedef const Type*									const_iterator;
 			typedef typename ft::reverse_iterator<iterator> 	reverse_iterator;
-			// typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 			
 		private:
 			Type*			_arr;
@@ -187,17 +187,17 @@ namespace	ft
 				return (reverse_iterator(this->end()));
 			}
 
-			// const_reverse_iterator rbegin() const {
-			// 	return (reverse_iterator(&_arr[_size]));	
-			// }
+			const_reverse_iterator rbegin() const {
+				return (const_reverse_iterator(this->end()));	
+			}
 
 			reverse_iterator rend() {
 				return (reverse_iterator(this->begin()));	
 			}
 
-			// const_reverse_iterator rend() const {
-			// 	return (const_reverse_iterator(&_arr[0]));		
-			// }
+			const_reverse_iterator rend() const {
+				return (const_reverse_iterator(this->begin()));		
+			}
 
 			/************* ~METHOD WITH ITERATOR~ *************/
 			template <class InputIterator>
@@ -227,6 +227,8 @@ namespace	ft
 			}
 
 			iterator erase (iterator position) {
+				iterator	to_ret;
+				to_ret = position;
 				while (position != this->end())
 				{
 					_alloc.destroy(position);
@@ -235,9 +237,13 @@ namespace	ft
 					++position;
 				}
 				_size--;
+				return (position);
 			}
 
 			iterator erase (iterator first, iterator last) {
+				iterator	to_ret;
+				to_ret = last;
+				size_t end_size = _size - (last - first);
 				while (first != this->end())
 				{
 					_alloc.destroy(first);
@@ -247,24 +253,35 @@ namespace	ft
 					}
 					++first;
 				}
-				_size = _size - (last - first);
+				_size = end_size;
+				return (to_ret);
 			}
 
-			// iterator insert (iterator position, const value_type& val) {
-			// 	if (_size == _capacity) {
-			// 		try {this->reserve(_capacity * 2);}
-			// 		catch (std::exception & e) { throw e();}
-			// 	}
-			// 	while (position != this->end())
-			// 	{
-			// 		_alloc.destroy(position);
-			// 		if (position + 1 != this->end())
-			// 			_alloc.construct(position, *(position + 1));
-			// 		++position;
-			// 	}
-			// 	_size++;
+			iterator insert (iterator position, const value_type& val) {
+				iterator	to_ret;
+				to_ret = position;
+				value_type	old_value;
+				value_type	tmp = val;
+				if (_size == _capacity) {
+					// try {
+						this->reserve(_capacity * 2); //}
+					// catch (std::exception & e) { throw e();}
+				}
+				_size++;
+				int test = position - this->begin();
+				std::cout << "begin :" << test << std::endl;
+				for (size_t i = position - this->begin(); i < _size; i++)
+				{
+					old_value = tmp;
+					std::cout << old_value << std::endl;
+					tmp = *position;
+					_alloc.destroy(position);
+					_alloc.construct(position, old_value);
+					++position;
+				}
+				return (to_ret);
+			}
 
-			// }
     		// void insert (iterator position, size_type n, const value_type& val);
 			// template <class InputIterator>
     		// void insert (iterator position, InputIterator first, InputIterator last);
