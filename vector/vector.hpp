@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/07 17:04:50 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:52:47 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace	ft
 			typedef const value_type&							const_reference;
 			typedef	typename Allocator::pointer					pointer;
 			typedef	typename Allocator::const_pointer			const_pointer;
-			typedef Type*								 			iterator;
+			typedef Type*								 		iterator;
 			typedef const Type*									const_iterator;
 			typedef typename ft::reverse_iterator<iterator> 	reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
@@ -63,8 +63,8 @@ namespace	ft
 					_alloc.construct(&_arr[i], val);
 			}
 
-			template <class InputIterator, ft::enable_if<ft::is_integral<InputIterator>::value, bool> >
-         	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) {
+			template <class InputIterator> 
+			vector (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,  const allocator_type& alloc = allocator_type()) {
 				_alloc = alloc;
 				_size = last - first;
 				_capacity = _size;
@@ -259,21 +259,20 @@ namespace	ft
 
 			iterator insert (iterator position, const value_type& val) {
 				iterator	to_ret;
-				to_ret = position;
 				value_type	old_value;
-				value_type	tmp = val;
+				value_type	tmp	= val;
+				size_t 		i	= position - this->begin();
+
 				if (_size == _capacity) {
-					// try {
-						this->reserve(_capacity * 2); //}
-					// catch (std::exception & e) { throw e();}
+					try { this->reserve(_capacity * 2); }
+					catch (std::exception & e) { throw e;}
 				}
 				_size++;
-				int test = position - this->begin();
-				std::cout << "begin :" << test << std::endl;
-				for (size_t i = position - this->begin(); i < _size; i++)
+				position = &_arr[i];
+				to_ret = position;
+				for (; i < _size; i++)
 				{
 					old_value = tmp;
-					std::cout << old_value << std::endl;
 					tmp = *position;
 					_alloc.destroy(position);
 					_alloc.construct(position, old_value);
@@ -282,9 +281,61 @@ namespace	ft
 				return (to_ret);
 			}
 
-    		// void insert (iterator position, size_type n, const value_type& val);
-			// template <class InputIterator>
-    		// void insert (iterator position, InputIterator first, InputIterator last);
+    		void insert (iterator position, size_type n, const value_type& val) {
+				size_t	old_size	= _size;
+				size_t	cap			= _capacity;
+				size_t 	i			= position - this->begin();
+
+				while (_size + n > cap)
+					cap *= 2;
+				while (cap != _capacity) {
+					try { this->reserve(cap); }
+					catch (std::exception & e) { throw e;}
+				}
+				_size += n;
+				for (size_t j = _size - 1; j >= i + n; j--) {
+					if (j < old_size)
+						_alloc.destroy(&_arr[j]);
+					_alloc.construct(&_arr[j], _arr[j - n]);
+				}
+				for (; n > 0; n--)
+				{
+					if (i < old_size)
+						_alloc.destroy(&_arr[i]);
+					_alloc.construct(&_arr[i], val);
+					i++;
+				}
+			}
+
+
+			template <class InputIterator>
+  			void insert (iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
+				size_t	old_size	= _size;
+				size_t	cap			= _capacity;
+				size_t 	i			= position - this->begin();
+				size_t	n			= last - first;
+
+				while (_size + n > cap)
+					cap *= 2;
+				while (cap != _capacity) {
+					try { this->reserve(cap); }
+					catch (std::exception & e) { throw e;}
+				}
+				_size += n;
+				for (size_t j = _size - 1; j >= i + n; j--) {
+					if (j < old_size)
+						_alloc.destroy(&_arr[j]);
+					_alloc.construct(&_arr[j], _arr[j - n]);
+				}
+				for (; n > 0; n--)
+				{
+					if (i < old_size)
+						_alloc.destroy(&_arr[i]);
+					_alloc.construct(&_arr[i], *first);
+					i++;
+					first++;
+				}
+			}
 
 			/************* ~METHOD~ *************/
 			void	clear() {
@@ -349,6 +400,14 @@ namespace	ft
 				vector	tmp = x;
 				x = *this;
 				*this = tmp;
+			}
+
+			void	debug()
+			{
+				std::cout << "CAP: " << this->capacity() << " SIZE: " << this->size() << std::endl;
+				for(size_t i = 0; i < this->size(); i++)
+					std::cout << (*this)[i] << " ";
+				std::cout << std::endl << std::endl;
 			}	
 	};
 
