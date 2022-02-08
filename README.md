@@ -47,7 +47,7 @@ VECTOR								✔
 		erase			✅
 		front			✅
 		get_allocator	✅			
-		insert			❌	
+		insert			✅
 		max_size		✅		
 		pop_back		✅		
 		push_back		✅		

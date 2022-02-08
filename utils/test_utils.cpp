@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 16:10:33 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/01/27 15:15:49 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/08 16:21:40 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 	#include "enable_if.hpp"
 	#include "is_integral.hpp"
 	#include "pair.hpp"
-	#include "iterator.hpp"
 #endif
 
 // a case-insensitive comparison function:
@@ -110,10 +109,6 @@ int main()
 
 		std::cout << "Home planet: " << homeplanet.first << '\n';
 		std::cout << "Planet size: " << homeplanet.second << '\n';
-	}
-	{
-		int numbers[]={10,20,30,40,50};
-		ft::iterator<int>	test(numbers);
 	}
 	return (0);
 }
