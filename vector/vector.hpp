@@ -6,14 +6,14 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/08 18:15:07 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/09 14:48:46 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <iterator>
 #include <cstdlib>
-#include "iterator.hpp"
+#include "vector_iterator.hpp"
 #include "../utils/enable_if.hpp"
 #include "../utils/utils.hpp"
 #include "../utils/is_integral.hpp"
@@ -68,7 +68,7 @@ namespace	ft
 			template <class InputIterator> 
 			vector (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,  const allocator_type& alloc = allocator_type()) {
 				_alloc = alloc;
-				_size = distance(first, last);
+				_size = ft::distance(first, last);
 				_capacity = _size;
 				std::cout << _size << std::endl;
 				_arr = _alloc.allocate(_capacity);
@@ -149,15 +149,15 @@ namespace	ft
 			const_iterator 			begin() const { return (&_arr[0]); }
 			iterator 				end() 	{ return (&_arr[_size]); }
 			const_iterator 			end() 	const { return (&_arr[_size]);	 }
-			reverse_iterator 		rbegin()	{ return (reverse_iterator(&_arr[_size - 1])); }
-			const_reverse_iterator 	rbegin() 	const { return (const_reverse_iterator(&_arr[_size - 1])); }
-			reverse_iterator 		rend() { return (reverse_iterator(&_arr[-1]));	}
-			const_reverse_iterator	rend() const { return const_reverse_iterator(&_arr[-1]); }
+			reverse_iterator 		rbegin()	{ return (reverse_iterator(this->end())); }
+			const_reverse_iterator 	rbegin() 	const { return (const_reverse_iterator(this->end())); }
+			reverse_iterator 		rend() { return (reverse_iterator(this->begin()));	}
+			const_reverse_iterator	rend() const { return const_reverse_iterator(this->begin()); }
 
 			/************* ~METHOD WITH ITERATOR~ *************/
 			template <class InputIterator>
   			void assign (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
-				size_type size = distance(first, last);
+				size_type size = ft::distance(first, last);
 				this->clear();
 				if (size > _capacity) {
 					try {this->reserve(size);}
@@ -198,7 +198,7 @@ namespace	ft
 			iterator erase (iterator first, iterator last) {
 				iterator	to_ret;
 				to_ret = last;
-				size_t end_size = _size - distance(first, last);
+				size_t end_size = _size - ft::distance(first, last);
 				while (first != this->end())
 				{
 					_alloc.destroy(first);
@@ -216,7 +216,7 @@ namespace	ft
 				iterator	to_ret;
 				value_type	old_value;
 				value_type	tmp	= val;
-				size_t 		i	= distance(this->begin(), position);
+				size_t 		i	= ft::distance(this->begin(), position);
 
 				if (_size == _capacity) {
 					try { this->reserve(_capacity * 2); }
@@ -239,7 +239,7 @@ namespace	ft
     		void insert (iterator position, size_type n, const value_type& val) {
 				size_t	old_size	= _size;
 				size_t	cap			= _capacity;
-				size_t 	i			= distance(this->begin(), position);
+				size_t 	i			= ft::distance(this->begin(), position);
 
 				while (_size + n > cap)
 					cap *= 2;
@@ -262,13 +262,12 @@ namespace	ft
 				}
 			}
 
-
 			template <class InputIterator>
   			void insert (iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
 				size_t	old_size	= _size;
 				size_t	cap			= _capacity;
-				size_t 	i			= distance(this->begin(), position);
-				size_t	n			= distance( first, last );
+				size_t 	i			= ft::distance(this->begin(), position);
+				size_t	n			= ft::distance( first, last );
 
 				while (_size + n > cap)
 					cap *= 2;

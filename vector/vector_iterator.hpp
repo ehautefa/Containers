@@ -6,12 +6,12 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/08 18:04:51 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/09 14:05:09 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ITERATOR_HPP
-#define ITERATOR_HPP
+#ifndef VECTOR_ITERATOR_HPP
+#define VECTOR_ITERATOR_HPP
 
 #include "../utils/iterator_traits.hpp"
 
@@ -49,10 +49,14 @@ namespace ft
 			pointer	_ptr;
 		
 		public:
+
+		pointer		getPointer(void) const { return(_ptr); }
+		
 		/**** CONSTRUCTOR ****/
 		reverse_iterator( void ) {}
-		explicit reverse_iterator( iterator_type it ) : _ptr(it) {}
-		reverse_iterator( const reverse_iterator & src ) : _ptr(src._ptr) {}
+		explicit reverse_iterator( iterator_type it ) : _ptr(it - 1) {}
+		template <class Iter>
+  		reverse_iterator (const reverse_iterator<Iter>& src) : _ptr(src.getPointer()) {}
 		~reverse_iterator( void ) {}
 
 		/**** BASE ****/

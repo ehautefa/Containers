@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 16:10:33 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/08 16:21:40 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/09 14:34:29 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 	#include <iterator>
 	namespace ft = std;
 #else
-	#include "compare.hpp"
-	#include "enable_if.hpp"
-	#include "is_integral.hpp"
-	#include "pair.hpp"
+	#include "../utils/compare.hpp"
+	#include "../utils/enable_if.hpp"
+	#include "../utils/is_integral.hpp"
+	#include "../utils/pair.hpp"
 #endif
 
 // a case-insensitive comparison function:
@@ -43,7 +43,7 @@ bool mypredicate (int i, int j) {
   return (i==j);
 }
 
-int main()
+void	test_utils()
 {
   	char foo[]="Apple";
   	char bar[]="apartment";
@@ -110,5 +110,4 @@ int main()
 		std::cout << "Home planet: " << homeplanet.first << '\n';
 		std::cout << "Planet size: " << homeplanet.second << '\n';
 	}
-	return (0);
 }

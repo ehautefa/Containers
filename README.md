@@ -28,14 +28,14 @@ Random access: elements accessed in any order, may store and retrieve values, pr
 #############		TO DO			#############
 
 
-ITERATOR							❌
-	member fcts				❌
-	Non-member fcts			❌
-	Overloads				❌
-	iterators_traits		❌
-	reverse_iterator		❌
-VECTOR								✔
-	member fcts				✔
+ITERATOR							✅
+	member fcts				✅
+	Non-member fcts			✅
+	Overloads				✅
+	iterators_traits		✅
+	reverse_iterator		✅
+VECTOR								✅
+	member fcts				✅
 		assign			✅		
 		at				✅	
 		back			✅	
@@ -51,14 +51,14 @@ VECTOR								✔
 		max_size		✅		
 		pop_back		✅		
 		push_back		✅		
-		rbegin			✔
-		rend			✔
+		rbegin			✅
+		rend			✅
 		reserve			✅	
 		resize			✅
 		size			✅
 		swap			✅
-	Non-member fcts			✔
-		rel operator	✔
+	Non-member fcts			✅
+		rel operator	✅
 		swap			✅
 	Overloads				✅
 		operator=		✅
@@ -76,7 +76,3 @@ is_integral						✅
 equal/lexicographical compare	✅
 std::pair						✅
 std::make_pair					✅
-
-
-TO DO LIST
-remplacer std::distance par ft::distance

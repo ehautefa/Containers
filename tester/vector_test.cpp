@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   vector_test.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:52:00 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/02 14:34:32 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/09 14:49:52 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 	#include <iterator>
 	namespace ft = std;
 #else
-	#include "vector.hpp"
+	#include "../vector/vector.hpp"
 #endif
 
 void	test_operator() 
@@ -53,27 +53,25 @@ void	test_operator()
   	}
 }
 
-void	test_constructor()
+void	test_constructor_vector()
 {
-	// constructors used in the same order as described above:
 		ft::vector<int> first;                                // empty vector of ints
 		ft::vector<int> second (4,100);
 		for (size_t i = 0; i < second.size() ; i++)
 			std::cout << second[i] << " ";
 		std::cout << std::endl;               // four ints with value 100
-		// ft::vector<int> third (second.begin(),second.end());  // iterating through second
+		ft::vector<int> third (second.begin(),second.end());  // iterating through second
 		ft::vector<int> fourth (second);                       // a copy of third
 		for (size_t i = 0; i < fourth.size(); i++)
 			std::cout << fourth[i] << " ";
 		std::cout << std::endl;
-		// the iterator constructor can also be used to construct from arrays:
-		// int myints[] = {16,2,77,29};
-		// ft::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
+		int myints[] = {16,2,77,29};
+		ft::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
 
-		// std::cout << "The contents of fifth are:";
-		// for (size_t i = 0; i < fifth.size(); i++)
-		// 	std::cout << fourth[i] << " ";
-		// std::cout << std::endl;
+		std::cout << "The contents of fifth are:";
+		for (size_t i = 0; i < fifth.size(); i++)
+			std::cout << fourth[i] << " ";
+		std::cout << std::endl;
 }
 
 void	test_rel_op_swap()
@@ -91,10 +89,10 @@ void	test_rel_op_swap()
 
 		if (foo==bar) std::cout << "foo and bar are equal\n";
 		if (foo!=bar) std::cout << "foo and bar are not equal\n";
-// 		if (foo< bar) std::cout << "foo is less than bar\n";
-// 		if (foo> bar) std::cout << "foo is greater than bar\n";
-// 		if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
-// 		if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
+		if (foo< bar) std::cout << "foo is less than bar\n";
+		if (foo> bar) std::cout << "foo is greater than bar\n";
+		if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
+		if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 
 		ft::swap(foo,bar);
 
@@ -108,10 +106,10 @@ void	test_rel_op_swap()
 		
 		if (foo==bar) std::cout << "foo and bar are equal\n";
 		if (foo!=bar) std::cout << "foo and bar are not equal\n";
-// 		if (foo< bar) std::cout << "foo is less than bar\n";
-// 		if (foo> bar) std::cout << "foo is greater than bar\n";
-// 		if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
-// 		if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
+		if (foo< bar) std::cout << "foo is less than bar\n";
+		if (foo> bar) std::cout << "foo is greater than bar\n";
+		if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
+		if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 }
 
 void	test_resize()
@@ -283,10 +281,10 @@ void	test_assign() {
 	debug(test);
 }
 
-int main ()
+int vector_test ()
 {
 	test_operator();
-	test_constructor();
+	test_constructor_vector();
 	test_rel_op_swap();
 	test_resize();
 	test_resize2();
