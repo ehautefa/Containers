@@ -11,9 +11,6 @@
 	#include "../vector/vector.hpp"
 #endif
 
-void	test_utils();
-int vector_test ();
-
 void	debug_main(ft::vector<int> & v)
 {
 	std::cout << "CAP: " << v.capacity() << " SIZE: " << v.size() << std::endl;
@@ -158,6 +155,4 @@ void	ft_test_iterator() {
 
 int	main() {
 	ft_test_iterator();
-	test_utils();
-	vector_test ();
 }

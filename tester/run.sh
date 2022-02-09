@@ -16,23 +16,32 @@ BINARY1=test1
 BINARY2=test2
 RES1=res1.txt
 RES2=res2.txt
-MAIN=main.cpp
+
+rm -rf $MAIN1 $MAIN2 $BINARY1 $BINARY2 $RES1 $RES2 valgrind.log
 
 
-sed "s/STL/1/g" $MAIN > $MAIN1
-sed "s/STL/0/g" $MAIN > $MAIN2
-clang++ -Wall -Werror -Wextra -std=c++98 $MAIN1 test_utils.cpp vector_test.cpp -o $BINARY1
-clang++ -Wall -Werror -Wextra -g3 -std=c++98 $MAIN2 test_utils.cpp vector_test.cpp -o $BINARY2
-./$BINARY1 > $RES1
-valgrind --tool=memcheck --leak-check=full --leak-resolution=high --track-origins=yes --show-reachable=yes --log-file=valgrind.log ./$BINARY2 > $RES2
-if diff -y $RES1 $RES2
-then
-	printf "$BOLDGREEN [success]$RESET\n"
-else
-	printf "$BOLDRED [error]$RESET\n"
-fi
+NB_TEST=$(ls | wc -l)
 
-rm -f  $MAIN1 $MAIN2 $BINARY1 $BINARY2 $RES1 $RES2
+index=1
+while ((index < $NB_TEST))
+do
+   	sed "s/STL/1/g" $index.cpp > $MAIN1
+	sed "s/STL/0/g" $index.cpp > $MAIN2
+	clang++ -Wall -Werror -Wextra -std=c++98 $MAIN1  -o $BINARY1
+	clang++ -Wall -Werror -Wextra -g3 -std=c++98 $MAIN2 -o $BINARY2
+	./$BINARY1 > $RES1
+	valgrind --tool=memcheck --leak-check=full --leak-resolution=high --track-origins=yes --show-reachable=yes --log-file=valgrind.log ./$BINARY2 > $RES2
+	if diff $RES1 $RES2
+	then
+		printf "$BOLDGREEN Check $index : [success]$RESET\n"
+	else
+		printf "$BOLDRED Check $index : [error]$RESET\n"
+	fi
+	rm -rf $MAIN1 $MAIN2 $BINARY1 $BINARY2 $RES1 $RES2
+	((index+=1))
+done
+
+
 
 
 
