@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/09 14:48:46 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/09 16:28:20 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ namespace	ft
 				_alloc = alloc;
 				_size = ft::distance(first, last);
 				_capacity = _size;
-				std::cout << _size << std::endl;
 				_arr = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++)
 				{
@@ -161,7 +160,7 @@ namespace	ft
 				this->clear();
 				if (size > _capacity) {
 					try {this->reserve(size);}
-					catch (std::exception & e) { throw e; }
+					catch (std::exception & e) { throw std::length_error("vector::_M_fill_insert"); }
 				}
 				for (size_type i = _size; i < size; i++) {
 					_alloc.construct(&_arr[i], *first);
@@ -174,7 +173,7 @@ namespace	ft
 				this->clear();
 				if (n > _capacity) {
 					try {this->reserve(n);}
-					catch (std::exception & e) { throw e; }
+					catch (std::exception & e) { throw std::length_error("vector::_M_fill_insert"); }
 				}
 				for (size_type i = _size; i < n; i++)
 					_alloc.construct(&_arr[i], val);
@@ -220,7 +219,7 @@ namespace	ft
 
 				if (_size == _capacity) {
 					try { this->reserve(_capacity * 2); }
-					catch (std::exception & e) { throw e;}
+					catch (std::exception & e) { throw std::length_error("vector::_M_fill_insert");}
 				}
 				_size++;
 				position = &_arr[i];
@@ -245,7 +244,7 @@ namespace	ft
 					cap *= 2;
 				while (cap != _capacity) {
 					try { this->reserve(cap); }
-					catch (std::exception & e) { throw e;}
+					catch (std::exception & e) { throw std::length_error("vector::_M_fill_insert");}
 				}
 				_size += n;
 				for (size_t j = _size - 1; j >= i + n; j--) {
@@ -273,7 +272,7 @@ namespace	ft
 					cap *= 2;
 				while (cap != _capacity) {
 					try { this->reserve(cap); }
-					catch (std::exception & e) { throw e;}
+					catch (std::exception & e) { throw std::length_error("vector::_M_fill_insert");}
 				}
 				_size += n;
 				for (size_t j = _size - 1; j >= i + n; j--) {
@@ -308,7 +307,7 @@ namespace	ft
 				else if (n > _size && n > _capacity)
 				{
 					try {this->reserve(n > 2 * _size ? n : 2 * _size);}
-					catch (std::exception & e) { throw e;}
+					catch (std::exception & e) { throw std::length_error("vector::_M_fill_insert");}
 					for (size_type i = _size; i < n; i++)
 						_alloc.construct(&_arr[i], val);
 					_size = n;

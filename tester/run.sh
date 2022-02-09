@@ -22,16 +22,16 @@ rm -rf $MAIN1 $MAIN2 $BINARY1 $BINARY2 $RES1 $RES2 valgrind.log
 
 NB_TEST=$(ls | wc -l)
 
-index=1
-while ((index < $NB_TEST))
-do
+index=$1
+# while ((index < $NB_TEST))
+# do
    	sed "s/STL/1/g" $index.cpp > $MAIN1
 	sed "s/STL/0/g" $index.cpp > $MAIN2
 	clang++ -Wall -Werror -Wextra -std=c++98 $MAIN1  -o $BINARY1
 	clang++ -Wall -Werror -Wextra -g3 -std=c++98 $MAIN2 -o $BINARY2
 	./$BINARY1 > $RES1
 	valgrind --tool=memcheck --leak-check=full --leak-resolution=high --track-origins=yes --show-reachable=yes --log-file=valgrind.log ./$BINARY2 > $RES2
-	if diff $RES1 $RES2
+	if diff -y $RES1 $RES2
 	then
 		printf "$BOLDGREEN Check $index : [success]$RESET\n"
 	else
@@ -39,7 +39,7 @@ do
 	fi
 	rm -rf $MAIN1 $MAIN2 $BINARY1 $BINARY2 $RES1 $RES2
 	((index+=1))
-done
+# done
 
 
 
