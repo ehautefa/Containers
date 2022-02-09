@@ -6,9 +6,12 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/09 16:28:20 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/09 17:28:25 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
 
 #include <iostream>
 #include <iterator>
@@ -396,3 +399,5 @@ namespace	ft
 	template <class T, class Alloc>
   	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (!(lhs < rhs)); }
 }
+
+#endif

@@ -28,6 +28,33 @@ Random access: elements accessed in any order, may store and retrieve values, pr
 #############		TO DO			#############
 
 
+MAP								❌
+	member fcts				❌
+		begin			❌		
+		clear			❌					
+		count			❌					
+		empty			❌
+		end				❌
+		equal_range		❌
+		erase			❌
+		find			❌
+		get_allocator	❌			
+		insert			❌
+		key_comp		❌
+		lower_bound		❌
+		max_size		❌			
+		rbegin			❌
+		rend			❌
+		size			❌
+		swap			❌
+		upper_bound		❌
+		value_comp		❌
+	Non-member fcts			❌
+		rel operator	❌
+		swap			❌
+	Overloads				❌
+		operator=		❌
+		operatot[]		❌
 ITERATOR							✅
 	member fcts				✅
 	Non-member fcts			✅
@@ -63,14 +90,10 @@ VECTOR								✅
 	Overloads				✅
 		operator=		✅
 		operatot[]		✅
-MAP								❌
-	member fcts			❌
-	Non-member fcts		❌
-	Overloads			❌
-STACK							❌
-	member fcts			❌
-	Non-member fcts		❌
-	Overloads			❌
+STACK							✅
+	member fcts			✅
+	Non-member fcts		✅
+	Overloads			✅
 enable_if						✅
 is_integral						✅
 equal/lexicographical compare	✅
