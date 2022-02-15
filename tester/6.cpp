@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/14 14:43:26 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/15 17:30:25 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ void	test_constructor() {
 
 int main() {
 	test_constructor();
+	test_crochet();
 }

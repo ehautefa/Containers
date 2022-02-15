@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 16:29:24 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/14 16:40:22 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/15 12:36:48 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,11 @@ namespace ft
 		typedef	T												mapped_type;
 		typedef	pair<const key_type,mapped_type>				value_type;
 		typedef	Compare											key_compare;
-		// typedef													value_compare;
 		typedef	Alloc											allocator_type;
 		typedef	typename allocator_type::reference				reference;
 		typedef	typename allocator_type::const_reference		const_reference;
 		typedef	typename allocator_type::pointer				pointer;
 		typedef	typename allocator_type::const_pointer			const_pointer;
-		// typedef Type*								 			iterator;
-		// typedef const Type*										const_iterator;
-		// typedef typename ft::reverse_iterator<iterator> 		reverse_iterator;
-		// typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 		typedef typename std::size_t							size_type;
 		typedef typename std::ptrdiff_t							difference_type;
 			

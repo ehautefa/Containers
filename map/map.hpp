@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/14 17:01:09 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/15 17:42:47 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ namespace	ft {
 			size_type			_size;
 			allocator_type		_alloc;
 			key_compare			_comp;
-			
-				
+	
 		public:
 		
 		/****************~MEMBER FUNCTIONS~****************/
@@ -69,7 +68,31 @@ namespace	ft {
 		allocator_type get_allocator() const { return (_alloc); }
 		
 		/****************~ELEMENT ACCESS~****************/
-		// mapped_type& operator[] (const key_type& k);
+		mapped_type& operator[] (const key_type& k) {
+			node	*position = _root;
+			node	*parent;
+
+			while ( position != NULL)
+			{
+				if (position->_value.first == k)
+					return (position->_value.second);
+				if (comp(position->_value.first, k)) {// position key < k
+					if (!position->_right)
+						parent = position;						
+					position = position->_right;
+				}
+				else {
+					if (!position->_left)
+						parent = position;
+					position = position->_left;							
+				}
+			}
+			node	to_insert = node(value_type(k, mapped_type()), parent, NULL, NULL);
+			_size++;
+			_alloc.allocate();
+			_alloc.construct
+			
+		}
 		
 		/****************~ITERATORS~****************/
 		// iterator begin();
@@ -125,6 +148,13 @@ namespace	ft {
 		// value_compare value_comp() const;
 				
 	};
+
+	template <class Key, class Compare = std::less<Key> >
+	bool	operator== ( Key const & lhs, Key const & rhs) {
+		if (Compare(lhs, rhs) || Compare(rhs, lhs))
+			return false;
+		return true;
+	}
 
 	// template <class Key, class T, class Compare, class Alloc> bool operator== ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs );
 	// template <class Key, class T, class Compare, class Alloc> bool operator!= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs );
