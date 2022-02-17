@@ -31,21 +31,21 @@ Random access: elements accessed in any order, may store and retrieve values, pr
 MAP								❌
 	member fcts				❌
 		begin			❌		
-		clear			❌					
+		clear			✅					
 		count			❌					
-		empty			❌
+		empty			✅
 		end				❌
 		equal_range		❌
 		erase			❌
 		find			❌
-		get_allocator	❌			
+		get_allocator	✅			
 		insert			❌
 		key_comp		❌
 		lower_bound		❌
-		max_size		❌			
+		max_size		✅			
 		rbegin			❌
 		rend			❌
-		size			❌
+		size			✅
 		swap			❌
 		upper_bound		❌
 		value_comp		❌
@@ -54,7 +54,7 @@ MAP								❌
 		swap			❌
 	Overloads				❌
 		operator=		❌
-		operatot[]		❌
+		operatot[]		✅
 ITERATOR							✅
 	member fcts				✅
 	Non-member fcts			✅

@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:54:41 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/01/27 14:45:44 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/17 11:50:20 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ namespace	ft
 		T1	first;
 		T2	second;
 
-		pair( void ) {};
+		pair( void ) : first(), second() {};
 		pair (const pair<T1,T2>& pr) : first(pr.first), second(pr.second) {};
 		pair (const T1 & a, const T2 & b) : first(a), second (b) {};
 		~pair( void ) {};

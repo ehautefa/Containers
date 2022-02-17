@@ -6,25 +6,16 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/15 17:42:47 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/17 16:54:22 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include <iostream>
-#include "../utils/enable_if.hpp"
-#include "../utils/utils.hpp"
-#include "../utils/is_integral.hpp"
-#include "../utils/compare.hpp"
-#include "../utils/iterator_traits.hpp"
-#include "../utils/pair.hpp"
 #include "node.hpp"
 
 namespace	ft {
-
-	
 	
 	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key,T> > >
 	class map
@@ -34,13 +25,13 @@ namespace	ft {
 			typedef	T												mapped_type;
 			typedef	pair<const key_type,mapped_type>				value_type;
 			typedef	Compare											key_compare;
-			// typedef													value_compare;
 			typedef	Alloc											allocator_type;
+			typedef typename allocator_type::template rebind<node<key_type, mapped_type> >::other	node_allocator_type;
 			typedef	typename allocator_type::reference				reference;
 			typedef	typename allocator_type::const_reference		const_reference;
 			typedef	typename allocator_type::pointer				pointer;
 			typedef	typename allocator_type::const_pointer			const_pointer;
-			// typedef Type*								 			iterator;
+			// typedef ft::bidirectional_iterator			 			iterator;
 			// typedef const Type*										const_iterator;
 			// typedef typename ft::reverse_iterator<iterator> 		reverse_iterator;
 			// typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
@@ -48,35 +39,49 @@ namespace	ft {
 			typedef typename std::ptrdiff_t							difference_type;
 		
 		private:
-			node<Key, T>		_root;
+			node<key_type, mapped_type>		*_root;
 			size_type			_size;
 			allocator_type		_alloc;
+			node_allocator_type	_node_alloc;
 			key_compare			_comp;
+
+			
 	
 		public:
 		
 		/****************~MEMBER FUNCTIONS~****************/
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _root(), _size(0), _alloc(alloc), _comp(comp) {
-			std::cout << "MAP CONSTRUCTOR CALLED\n";
 		}
 		
 		// template <class InputIterator>
   		// map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());	
 		// map (const map& x);
-		~map() {}
-		// map& operator= (const map& x);
+		~map() {
+			this->clear();
+		}
+		
+		map& operator= (const map& x) {
+			this->clear();
+			_root = x._root->clone(NULL);
+			_size = x.size();
+			_alloc = x.get_allocator();
+			_node_alloc = x._node_alloc;
+			_comp = x.key_comp();
+			return *this;
+		}
+		
 		allocator_type get_allocator() const { return (_alloc); }
 		
 		/****************~ELEMENT ACCESS~****************/
 		mapped_type& operator[] (const key_type& k) {
-			node	*position = _root;
-			node	*parent;
-
+			node<key_type, mapped_type>	*position = _root;
+			node<key_type, mapped_type>	*parent = NULL;
+				
 			while ( position != NULL)
 			{
 				if (position->_value.first == k)
 					return (position->_value.second);
-				if (comp(position->_value.first, k)) {// position key < k
+				if (_comp(position->_value.first, k)) {// position key < k
 					if (!position->_right)
 						parent = position;						
 					position = position->_right;
@@ -87,11 +92,23 @@ namespace	ft {
 					position = position->_left;							
 				}
 			}
-			node	to_insert = node(value_type(k, mapped_type()), parent, NULL, NULL);
+			node<key_type, mapped_type>	to_insert(value_type(k, mapped_type()), parent, NULL, NULL);
 			_size++;
-			_alloc.allocate();
-			_alloc.construct
-			
+			if (_root == NULL) {
+				_root = _node_alloc.allocate(1);
+			 	_node_alloc.construct(_root, to_insert);
+				 return (_root->_value.second);
+			}
+			else if (_comp(parent->_value.first, k)) {
+				parent->_right = _node_alloc.allocate(1);
+				_node_alloc.construct(parent->_right, to_insert);
+				return (parent->_right->_value.second);
+			}
+			else {
+				parent->_left = _node_alloc.allocate(1);
+				_node_alloc.construct(parent->_left, to_insert);
+				return (parent->_left->_value.second);
+			}
 		}
 		
 		/****************~ITERATORS~****************/
@@ -110,7 +127,11 @@ namespace	ft {
 		size_type max_size() const { return (_alloc.max_size()); }
 		
 		/****************~MOFIFIERS~****************/
-		// void clear();
+		void clear() {
+			node<key_type, mapped_type>	*pos = _root;
+			pos->destruct_all_node();
+			_size = 0;
+		}
 		// pair<iterator,bool> insert (const value_type& val) {
 		// 	node	*_position = _root;
 			
@@ -144,13 +165,25 @@ namespace	ft {
 		// const_iterator upper_bound (const key_type& k) const;
 		
 		/****************~OBSERVERS~****************/
-		// key_compare key_comp() const;
-		// value_compare value_comp() const;
-				
+		key_compare key_comp() const {
+			return (_comp);
+		}
+		
+		// value_compare value_comp() const {
+			
+		// }
+
+		void	debug() {
+			std::cout << "SIZE: " << _size << std::endl;
+			node<key_type, mapped_type>	*pos = _root;
+			pos->debug(0, ' ');
+		}
+
 	};
 
-	template <class Key, class Compare = std::less<Key> >
+	template <class Key, class Compare>
 	bool	operator== ( Key const & lhs, Key const & rhs) {
+		std::cout << "using == surcharge\n";
 		if (Compare(lhs, rhs) || Compare(rhs, lhs))
 			return false;
 		return true;
