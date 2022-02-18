@@ -38,7 +38,7 @@ index=$1
 		printf "$BOLDRED Check $index : [error]$RESET\n"
 	fi
 	rm -rf $MAIN1 $MAIN2 $BINARY1 $BINARY2 $RES1 $RES2
-	((index+=1))
+
 # done
 
 

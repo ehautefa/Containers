@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/18 11:33:46 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/18 14:54:23 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@
 
 void	test_operator() {
 	ft::map<char,int> first;
-	ft::map<char,int> second;
+	ft::map<char,int> econd;
 
 	first['x']=8;
 	first['y']=16;
 	first['z']=32;
 
 	first.debug();
-	second=first;                // second now contains 3 ints
+	econd=first;                // second now contains 3 ints
 	first=ft::map<char,int>();  // and first is now empty
-	second.debug();
+	econd.debug();
 
 	std::cout << "Size of first: " << first.size() << '\n';
-	std::cout << "Size of second: " << second.size() << '\n';
+	std::cout << "Size of second: " << econd.size() << '\n';
 }
 
 void	test_key_comp() {
@@ -54,16 +54,48 @@ void	test_key_comp() {
 	mymap.debug();
  }
 
-void	test_constructor() {
-	ft::map<int, int>	test;
-	(void)test;
+bool fncomp (char lhs, char rhs) {return lhs<rhs;}
 
-	test[5] = 5;
-	test[5] = 4;
-	test[2] = 3;
-	test[7] = 4;
-	test[3] = 2;
-	test.debug();
+struct classcomp {
+  bool operator() (const char& lhs, const char& rhs) const
+  {return lhs<rhs;}
+};
+
+void	test_count() {
+	ft::map<char,int> mymap;
+	char c;
+
+	mymap ['c']=101;
+	mymap ['a']=202;
+	mymap ['f']=303;
+
+	for (c='a'; c<'h'; c++)
+	{
+		std::cout << c;
+		if (mymap.count(c)>0)
+		std::cout << " is an element of mymap.\n";
+		else 
+		std::cout << " is not an element of mymap.\n";
+	}
+}
+
+void	test_constructor() {
+	ft::map<char,int> first;
+
+	first['a']=10;
+	first['b']=30;
+	first['c']=50;
+	first['d']=70;
+	first.debug();
+
+	first.clear();
+	ft::map<char,int> third (first);
+	third.debug();
+
+	ft::map<char,int,classcomp> fourth;                 // class as Compare
+
+	bool(*fn_pt)(char,char) = fncomp;
+	ft::map<char,int,bool(*)(char,char)> fifth (fn_pt);
 }
 
 
@@ -71,4 +103,5 @@ int main() {
 	test_constructor();
 	test_key_comp();
 	test_operator();
+	test_count();
 }
