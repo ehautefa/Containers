@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 16:29:24 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/17 16:58:06 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/18 12:10:53 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,36 @@ namespace ft
 		node( value_type value, node *parent, node *left, node *right ) : _value(value), _parent(parent), _left(left), _right(right) {}
 		~node() {}
 
-		node *clone(node * parent) {
-			if (!parent)
-				return NULL;
-			node	to_insert(value_type(_value), parent, _left->clone(this), _right->clone(this));
-			// node	to_insert(this->_value, parent, this->_left->clone(this), this->_right->clone(this));
+		node *clone(node * parent, int i) {
+			node	*f_left;
+			node	*f_right;
+			std::cout << i << ": Ready to insert0\n";
 			node	*pos = _node_alloc.allocate(1);
+			std::cout << i << ": Ready to insert1\n";
+			
+			if (_left == NULL ) {
+				std::cout << i << ": LEFT NULL\n"; 
+				f_left = NULL;
+			}
+			else {
+				std::cout << i << ": LEFT NOT NULL\n\n"; 
+				f_left = _left->clone(pos, i + 1);
+			}
+			if (_right == NULL ) {
+				f_right = NULL;
+				std::cout << i << ": RIGHT NULL\n"; 
+			}
+			else {
+				std::cout << i << ": RIGHT NOT NULL\n\n"; 
+				f_right = _right->clone(pos, i + 1);
+			}
+
+			
+			node	to_insert(_value, parent, f_left, f_right);
 
 			_node_alloc.construct(pos, to_insert);
+			
+			std::cout << i << ": Ready to leave\n";
 			return pos;
 		}
 

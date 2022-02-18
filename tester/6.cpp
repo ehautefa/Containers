@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/17 16:58:17 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/18 11:33:46 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ void	test_operator() {
 	first['y']=16;
 	first['z']=32;
 
+	first.debug();
 	second=first;                // second now contains 3 ints
 	first=ft::map<char,int>();  // and first is now empty
+	second.debug();
 
 	std::cout << "Size of first: " << first.size() << '\n';
 	std::cout << "Size of second: " << second.size() << '\n';

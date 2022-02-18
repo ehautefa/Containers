@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/17 16:54:22 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/18 12:14:19 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,12 @@ namespace	ft {
 		}
 		
 		// template <class InputIterator>
-  		// map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());	
+  		// map (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
+		// 	while (first != last)
+		// 	{
+		// 		*first
+		// 	}	  
+		// }
 		// map (const map& x);
 		~map() {
 			this->clear();
@@ -62,7 +67,7 @@ namespace	ft {
 		
 		map& operator= (const map& x) {
 			this->clear();
-			_root = x._root->clone(NULL);
+			_root = x._root->clone(NULL, 0);
 			_size = x.size();
 			_alloc = x.get_allocator();
 			_node_alloc = x._node_alloc;
@@ -128,10 +133,13 @@ namespace	ft {
 		
 		/****************~MOFIFIERS~****************/
 		void clear() {
-			node<key_type, mapped_type>	*pos = _root;
-			pos->destruct_all_node();
+			if (_root) {
+				node<key_type, mapped_type>	*pos = _root;
+				pos->destruct_all_node();
+			}
 			_size = 0;
 		}
+		
 		// pair<iterator,bool> insert (const value_type& val) {
 		// 	node	*_position = _root;
 			
