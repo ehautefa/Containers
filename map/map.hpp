@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/18 12:14:19 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/18 15:08:08 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,27 @@ namespace	ft {
 		public:
 		
 		/****************~MEMBER FUNCTIONS~****************/
-		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _root(), _size(0), _alloc(alloc), _comp(comp) {
-		}
+		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _root(), _size(0), _alloc(alloc), _comp(comp) {}
 		
-		// template <class InputIterator>
-  		// map (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
-		// 	while (first != last)
-		// 	{
-		// 		*first
-		// 	}	  
-		// }
-		// map (const map& x);
-		~map() {
-			this->clear();
+		map (const map& x) : _root(x._root ? x._root->clone(NULL) : NULL), _size(x.size()), _alloc(x.get_allocator()), _node_alloc(x._node_alloc), _comp(x.key_comp()) {}
+		
+		template <class InputIterator>
+  		map (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
+			_size = 0;
+			_comp = comp;
+			_alloc = alloc;
+			while (first != last)
+			{
+				*this[*first.value_type.first] = *first.value_type.second;
+				first++;
+				_size++;
+			}
 		}
+		~map() { this->clear(); }
 		
 		map& operator= (const map& x) {
 			this->clear();
-			_root = x._root->clone(NULL, 0);
+			_root = x._root ? x._root->clone(NULL) : NULL;
 			_size = x.size();
 			_alloc = x.get_allocator();
 			_node_alloc = x._node_alloc;
@@ -117,7 +120,7 @@ namespace	ft {
 		}
 		
 		/****************~ITERATORS~****************/
-		// iterator begin();
+		// iterator begin() {}
 		// const_iterator begin() const;
 		// iterator end();
 		// const_iterator end() const;
@@ -137,6 +140,7 @@ namespace	ft {
 				node<key_type, mapped_type>	*pos = _root;
 				pos->destruct_all_node();
 			}
+			_root = NULL;
 			_size = 0;
 		}
 		
@@ -162,7 +166,20 @@ namespace	ft {
 
 		
 		/****************~LOOKUP~****************/
-		// size_type count (const key_type& k) const;
+		size_type count (const key_type& k) const {
+			node<key_type, mapped_type>	*position = _root;
+				
+			while ( position ) {
+				if ( position->_value.first == k )
+					return 1;
+				if ( _comp(position->_value.first, k) )				
+					position = position->_right;
+				else
+					position = position->_left;
+			}				
+			return 0;
+		}
+		
 		// iterator find (const key_type& k);
 		// const_iterator find (const key_type& k) const;
 		// pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
@@ -173,9 +190,7 @@ namespace	ft {
 		// const_iterator upper_bound (const key_type& k) const;
 		
 		/****************~OBSERVERS~****************/
-		key_compare key_comp() const {
-			return (_comp);
-		}
+		key_compare key_comp() const { return (_comp); }
 		
 		// value_compare value_comp() const {
 			
@@ -183,8 +198,10 @@ namespace	ft {
 
 		void	debug() {
 			std::cout << "SIZE: " << _size << std::endl;
+			if (_root) {
 			node<key_type, mapped_type>	*pos = _root;
 			pos->debug(0, ' ');
+			}
 		}
 
 	};

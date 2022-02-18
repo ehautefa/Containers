@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/11 14:11:42 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/18 14:30:34 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,23 @@
 
 namespace ft
 {
-	template <typename Category, typename T, typename Distance = ptrdiff_t, typename Pointer = T*, typename Reference = T&>
-	class iterator {
-		typedef T         value_type;
-		typedef Distance  difference_type;
-		typedef Pointer   pointer;
-		typedef Reference reference;
-		typedef Category  iterator_category;
-	};
+	// template <typename Category, typename T, typename Distance = ptrdiff_t, typename Pointer = T*, typename Reference = T&>
+	// class iterator {
+	// 	typedef T         value_type;
+	// 	typedef Distance  difference_type;
+	// 	typedef Pointer   pointer;
+	// 	typedef Reference reference;
+	// 	typedef Category  iterator_category;
+	// };
 
-	template <typename Category, typename T, typename Distance = ptrdiff_t, typename Pointer = T*, typename Reference = T&>
-	class const_iterator {
-		typedef T         value_type;
-		typedef Distance  difference_type;
-		typedef Pointer   pointer;
-		typedef Reference reference;
-		typedef Category  iterator_category;	
-	};
+	// template <typename Category, typename T, typename Distance = ptrdiff_t, typename Pointer = T*, typename Reference = T&>
+	// class const_iterator {
+	// 	typedef T         value_type;
+	// 	typedef Distance  difference_type;
+	// 	typedef Pointer   pointer;
+	// 	typedef Reference reference;
+	// 	typedef Category  iterator_category;	
+	// };
 
 	template <typename iterator>
 	struct reverse_iterator

@@ -30,30 +30,31 @@ Random access: elements accessed in any order, may store and retrieve values, pr
 
 MAP								❌
 	member fcts				❌
-		begin			❌		
 		clear			✅					
-		count			❌					
+		count			✅					
 		empty			✅
-		end				❌
 		equal_range		❌
 		erase			❌
 		find			❌
 		get_allocator	✅			
 		insert			❌
 		key_comp		❌
-		lower_bound		❌
 		max_size		✅			
-		rbegin			❌
-		rend			❌
 		size			✅
 		swap			❌
-		upper_bound		❌
 		value_comp		❌
+	Iterator				❌
+		begin			❌		
+		end				❌
+		rbegin			❌
+		rend			❌
+		lower_bound		❌
+		upper_bound		❌
 	Non-member fcts			❌
 		rel operator	❌
 		swap			❌
-	Overloads				❌
-		operator=		❌
+	Overloads				✅
+		operator=		✅
 		operatot[]		✅
 ITERATOR							✅
 	member fcts				✅
