@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/18 15:08:08 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/21 18:56:49 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define MAP_HPP
 
 #include "node.hpp"
+#include "map_iterator.hpp"
 
 namespace	ft {
 	
@@ -21,25 +22,26 @@ namespace	ft {
 	class map
 	{
 		public:
-			typedef	Key												key_type;
-			typedef	T												mapped_type;
-			typedef	pair<const key_type,mapped_type>				value_type;
-			typedef	Compare											key_compare;
-			typedef	Alloc											allocator_type;
-			typedef typename allocator_type::template rebind<node<key_type, mapped_type> >::other	node_allocator_type;
-			typedef	typename allocator_type::reference				reference;
-			typedef	typename allocator_type::const_reference		const_reference;
-			typedef	typename allocator_type::pointer				pointer;
-			typedef	typename allocator_type::const_pointer			const_pointer;
-			// typedef ft::bidirectional_iterator			 			iterator;
-			// typedef const Type*										const_iterator;
-			// typedef typename ft::reverse_iterator<iterator> 		reverse_iterator;
-			// typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
-			typedef typename std::size_t							size_type;
-			typedef typename std::ptrdiff_t							difference_type;
+			typedef	Key															key_type;
+			typedef	T															mapped_type;
+			typedef	pair<const key_type,mapped_type>							value_type;
+			typedef	node<const key_type,mapped_type>							node_type;
+			typedef	Compare														key_compare;
+			typedef	Alloc														allocator_type;
+			typedef typename allocator_type::template rebind<node_type>::other	node_allocator_type;
+			typedef	typename allocator_type::reference							reference;
+			typedef	typename allocator_type::const_reference					const_reference;
+			typedef	typename allocator_type::pointer							pointer;
+			typedef	typename allocator_type::const_pointer						const_pointer;
+			typedef	typename ft::map_iterator<node_type>						iterator;
+			// typedef const Type*												const_iterator;
+			// typedef typename ft::reverse_iterator<iterator> 					reverse_iterator;
+			// typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+			typedef typename std::size_t										size_type;
+			typedef typename std::ptrdiff_t										difference_type;
 		
 		private:
-			node<key_type, mapped_type>		*_root;
+			node_type		*_root;
 			size_type			_size;
 			allocator_type		_alloc;
 			node_allocator_type	_node_alloc;
@@ -82,45 +84,43 @@ namespace	ft {
 		
 		/****************~ELEMENT ACCESS~****************/
 		mapped_type& operator[] (const key_type& k) {
-			node<key_type, mapped_type>	*position = _root;
-			node<key_type, mapped_type>	*parent = NULL;
+			node_type	*position = _root;
+			node_type	*parent = NULL;
 				
-			while ( position != NULL)
-			{
+			while ( position ) {
+				parent = position;						
 				if (position->_value.first == k)
 					return (position->_value.second);
-				if (_comp(position->_value.first, k)) {// position key < k
-					if (!position->_right)
-						parent = position;						
+				if (_comp(position->_value.first, k)) // position key < k
 					position = position->_right;
-				}
-				else {
-					if (!position->_left)
-						parent = position;
+				else
 					position = position->_left;							
-				}
 			}
-			node<key_type, mapped_type>	to_insert(value_type(k, mapped_type()), parent, NULL, NULL);
+			
+			// ADD A NODE
+			node_type	*new_node = _node_alloc.allocate(1);
+			_node_alloc.construct(new_node, node_type(value_type(k, mapped_type()), parent, NULL, NULL));
 			_size++;
-			if (_root == NULL) {
-				_root = _node_alloc.allocate(1);
-			 	_node_alloc.construct(_root, to_insert);
-				 return (_root->_value.second);
-			}
-			else if (_comp(parent->_value.first, k)) {
-				parent->_right = _node_alloc.allocate(1);
-				_node_alloc.construct(parent->_right, to_insert);
-				return (parent->_right->_value.second);
-			}
-			else {
-				parent->_left = _node_alloc.allocate(1);
-				_node_alloc.construct(parent->_left, to_insert);
-				return (parent->_left->_value.second);
-			}
+			if (_root == NULL)
+				_root = new_node;
+			else if (_comp(parent->_value.first, k))
+				parent->_right = new_node;
+			else
+				parent->_left = new_node;
+			return new_node->_value.second;
 		}
 		
 		/****************~ITERATORS~****************/
-		// iterator begin() {}
+		iterator begin() {
+			node_type	*pos = _root;
+			node_type	*parent;
+			
+			while (pos) {
+				parent = pos;
+				pos = pos->_left;
+			}
+			return (iterator(parent));
+		}
 		// const_iterator begin() const;
 		// iterator end();
 		// const_iterator end() const;
@@ -137,10 +137,10 @@ namespace	ft {
 		/****************~MOFIFIERS~****************/
 		void clear() {
 			if (_root) {
-				node<key_type, mapped_type>	*pos = _root;
+				node_type	*pos = _root;
 				pos->destruct_all_node();
+				_root = NULL;
 			}
-			_root = NULL;
 			_size = 0;
 		}
 		
@@ -167,7 +167,7 @@ namespace	ft {
 		
 		/****************~LOOKUP~****************/
 		size_type count (const key_type& k) const {
-			node<key_type, mapped_type>	*position = _root;
+			node_type	*position = _root;
 				
 			while ( position ) {
 				if ( position->_value.first == k )
@@ -199,7 +199,7 @@ namespace	ft {
 		void	debug() {
 			std::cout << "SIZE: " << _size << std::endl;
 			if (_root) {
-			node<key_type, mapped_type>	*pos = _root;
+			node_type	*pos = _root;
 			pos->debug(0, ' ');
 			}
 		}

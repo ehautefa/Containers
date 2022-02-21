@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/21 09:46:15 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/21 18:55:26 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	test_operator() {
 	first['y']=16;
 	first['z']=32;
 
-	first.debug();
+	// first.debug();
 	econd=first;                // second now contains 3 ints
 	first=ft::map<char,int>();  // and first is now empty
-	econd.debug();
+	// econd.debug();
 
 	std::cout << "Size of first: " << first.size() << '\n';
 	std::cout << "Size of second: " << econd.size() << '\n';
@@ -51,7 +51,7 @@ void	test_key_comp() {
 	mymap['c']=300;
 
 	std::cout << mycomp('a', 'b') << mycomp('c', '8') << std::endl;
-	mymap.debug();
+	// mymap.debug();
  }
 
 bool fncomp (char lhs, char rhs) {return lhs<rhs;}
@@ -86,11 +86,11 @@ void	test_constructor() {
 	first['b']=30;
 	first['c']=50;
 	first['d']=70;
-	first.debug();
+	// first.debug();
 
 	first.clear();
 	ft::map<char,int> third (first);
-	third.debug();
+	// third.debug();
 
 	ft::map<char,int,classcomp> fourth;                 // class as Compare
 
@@ -101,13 +101,13 @@ void	test_constructor() {
 void	test_iterator() {
 	ft::map<char, int> map;
 
-	map['a']=10;
+	map['z']=10;
 	map['e']=30;
 	map['h']=50;
 	map['d']=70;
 
 	ft::map<char,int>::iterator	it = map.begin();
-	std::cout << *it->value.first << std::endl;
+	std::cout << it->first << std::endl;
 
 	map.debug();
 	

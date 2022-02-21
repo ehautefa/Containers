@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:29:13 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/18 14:34:09 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/21 17:05:37 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ namespace	ft {
 	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 	
 	template <typename Category, typename T, typename Distance = ptrdiff_t, typename Pointer = T*, typename Reference = T&>
-	class iterator {
+	struct iterator {
 		typedef T         value_type;
 		typedef Distance  difference_type;
 		typedef Pointer   pointer;
@@ -32,7 +32,7 @@ namespace	ft {
 	};
 
 	template <typename Category, typename T, typename Distance = ptrdiff_t, typename Pointer = T*, typename Reference = T&>
-	class const_iterator {
+	struct const_iterator {
 		typedef T         value_type;
 		typedef Distance  difference_type;
 		typedef Pointer   pointer;
