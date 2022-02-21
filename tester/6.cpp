@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/18 14:54:23 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/21 09:46:15 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,26 @@ void	test_constructor() {
 	ft::map<char,int,bool(*)(char,char)> fifth (fn_pt);
 }
 
+void	test_iterator() {
+	ft::map<char, int> map;
+
+	map['a']=10;
+	map['e']=30;
+	map['h']=50;
+	map['d']=70;
+
+	ft::map<char,int>::iterator	it = map.begin();
+	std::cout << *it->value.first << std::endl;
+
+	map.debug();
+	
+}
+
 
 int main() {
 	test_constructor();
 	test_key_comp();
 	test_operator();
 	test_count();
+	test_iterator();
 }
