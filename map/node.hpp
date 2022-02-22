@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 16:29:24 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/21 17:53:15 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/22 12:53:24 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,18 @@ namespace ft
 		typedef typename std::size_t							size_type;
 		typedef typename std::ptrdiff_t							difference_type;
 			
-		value_type 		_value;
-		node			*_parent;
-		node			*_left;
-		node			*_right;
-		size_type		_difference_heights;
-		size_type		_height;
-		node_allocator_type	_node_alloc;
+		value_type 					_value;
+		node						*_parent;
+		node						*_left;
+		node						*_right;
+		size_type					_depth;
+		size_type					_max_depth;
+		difference_type				_delta;
+		node_allocator_type			_node_alloc;
 
-		node( void ) : _value(), _parent(NULL), _left(NULL), _right(NULL), _difference_heights(0) {}
-		node( value_type value, node *parent, node *left, node *right ) : _value(value), _parent(parent), _left(left), _right(right) {}
+		node( void ) : _value(), _parent(NULL), _left(NULL), _right(NULL), _depth(0), _delta(0) {}
+		node( value_type value, node *parent, node *left, node *right ) : _value(value), _parent(parent), _left(left), _right(right), _depth(0), _delta(0) {}
+		node( value_type value, node *parent, node *left, node *right, size_type depth ) : _value(value), _parent(parent), _left(left), _right(right), _depth(depth), _delta(0) {}
 		~node() {}
 
 		node *clone(node * parent) {
@@ -64,7 +66,7 @@ namespace ft
 
 		void	debug(int i, char c) {
 			std::cout << i << " " << c << "	:";
-			std::cout << "KEY: " << this->_value.first << "	VALUE: " << this->_value.second << std::endl;
+			std::cout << "KEY: " << this->_value.first << " 	VALUE: " << this->_value.second << "	DEPTH: " << this->_depth << "	DELTA: " << this->_delta << std::endl;
 			if (this->_left)
 				this->_left->debug(i + 1, 'l');
 			if (this->_right)

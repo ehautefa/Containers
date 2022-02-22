@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/21 18:47:50 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/22 11:24:19 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ namespace ft
 		node_pointer		getPointer(void) const { return(_ptr); }
 		
 		/**** CONSTRUCTOR ****/
+		map_iterator( void ) : _ptr() {}
 		map_iterator( node_pointer ptr ) : _ptr(ptr) {}
 		template <class Iter>
   		map_iterator ( const map_iterator<Iter>& src ) : _ptr(src.getPointer()) {}

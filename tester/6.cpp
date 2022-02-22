@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/21 18:55:26 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/22 12:49:21 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,25 @@
 #endif
 
 void	test_operator() {
-	ft::map<char,int> first;
-	ft::map<char,int> econd;
+	ft::map<int,int> first;
+	ft::map<int,int> econd;
 
-	first['x']=8;
-	first['y']=16;
-	first['z']=32;
+	first[50]=8;
+	first[17]=16;
+	first[72]=32;
+	first[23]=32;
+	// first[19]=32;
+	// first[12]=32;
+	// first[14]=32;
+	// first[9]=32;
+	// first[86]=32;
+	// first[82]=32;
+	// first[94]=32;
+	// first[90]=32;
 
-	// first.debug();
+	first.debug();
 	econd=first;                // second now contains 3 ints
-	first=ft::map<char,int>();  // and first is now empty
+	first=ft::map<int,int>();  // and first is now empty
 	// econd.debug();
 
 	std::cout << "Size of first: " << first.size() << '\n';
@@ -101,7 +110,7 @@ void	test_constructor() {
 void	test_iterator() {
 	ft::map<char, int> map;
 
-	map['z']=10;
+	map['a']=10;
 	map['e']=30;
 	map['h']=50;
 	map['d']=70;
@@ -109,15 +118,32 @@ void	test_iterator() {
 	ft::map<char,int>::iterator	it = map.begin();
 	std::cout << it->first << std::endl;
 
-	map.debug();
+	// map.debug();
 	
+}
+
+void	test_insert() {
+	ft::map<char,int> mymap;
+
+  	// first insert function version (single parameter):
+  	mymap.insert ( ft::pair<char,int>('a',100) );
+  	mymap.insert ( ft::pair<char,int>('z',200) );
+	
+  	ft::pair<ft::map<char,int>::iterator,bool> ret;
+  	ret = mymap.insert ( ft::pair<char,int>('z',500) );
+  	if (ret.second==false) {
+  	  std::cout << "element 'z' already existed";
+  	  std::cout << " with a value of " << ret.first->second << '\n';
+  	}
+	mymap.debug();
 }
 
 
 int main() {
-	test_constructor();
-	test_key_comp();
+	// test_constructor();
+	// test_key_comp();
 	test_operator();
-	test_count();
-	test_iterator();
+	// test_count();
+	// test_iterator();
+	// test_insert();
 }

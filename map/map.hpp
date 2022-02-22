@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/21 18:56:49 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/22 12:51:39 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ namespace	ft {
 		mapped_type& operator[] (const key_type& k) {
 			node_type	*position = _root;
 			node_type	*parent = NULL;
+			size_type	depth = 0;
 				
 			while ( position ) {
 				parent = position;						
@@ -94,12 +95,13 @@ namespace	ft {
 				if (_comp(position->_value.first, k)) // position key < k
 					position = position->_right;
 				else
-					position = position->_left;							
+					position = position->_left;	
+				depth++;					
 			}
 			
 			// ADD A NODE
 			node_type	*new_node = _node_alloc.allocate(1);
-			_node_alloc.construct(new_node, node_type(value_type(k, mapped_type()), parent, NULL, NULL));
+			_node_alloc.construct(new_node, node_type(value_type(k, mapped_type()), parent, NULL, NULL, depth));
 			_size++;
 			if (_root == NULL)
 				_root = new_node;
@@ -107,7 +109,57 @@ namespace	ft {
 				parent->_right = new_node;
 			else
 				parent->_left = new_node;
+			this->equilibre(new_node);
 			return new_node->_value.second;
+		}
+
+		void	right_rotation ( node_type * b ) {
+			node_type	*a = b->_left;
+			node_type	*v = a->_right;
+
+			v->_parent = b;
+			b->_left = v;
+			a->_parent = b->_parent;
+			a->_right = b;
+			b->_parent = a;			
+		}
+
+		void	left_rotation ( node_type * a ) {
+			node_type	*b = a->_right;
+			node_type	*v = b->_left;
+			
+			v->_parent = a;
+			a->_left = v;
+			b->_parent = a->_parent;
+			b->_left = a;
+			a->_parent = b;
+		}
+
+		void	rebalance( node_type * pos) {
+			if (pos->_delta < 0)
+				this->left_rotation (pos);
+			else
+				this->right_rotation (pos);
+		}
+
+		void	equilibre( node_type *pos ) {
+			while (pos->_parent) {
+				std::cout << "here\n"; 
+				pos = pos->_parent;
+				if (pos->_left && pos->_right)
+					pos->_delta = pos->_left->_depth - pos->_right->_depth;
+				else if (!pos->_left && pos->_right)
+					pos->_delta = pos->_delta - pos->_right->_depth;
+				else if (pos->_left && !pos->_right)
+					pos->_delta = pos->_left->_depth - pos->_depth;
+				else
+					pos->_delta = 0;
+				// if (pos->_delta < -1 || pos->_delta > 1) {
+				// 	rebalance(pos);
+				// }
+				// else
+				pos->_depth = pos->_delta > 0 ? pos->_left->_depth : pos->_right->_depth;
+			}
 		}
 		
 		/****************~ITERATORS~****************/
@@ -144,18 +196,34 @@ namespace	ft {
 			_size = 0;
 		}
 		
-		// pair<iterator,bool> insert (const value_type& val) {
-		// 	node	*_position = _root;
+		pair<iterator,bool> insert (const value_type& val) {
+			node_type	*position = _root;
+			node_type	*parent = NULL;
+				
+			while ( position ) {
+				parent = position;						
+				if (position->_value.first == val.first)
+					return (ft::make_pair<iterator, bool>(iterator(position), false));
+				if (_comp(position->_value.first, val.first)) // position key < k
+					position = position->_right;
+				else
+					position = position->_left;							
+			}
 			
-		// 	if (this->empty()) { _root = new node(val, NULL, NULL, NULL); }
-		// 	while (_position != NULL) {
-		// 		if (comp(_position->_value, val)) // _position->_value < val
-		// 			_position = _position->right;
-		// 		else
-		// 			_position = _position->left;
-		// 	}
+			// ADD A NODE
+			node_type	*new_node = _node_alloc.allocate(1);
+			_node_alloc.construct(new_node, node_type(val, parent, NULL, NULL));
+			_size++;
+			if (_root == NULL)
+				_root = new_node;
+			else if (_comp(parent->_value.first, val.first))
+				parent->_right = new_node;
+			else
+				parent->_left = new_node;
+			return (ft::make_pair<iterator, bool>(iterator(new_node), true));
 			
-		// }
+		}
+		
 		// iterator insert (iterator position, const value_type& val);
 		// template <class InputIterator>
 		// void insert (InputIterator first, InputIterator last);
