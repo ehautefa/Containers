@@ -113,7 +113,7 @@ namespace	ft {
 			return new_node->_value.second;
 		}
 
-		void	right_rotation ( node_type * b ) {
+		void	rr_rotation ( node_type * b ) {
 			node_type	*a = b->_left;
 			node_type	*v = a->_right;
 
@@ -121,7 +121,7 @@ namespace	ft {
 			b->_left = v;
 			a->_parent = b->_parent;
 			a->_right = b;
-			b->_parent = a;			
+			b->_parent = a;
 		}
 
 		void	left_rotation ( node_type * a ) {
@@ -130,6 +130,10 @@ namespace	ft {
 			
 			v->_parent = a;
 			a->_left = v;
+			if (a->_parent->_left == a)
+				a->_parent->_left = b;
+			else
+				a->_parent->_right = b;
 			b->_parent = a->_parent;
 			b->_left = a;
 			a->_parent = b;
@@ -143,22 +147,28 @@ namespace	ft {
 		}
 
 		void	equilibre( node_type *pos ) {
-			while (pos->_parent) {
-				std::cout << "here\n"; 
+			while (pos->_parent && pos->_delta >= -1 && pos->_delta <= 1) {
 				pos = pos->_parent;
-				if (pos->_left && pos->_right)
-					pos->_delta = pos->_left->_depth - pos->_right->_depth;
-				else if (!pos->_left && pos->_right)
-					pos->_delta = pos->_delta - pos->_right->_depth;
-				else if (pos->_left && !pos->_right)
-					pos->_delta = pos->_left->_depth - pos->_depth;
-				else
+				if (pos->_left && pos->_right) {
+					pos->_delta = pos->_left->_max_depth - pos->_right->_max_depth;
+					pos->_max_depth = pos->_left->_max_depth > pos->_right->_max_depth ? pos->_left->_max_depth : pos->_right->_max_depth;
+				}
+				else if (!pos->_left && pos->_right) {
+					pos->_delta = pos->_depth - pos->_right->_max_depth;
+					pos->_max_depth = pos->_right->_max_depth;
+				}
+				else if (pos->_left && !pos->_right) {
+					pos->_delta = pos->_left->_max_depth - pos->_depth;
+					pos->_max_depth = pos->_left->_max_depth;
+				}
+				else {
 					pos->_delta = 0;
-				// if (pos->_delta < -1 || pos->_delta > 1) {
-				// 	rebalance(pos);
-				// }
-				// else
-				pos->_depth = pos->_delta > 0 ? pos->_left->_depth : pos->_right->_depth;
+					pos->_max_depth = pos->_depth;
+				}
+			}
+			if (pos->_delta < -1 || pos->_delta > 1) {
+				std::cout << "rebalance " << pos->_value.first << std::endl;
+				// this->rebalance(pos);
 			}
 		}
 		

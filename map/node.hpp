@@ -48,9 +48,9 @@ namespace ft
 		difference_type				_delta;
 		node_allocator_type			_node_alloc;
 
-		node( void ) : _value(), _parent(NULL), _left(NULL), _right(NULL), _depth(0), _delta(0) {}
-		node( value_type value, node *parent, node *left, node *right ) : _value(value), _parent(parent), _left(left), _right(right), _depth(0), _delta(0) {}
-		node( value_type value, node *parent, node *left, node *right, size_type depth ) : _value(value), _parent(parent), _left(left), _right(right), _depth(depth), _delta(0) {}
+		node( void ) : _value(), _parent(NULL), _left(NULL), _right(NULL), _depth(0), _max_depth(0), _delta(0) {}
+		node( value_type value, node *parent, node *left, node *right ) : _value(value), _parent(parent), _left(left), _right(right), _depth(0), _max_depth(0),  _delta(0) {}
+		node( value_type value, node *parent, node *left, node *right, size_type depth ) : _value(value), _parent(parent), _left(left), _right(right), _depth(depth), _max_depth(depth), _delta(0) {}
 		~node() {}
 
 		node *clone(node * parent) {
@@ -66,7 +66,9 @@ namespace ft
 
 		void	debug(int i, char c) {
 			std::cout << i << " " << c << "	:";
-			std::cout << "KEY: " << this->_value.first << " 	VALUE: " << this->_value.second << "	DEPTH: " << this->_depth << "	DELTA: " << this->_delta << std::endl;
+			std::cout << "KEY: " << this->_value.first << " 	VALUE: " << this->_value.second;
+			std::cout << "	DEPTH: " << this->_depth << "	DELTA: " << this->_delta;
+			std::cout << "	MAX_DEPTH: " << this->_max_depth << std::endl;
 			if (this->_left)
 				this->_left->debug(i + 1, 'l');
 			if (this->_right)

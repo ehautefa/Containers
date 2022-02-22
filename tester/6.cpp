@@ -26,13 +26,13 @@
 
 void	test_operator() {
 	ft::map<int,int> first;
-	ft::map<int,int> econd;
+	ft::map<int,int> second;
 
 	first[50]=8;
 	first[17]=16;
 	first[72]=32;
-	first[23]=32;
-	// first[19]=32;
+	first[23]=48;
+	first[19]=61;
 	// first[12]=32;
 	// first[14]=32;
 	// first[9]=32;
@@ -42,12 +42,12 @@ void	test_operator() {
 	// first[90]=32;
 
 	first.debug();
-	econd=first;                // second now contains 3 ints
-	first=ft::map<int,int>();  // and first is now empty
-	// econd.debug();
+	second=first;
+	first=ft::map<int,int>();
+	// second.debug();
 
 	std::cout << "Size of first: " << first.size() << '\n';
-	std::cout << "Size of second: " << econd.size() << '\n';
+	std::cout << "Size of second: " << second.size() << '\n';
 }
 
 void	test_key_comp() {
