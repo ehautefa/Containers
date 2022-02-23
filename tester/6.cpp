@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/22 12:49:21 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/23 17:50:52 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ void	test_operator() {
 	first[72]=32;
 	first[23]=48;
 	first[19]=61;
-	// first[12]=32;
-	// first[14]=32;
-	// first[9]=32;
-	// first[86]=32;
-	// first[82]=32;
-	// first[94]=32;
-	// first[90]=32;
+	first[12]=32;
+	first[14]=32;
+	first[9]=32;
+	first[86]=32;
+	first[82]=32;
+	first[94]=32;
+	first[90]=32;
 
 	first.debug();
 	second=first;
@@ -110,15 +110,19 @@ void	test_constructor() {
 void	test_iterator() {
 	ft::map<char, int> map;
 
-	map['a']=10;
-	map['e']=30;
+	map['e']=10;
+	map['a']=30;
 	map['h']=50;
-	map['d']=70;
+	// map['d']=70;
 
 	ft::map<char,int>::iterator	it = map.begin();
-	std::cout << it->first << std::endl;
+	ft::map<char,int>::iterator	ite = map.end();
+	
+	map.debug();
 
-	// map.debug();
+	for (; it != ite; it++) {
+		std::cout << it->first << std::endl;
+	}
 	
 }
 

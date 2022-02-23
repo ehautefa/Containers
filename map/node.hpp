@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 16:29:24 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/22 12:53:24 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/23 12:01:41 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,15 @@ namespace ft
 			return pos;
 		}
 
-		void	debug(int i, char c) {
-			std::cout << i << " " << c << "	:";
+		void	display() {
 			std::cout << "KEY: " << this->_value.first << " 	VALUE: " << this->_value.second;
 			std::cout << "	DEPTH: " << this->_depth << "	DELTA: " << this->_delta;
 			std::cout << "	MAX_DEPTH: " << this->_max_depth << std::endl;
+		}
+
+		void	debug(int i, char c) {
+			std::cout << i << " " << c << "	:";
+			this->display();
 			if (this->_left)
 				this->_left->debug(i + 1, 'l');
 			if (this->_right)

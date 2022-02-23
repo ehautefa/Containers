@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/22 11:24:19 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/23 17:08:11 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,37 @@ namespace ft
 		reference		operator*() 	const {return (_ptr->_value);}
 		pointer			operator->() 	const {return &(operator*());}
 
-		// map_iterator	&operator++() { ++_ptr; return *this;}
-		// map_iterator	operator++( int ) { map_iterator tmp(*this); operator--(); return tmp;}
+		map_iterator	&operator++() {
+			if (_ptr->_right) {
+				_ptr = _ptr->_right;
+				while (_ptr->_left)
+					_ptr = _ptr->_left;
+				return (*this);
+			}
+			else if (_ptr->_parent) {
+				_ptr = _ptr->_parent;
+				return (*this);
+			}
+			return (*this);
+		}
+		
+		map_iterator	operator++( int ) { map_iterator tmp(*this); operator++(); return tmp;}
 
-		// map_iterator	&operator--() {--_ptr;return *this;}
-		// map_iterator	operator--( int ) { map_iterator tmp(*this); operator++(); return tmp;}
+		map_iterator	&operator--() {
+			if (_ptr->_left) {
+				_ptr = _ptr->_left;
+				while (_ptr->_right)
+					_ptr = _ptr->_right;
+				return (*this);
+			}
+			else if (_ptr->_parent) {
+				_ptr = _ptr->_parent;
+				return (*this);
+			}
+			return (*this);
+		}
+		
+		map_iterator	operator--( int ) { map_iterator tmp(*this); operator--(); return tmp;}
 	};
 
 	template <class Iterator1, class Iterator2 > bool 	operator==(const map_iterator<Iterator1>& lhs, const map_iterator<Iterator2>& rhs) {return (lhs.getPointer() == rhs.getPointer());}

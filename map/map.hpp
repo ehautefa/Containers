@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/22 12:51:39 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/23 18:02:32 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,62 +113,115 @@ namespace	ft {
 			return new_node->_value.second;
 		}
 
-		void	rr_rotation ( node_type * b ) {
+		node_type	*right_rotation ( node_type * b ) {
 			node_type	*a = b->_left;
 			node_type	*v = a->_right;
+			
+			std::cout << "PERFORM RIGHT ROTATION ON ";
+			b->display();
 
-			v->_parent = b;
+			if (v)
+				v->_parent = b;
 			b->_left = v;
+			if (b->_parent && b->_parent->_left == b)
+				b->_parent->_left = a;
+			else if (b->_parent)
+				b->_parent->_right = a; 
 			a->_parent = b->_parent;
 			a->_right = b;
 			b->_parent = a;
+			return (a);
 		}
 
-		void	left_rotation ( node_type * a ) {
+		node_type	*left_rotation ( node_type * a ) {
 			node_type	*b = a->_right;
 			node_type	*v = b->_left;
 			
-			v->_parent = a;
-			a->_left = v;
-			if (a->_parent->_left == a)
+			std::cout << "PERFORM LEFT ROTATION ON ";
+			a->display();
+			if (v)
+				v->_parent = a;
+			a->_right = v;
+			if (a->_parent && a->_parent->_left == a)
 				a->_parent->_left = b;
-			else
+			else if (a->_parent)
 				a->_parent->_right = b;
 			b->_parent = a->_parent;
 			b->_left = a;
 			a->_parent = b;
+			return (b);
 		}
 
-		void	rebalance( node_type * pos) {
-			if (pos->_delta < 0)
-				this->left_rotation (pos);
-			else
-				this->right_rotation (pos);
+		node_type	*lr_rotation ( node_type * a ) { 
+			std::cout << "PERFORM DOUBLE LEFT ROTATION ON ";
+			a->display();
+			if (a->_right)
+				right_rotation(a->_right); // right rotation on the right subtree
+			return (left_rotation(a));
+		}
+
+		node_type	*rl_rotation ( node_type * a ) { 
+			std::cout << "PERFORM DOUBLE RIGHT ROTATION ON ";
+			a->display();
+			if (a->_left)
+				left_rotation(a->_left); // right rotation on the right subtree
+			return (right_rotation(a));
+		}
+
+
+		node_type	*rebalance( node_type * pos) {
+			if (pos->_delta < 0) {
+				if (pos->_right->_delta > 0)
+					return (this->lr_rotation(pos));
+				else
+					return (this->left_rotation (pos));
+			}
+			else {
+				if (pos->_left->_delta < 0)
+					return (this->rl_rotation(pos));
+				else
+					return (this->right_rotation (pos));
+			}
+		}
+
+		void	set_depth(node_type *pos) {
+			if (pos->_left && pos->_right) {
+				pos->_delta = pos->_left->_max_depth - pos->_right->_max_depth;
+				pos->_max_depth = pos->_left->_max_depth > pos->_right->_max_depth ? pos->_left->_max_depth : pos->_right->_max_depth;
+			}
+			else if (!pos->_left && pos->_right) {
+				pos->_delta = pos->_depth - pos->_right->_max_depth;
+				pos->_max_depth = pos->_right->_max_depth;
+			}
+			else if (pos->_left && !pos->_right) {
+				pos->_delta = pos->_left->_max_depth - pos->_depth;
+				pos->_max_depth = pos->_left->_max_depth;
+			}
+			else {
+				pos->_delta = 0;
+				pos->_max_depth = pos->_depth;
+			}
+		}
+
+		void	refresh_depth(node_type * pos) {
+			pos->_depth = pos->_parent ? pos->_parent->_depth + 1 : 0;
+			std::cout << "REFRESH :" << pos->_value.first << "	DEPTH: " << pos->_depth << std::endl; 
+			if (pos->_left)
+				this->refresh_depth(pos->_left);
+			if (pos->_right)
+				this->refresh_depth(pos->_right);
+			this->set_depth(pos);
 		}
 
 		void	equilibre( node_type *pos ) {
 			while (pos->_parent && pos->_delta >= -1 && pos->_delta <= 1) {
 				pos = pos->_parent;
-				if (pos->_left && pos->_right) {
-					pos->_delta = pos->_left->_max_depth - pos->_right->_max_depth;
-					pos->_max_depth = pos->_left->_max_depth > pos->_right->_max_depth ? pos->_left->_max_depth : pos->_right->_max_depth;
-				}
-				else if (!pos->_left && pos->_right) {
-					pos->_delta = pos->_depth - pos->_right->_max_depth;
-					pos->_max_depth = pos->_right->_max_depth;
-				}
-				else if (pos->_left && !pos->_right) {
-					pos->_delta = pos->_left->_max_depth - pos->_depth;
-					pos->_max_depth = pos->_left->_max_depth;
-				}
-				else {
-					pos->_delta = 0;
-					pos->_max_depth = pos->_depth;
-				}
+				this->set_depth(pos);
 			}
 			if (pos->_delta < -1 || pos->_delta > 1) {
-				std::cout << "rebalance " << pos->_value.first << std::endl;
-				// this->rebalance(pos);
+				this->debug();
+				std::cout << std::endl << "REBALANCE " << pos->_value.first << std::endl;
+				this->refresh_depth(this->rebalance(pos));
 			}
 		}
 		
@@ -183,8 +236,20 @@ namespace	ft {
 			}
 			return (iterator(parent));
 		}
+		
 		// const_iterator begin() const;
-		// iterator end();
+		
+		iterator end() {
+			node_type	*pos = _root;
+			node_type	*parent;
+			
+			while (pos) {
+				parent = pos;
+				pos = pos->_right;
+			}
+			return (iterator(parent));
+		}
+		
 		// const_iterator end() const;
 		// reverse_iterator rbegin();
 		// const_reverse_iterator rbegin() const;
