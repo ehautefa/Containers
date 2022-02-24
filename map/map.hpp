@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/23 18:02:32 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/24 16:39:39 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ namespace	ft {
 			typedef typename std::ptrdiff_t										difference_type;
 		
 		private:
-			node_type		*_root;
+			node_type			*_root;
 			size_type			_size;
 			allocator_type		_alloc;
 			node_allocator_type	_node_alloc;
@@ -101,7 +101,7 @@ namespace	ft {
 			
 			// ADD A NODE
 			node_type	*new_node = _node_alloc.allocate(1);
-			_node_alloc.construct(new_node, node_type(value_type(k, mapped_type()), parent, NULL, NULL, depth));
+			_node_alloc.construct(new_node, node_type(value_type(k, mapped_type()), parent, NULL, NULL, depth, depth, 0));
 			_size++;
 			if (_root == NULL)
 				_root = new_node;
@@ -112,21 +112,22 @@ namespace	ft {
 			this->equilibre(new_node);
 			return new_node->_value.second;
 		}
-
+		
+	private:
+	
 		node_type	*right_rotation ( node_type * b ) {
 			node_type	*a = b->_left;
 			node_type	*v = a->_right;
 			
-			std::cout << "PERFORM RIGHT ROTATION ON ";
-			b->display();
-
 			if (v)
 				v->_parent = b;
 			b->_left = v;
 			if (b->_parent && b->_parent->_left == b)
 				b->_parent->_left = a;
 			else if (b->_parent)
-				b->_parent->_right = a; 
+				b->_parent->_right = a;
+			else
+				_root = a; 
 			a->_parent = b->_parent;
 			a->_right = b;
 			b->_parent = a;
@@ -137,8 +138,6 @@ namespace	ft {
 			node_type	*b = a->_right;
 			node_type	*v = b->_left;
 			
-			std::cout << "PERFORM LEFT ROTATION ON ";
-			a->display();
 			if (v)
 				v->_parent = a;
 			a->_right = v;
@@ -146,6 +145,8 @@ namespace	ft {
 				a->_parent->_left = b;
 			else if (a->_parent)
 				a->_parent->_right = b;
+			else
+				_root = b;
 			b->_parent = a->_parent;
 			b->_left = a;
 			a->_parent = b;
@@ -153,16 +154,12 @@ namespace	ft {
 		}
 
 		node_type	*lr_rotation ( node_type * a ) { 
-			std::cout << "PERFORM DOUBLE LEFT ROTATION ON ";
-			a->display();
 			if (a->_right)
 				right_rotation(a->_right); // right rotation on the right subtree
 			return (left_rotation(a));
 		}
 
 		node_type	*rl_rotation ( node_type * a ) { 
-			std::cout << "PERFORM DOUBLE RIGHT ROTATION ON ";
-			a->display();
 			if (a->_left)
 				left_rotation(a->_left); // right rotation on the right subtree
 			return (right_rotation(a));
@@ -205,7 +202,6 @@ namespace	ft {
 
 		void	refresh_depth(node_type * pos) {
 			pos->_depth = pos->_parent ? pos->_parent->_depth + 1 : 0;
-			std::cout << "REFRESH :" << pos->_value.first << "	DEPTH: " << pos->_depth << std::endl; 
 			if (pos->_left)
 				this->refresh_depth(pos->_left);
 			if (pos->_right)
@@ -219,11 +215,11 @@ namespace	ft {
 				this->set_depth(pos);
 			}
 			if (pos->_delta < -1 || pos->_delta > 1) {
-				this->debug();
-				std::cout << std::endl << "REBALANCE " << pos->_value.first << std::endl;
 				this->refresh_depth(this->rebalance(pos));
 			}
 		}
+
+	public:
 		
 		/****************~ITERATORS~****************/
 		iterator begin() {
@@ -287,7 +283,7 @@ namespace	ft {
 			
 			// ADD A NODE
 			node_type	*new_node = _node_alloc.allocate(1);
-			_node_alloc.construct(new_node, node_type(val, parent, NULL, NULL));
+			_node_alloc.construct(new_node, node_type(val, parent, NULL, NULL, 0, 0, 0));
 			_size++;
 			if (_root == NULL)
 				_root = new_node;
@@ -299,13 +295,30 @@ namespace	ft {
 			
 		}
 		
-		// iterator insert (iterator position, const value_type& val);
-		// template <class InputIterator>
-		// void insert (InputIterator first, InputIterator last);
+		iterator insert (iterator position, const value_type& val) {
+			(void)position;
+			return (this->insert(val).first);
+		}
+		
+		template <class InputIterator>
+		void insert (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
+			while (first != last) {
+				insert(*first);
+				first++;
+			}
+		}
+		
 		// void erase (iterator position);
 		// size_type erase (const key_type& k);
      	// void erase (iterator first, iterator last);
-		// void swap (map& x);
+		 
+		void swap (map& x) {
+			map	tmp;
+			
+			tmp = *this;
+			*this = x;
+			x = tmp;
+		}
 
 		
 		/****************~LOOKUP~****************/
@@ -323,13 +336,67 @@ namespace	ft {
 			return 0;
 		}
 		
-		// iterator find (const key_type& k);
-		// const_iterator find (const key_type& k) const;
+		iterator find (const key_type& k) {
+			node_type	*position = _root;
+				
+			while ( position ) {
+				if ( position->_value.first == k )
+					return (iterator(position));
+				if ( _comp(position->_value.first, k) )				
+					position = position->_right;
+				else
+					position = position->_left;
+			}				
+			return this->end();
+		}
+		
+		// const_iterator find (const key_type& k) const {
+		// 	node_type	*position = _root;
+				
+		// 	while ( position ) {
+		// 		if ( position->_value.first == k )
+		// 			return (const_iterator(position));
+		// 		if ( _comp(position->_value.first, k) )				
+		// 			position = position->_right;
+		// 		else
+		// 			position = position->_left;
+		// 	}				
+		// 	return this->end();
+		// }
+		
 		// pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
 		// pair<iterator,iterator> equal_range (const key_type& k);
-		// iterator lower_bound (const key_type& k);
+		
+		iterator lower_bound (const key_type& k) {
+			node_type	*position = _root;
+				
+			while ( position ) {
+				if ( position->_value.first == k )
+					return (iterator(position));
+				if ( _comp(position->_value.first, k) )				
+					position = position->_right;
+				else
+					position = position->_left;
+			}				
+			return iterator(position);
+		}
+		
 		// const_iterator lower_bound (const key_type& k) const;
-		// iterator upper_bound (const key_type& k);
+		
+		iterator upper_bound (const key_type& k) {
+		node_type	*position = _root;
+				
+			while ( position ) {
+				if ( position->_value.first == k )
+					return (++(iterator(position)));
+				if ( _comp(position->_value.first, k) )				
+					position = position->_right;
+				else
+					position = position->_left;
+			}				
+			return iterator(position);
+		}
+					
 		// const_iterator upper_bound (const key_type& k) const;
 		
 		/****************~OBSERVERS~****************/
@@ -357,14 +424,47 @@ namespace	ft {
 		return true;
 	}
 
-	// template <class Key, class T, class Compare, class Alloc> bool operator== ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs );
-	// template <class Key, class T, class Compare, class Alloc> bool operator!= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs );
-	// template <class Key, class T, class Compare, class Alloc> bool operator<  ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs );
-	// template <class Key, class T, class Compare, class Alloc> bool operator<= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs );
-	// template <class Key, class T, class Compare, class Alloc> bool operator>  ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs );
-	// template <class Key, class T, class Compare, class Alloc> bool operator>= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs );
+	template <class Key, class T, class Compare, class Alloc> 
+	bool operator== ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
+		if (lhs.size() != rhs.size())
+			return false;
+		map<Key, T, Compare, Alloc>::iterator	l_it = lhs.begin();		
+		map<Key, T, Compare, Alloc>::iterator	r_it = rhs.begin();
+		while (; l_it != l_ite; l_it++) {
+			if (*l_it != *r_it)
+				return false;
+			r_it++;
+		}
+		return true;
+	}
 	
-	// template <class Key, class T, class Compare, class Alloc> void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y);
+	template <class Key, class T, class Compare, class Alloc> 
+	bool operator!= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
+		return !(lhs == rhs);
+	}
+	template <class Key, class T, class Compare, class Alloc> 
+	bool operator<  ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+	template <class Key, class T, class Compare, class Alloc> 
+	bool operator<= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
+		return !(rhs < lhs);
+	}
+	template <class Key, class T, class Compare, class Alloc> 
+	bool operator>  ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
+		return rhs < lhs;
+	}
+	template <class Key, class T, class Compare, class Alloc> 
+	bool operator>= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
+		return !(lhs < rhs);
+	}
+	
+	template <class Key, class T, class Compare, class Alloc> 
+	void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y) {
+		map<Key,T,Compare,Alloc>	tmp = x;
+		x = y;
+		y = tmp;
+	}
 }
 
 #endif

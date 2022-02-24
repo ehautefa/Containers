@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/23 17:50:52 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/24 16:23:14 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	test_operator() {
 	first.debug();
 	second=first;
 	first=ft::map<int,int>();
-	// second.debug();
+	second.debug();
 
 	std::cout << "Size of first: " << first.size() << '\n';
 	std::cout << "Size of second: " << second.size() << '\n';
@@ -127,6 +127,7 @@ void	test_iterator() {
 }
 
 void	test_insert() {
+	std::cout << "\nTEST INSERT\n";
 	ft::map<char,int> mymap;
 
   	// first insert function version (single parameter):
@@ -140,14 +141,67 @@ void	test_insert() {
   	  std::cout << " with a value of " << ret.first->second << '\n';
   	}
 	mymap.debug();
+
+	// second insert function version (with hint position):
+  	ft::map<char,int>::iterator it = mymap.begin();
+  	mymap.insert (it, ft::pair<char,int>('b',300));  // max efficiency inserting
+  	mymap.insert (it, ft::pair<char,int>('c',400));  // no max efficiency inserting
+	mymap.debug();
+
+	ft::map<char,int> anothermap;
+  	anothermap.insert(mymap.begin(),mymap.find('c'));
+
+	anothermap.debug();
 }
 
+void	test_bound() {
+	std::cout << "\nTEST BOUND\n";
+	ft::map<char,int> mymap;
+	ft::map<char,int>::iterator itlow,itup;
+
+	mymap['a']=20;
+	mymap['b']=40;
+	mymap['c']=60;
+	mymap['d']=80;
+	mymap['e']=100;
+
+	itlow=mymap.lower_bound ('b');  // itlow points to b
+	itup=mymap.upper_bound ('d');   // itup points to e (not d!)
+
+	mymap.debug();
+	ft::map<char,int> anothermap;
+  	anothermap.insert(itlow, itup);
+	anothermap.debug();	
+}
+
+void	test_swap() {
+
+	std::cout << "\nTEST SWAP\n";
+	ft::map<char,int> foo,bar;
+
+	foo['x']=100;
+	foo['y']=200;
+
+	bar['a']=11;
+	bar['b']=22;
+	bar['c']=33;
+
+	foo.swap(bar);
+	foo.debug();
+	bar.debug();
+
+	swap(foo, bar);
+	foo.debug();
+	bar.debug();
+}
 
 int main() {
-	// test_constructor();
-	// test_key_comp();
+	test_constructor();
+	test_key_comp();
 	test_operator();
-	// test_count();
-	// test_iterator();
-	// test_insert();
+	test_count();
+	test_iterator();
+	test_insert();
+	test_bound();
+	test_swap();
 }

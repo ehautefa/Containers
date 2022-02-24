@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 16:29:24 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/23 12:01:41 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/24 16:34:15 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ namespace ft
 		node_allocator_type			_node_alloc;
 
 		node( void ) : _value(), _parent(NULL), _left(NULL), _right(NULL), _depth(0), _max_depth(0), _delta(0) {}
-		node( value_type value, node *parent, node *left, node *right ) : _value(value), _parent(parent), _left(left), _right(right), _depth(0), _max_depth(0),  _delta(0) {}
-		node( value_type value, node *parent, node *left, node *right, size_type depth ) : _value(value), _parent(parent), _left(left), _right(right), _depth(depth), _max_depth(depth), _delta(0) {}
+		node( value_type value, node *parent, node *left, node *right, size_type depth, size_type max_depth, difference_type delta ) : _value(value), _parent(parent), _left(left), _right(right), _depth(depth), _max_depth(max_depth), _delta(delta) {}
 		~node() {}
 
 		node *clone(node * parent) {
@@ -58,7 +57,7 @@ namespace ft
 			node	*f_left		= _left ? _left->clone(pos) : NULL;
 			node	*f_right	= _right ? _right->clone(pos) : NULL;
 
-			node	to_insert(_value, parent, f_left, f_right);
+			node	to_insert(_value, parent, f_left, f_right, _depth, _max_depth, _delta);
 
 			_node_alloc.construct(pos, to_insert);
 			return pos;
@@ -86,9 +85,14 @@ namespace ft
 				_right->destruct_all_node();
 			_node_alloc.destroy(this);
 			_node_alloc.deallocate(this, 1);
-		}		
+		}	
 
 	};
+
+	template <class Key, class T, class Compare, class Alloc> 
+	bool	operator==(node<Key, T, Compare, Alloc> const & rhs, node<Key, T, Compare, Alloc> const & lhs) {
+		return (lhs._value == rhs._value);
+	}
 	
 } // namespace ft
 

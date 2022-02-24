@@ -35,24 +35,24 @@ MAP								❌
 		empty			✅
 		equal_range		❌
 		erase			❌
-		find			❌
+		find			✅
 		get_allocator	✅			
-		insert			❌
-		key_comp		❌
+		insert			✅
+		key_comp		✅
 		max_size		✅			
 		size			✅
-		swap			❌
+		swap			✅
 		value_comp		❌
 	Iterator				❌
-		begin			❌		
+		begin			✅		
 		end				❌
 		rbegin			❌
 		rend			❌
-		lower_bound		❌
-		upper_bound		❌
-	Non-member fcts			❌
-		rel operator	❌
-		swap			❌
+		lower_bound		✅
+		upper_bound		✅
+	Non-member fcts			✅
+		rel operator	✅
+		swap			✅
 	Overloads				✅
 		operator=		✅
 		operatot[]		✅
