@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/24 16:23:14 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/28 13:48:29 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@
 #else
 	#include "../map/map.hpp"
 #endif
+
+template <class Key, class T>
+void	debug(ft::map<Key, T> &map) {
+	std::cout << "SIZE: " << map.size() << std::endl;
+	
+	typename ft::map<Key, T>::iterator	it = map.begin();
+	for (; it != map.end(); it++) {
+		std::cout << "KEY: " << it->first << "	VALUE: " << it->second << std::endl;
+	}
+}
 
 void	test_operator() {
 	ft::map<int,int> first;
@@ -41,10 +51,10 @@ void	test_operator() {
 	first[94]=32;
 	first[90]=32;
 
-	first.debug();
+	debug<int, int>(first);
 	second=first;
 	first=ft::map<int,int>();
-	second.debug();
+	debug<int, int>(second);
 
 	std::cout << "Size of first: " << first.size() << '\n';
 	std::cout << "Size of second: " << second.size() << '\n';
@@ -60,7 +70,7 @@ void	test_key_comp() {
 	mymap['c']=300;
 
 	std::cout << mycomp('a', 'b') << mycomp('c', '8') << std::endl;
-	// mymap.debug();
+	debug<char, int>(mymap);
  }
 
 bool fncomp (char lhs, char rhs) {return lhs<rhs;}
@@ -95,11 +105,11 @@ void	test_constructor() {
 	first['b']=30;
 	first['c']=50;
 	first['d']=70;
-	// first.debug();
+	debug<char, int>(first);
 
 	first.clear();
 	ft::map<char,int> third (first);
-	// third.debug();
+	debug<char, int>(third);
 
 	ft::map<char,int,classcomp> fourth;                 // class as Compare
 
@@ -113,12 +123,12 @@ void	test_iterator() {
 	map['e']=10;
 	map['a']=30;
 	map['h']=50;
-	// map['d']=70;
+	map['d']=70;
 
 	ft::map<char,int>::iterator	it = map.begin();
 	ft::map<char,int>::iterator	ite = map.end();
 	
-	map.debug();
+	debug<char, int>(map);
 
 	for (; it != ite; it++) {
 		std::cout << it->first << std::endl;
@@ -139,19 +149,18 @@ void	test_insert() {
   	if (ret.second==false) {
   	  std::cout << "element 'z' already existed";
   	  std::cout << " with a value of " << ret.first->second << '\n';
-  	}
-	mymap.debug();
+	}
+	debug<char, int>(mymap);
 
 	// second insert function version (with hint position):
   	ft::map<char,int>::iterator it = mymap.begin();
   	mymap.insert (it, ft::pair<char,int>('b',300));  // max efficiency inserting
   	mymap.insert (it, ft::pair<char,int>('c',400));  // no max efficiency inserting
-	mymap.debug();
+	debug<char, int>(mymap);
 
 	ft::map<char,int> anothermap;
   	anothermap.insert(mymap.begin(),mymap.find('c'));
-
-	anothermap.debug();
+	debug<char, int>(anothermap);
 }
 
 void	test_bound() {
@@ -168,10 +177,10 @@ void	test_bound() {
 	itlow=mymap.lower_bound ('b');  // itlow points to b
 	itup=mymap.upper_bound ('d');   // itup points to e (not d!)
 
-	mymap.debug();
+	debug<char, int>(mymap);
 	ft::map<char,int> anothermap;
   	anothermap.insert(itlow, itup);
-	anothermap.debug();	
+	debug<char, int>(anothermap);
 }
 
 void	test_swap() {
@@ -187,21 +196,22 @@ void	test_swap() {
 	bar['c']=33;
 
 	foo.swap(bar);
-	foo.debug();
-	bar.debug();
+	debug<char, int>(foo);
+	debug<char, int>(bar);
 
 	swap(foo, bar);
-	foo.debug();
-	bar.debug();
+	debug<char, int>(foo);
+	debug<char, int>(bar);
 }
 
+
 int main() {
-	test_constructor();
-	test_key_comp();
-	test_operator();
-	test_count();
+	// test_constructor();
+	// test_key_comp();
+	// test_operator();
+	// test_count();
 	test_iterator();
-	test_insert();
-	test_bound();
-	test_swap();
+	// test_insert();
+	// test_bound();
+	// test_swap();
 }
