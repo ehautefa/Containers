@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/24 16:39:39 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/28 10:23:19 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ namespace	ft {
 		
 		private:
 			node_type			*_root;
+			key_type			min;
+			key_type			max;
 			size_type			_size;
 			allocator_type		_alloc;
 			node_allocator_type	_node_alloc;
@@ -52,9 +54,9 @@ namespace	ft {
 		public:
 		
 		/****************~MEMBER FUNCTIONS~****************/
-		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _root(), _size(0), _alloc(alloc), _comp(comp) {}
+		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _root(), min(), max(), _size(0), _alloc(alloc), _comp(comp) {}
 		
-		map (const map& x) : _root(x._root ? x._root->clone(NULL) : NULL), _size(x.size()), _alloc(x.get_allocator()), _node_alloc(x._node_alloc), _comp(x.key_comp()) {}
+		map (const map& x) : _root(x._root ? x._root->clone(NULL) : NULL), min(x.min), max(x.max), _size(x.size()), _alloc(x.get_allocator()), _node_alloc(x._node_alloc), _comp(x.key_comp()) {}
 		
 		template <class InputIterator>
   		map (InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
@@ -73,6 +75,8 @@ namespace	ft {
 		map& operator= (const map& x) {
 			this->clear();
 			_root = x._root ? x._root->clone(NULL) : NULL;
+			min = x.min;
+			max = x.max;
 			_size = x.size();
 			_alloc = x.get_allocator();
 			_node_alloc = x._node_alloc;
@@ -81,6 +85,9 @@ namespace	ft {
 		}
 		
 		allocator_type get_allocator() const { return (_alloc); }
+
+		
+		
 		
 		/****************~ELEMENT ACCESS~****************/
 		mapped_type& operator[] (const key_type& k) {
@@ -98,10 +105,16 @@ namespace	ft {
 					position = position->_left;	
 				depth++;					
 			}
-			
-			// ADD A NODE
+			return (add_a_node(parent, depth, k)->_value.second);
+		}
+		
+	private:
+		node_type	*add_a_node(node_type *parent, const size_type depth, const key_type& k) {
 			node_type	*new_node = _node_alloc.allocate(1);
 			_node_alloc.construct(new_node, node_type(value_type(k, mapped_type()), parent, NULL, NULL, depth, depth, 0));
+			
+			min = k < min ? k : min;
+			max = k > max ? k : max;
 			_size++;
 			if (_root == NULL)
 				_root = new_node;
@@ -110,10 +123,8 @@ namespace	ft {
 			else
 				parent->_left = new_node;
 			this->equilibre(new_node);
-			return new_node->_value.second;
+			return new_node;
 		}
-		
-	private:
 	
 		node_type	*right_rotation ( node_type * b ) {
 			node_type	*a = b->_left;
@@ -270,6 +281,7 @@ namespace	ft {
 		pair<iterator,bool> insert (const value_type& val) {
 			node_type	*position = _root;
 			node_type	*parent = NULL;
+			size_type	depth = 0;
 				
 			while ( position ) {
 				parent = position;						
@@ -278,21 +290,10 @@ namespace	ft {
 				if (_comp(position->_value.first, val.first)) // position key < k
 					position = position->_right;
 				else
-					position = position->_left;							
+					position = position->_left;
+				depth++;						
 			}
-			
-			// ADD A NODE
-			node_type	*new_node = _node_alloc.allocate(1);
-			_node_alloc.construct(new_node, node_type(val, parent, NULL, NULL, 0, 0, 0));
-			_size++;
-			if (_root == NULL)
-				_root = new_node;
-			else if (_comp(parent->_value.first, val.first))
-				parent->_right = new_node;
-			else
-				parent->_left = new_node;
-			return (ft::make_pair<iterator, bool>(iterator(new_node), true));
-			
+			return (ft::make_pair<iterator, bool>(iterator(add_a_node(parent, depth, val.first)), true));	
 		}
 		
 		iterator insert (iterator position, const value_type& val) {
@@ -414,7 +415,7 @@ namespace	ft {
 			}
 		}
 
-	};
+	}; // class map
 
 	template <class Key, class Compare>
 	bool	operator== ( Key const & lhs, Key const & rhs) {
@@ -424,40 +425,30 @@ namespace	ft {
 		return true;
 	}
 
-	template <class Key, class T, class Compare, class Alloc> 
-	bool operator== ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
-		if (lhs.size() != rhs.size())
-			return false;
-		map<Key, T, Compare, Alloc>::iterator	l_it = lhs.begin();		
-		map<Key, T, Compare, Alloc>::iterator	r_it = rhs.begin();
-		while (; l_it != l_ite; l_it++) {
-			if (*l_it != *r_it)
-				return false;
-			r_it++;
-		}
-		return true;
-	}
+	// template <class Key, class T, class Compare, class Alloc> 
+	// bool operator== ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
+	// 	if (lhs.size() != rhs.size())
+	// 		return false;
+	// 	map<Key, T, Compare, Alloc>::iterator	l_it = lhs.begin();		
+	// 	map<Key, T, Compare, Alloc>::iterator	r_it = rhs.begin();
+	// 	while (; l_it != l_ite; l_it++) {
+	// 		if (*l_it != *r_it)
+	// 			return false;
+	// 		r_it++;
+	// 	}
+	// 	return true;
+	// }
 	
 	template <class Key, class T, class Compare, class Alloc> 
-	bool operator!= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
-		return !(lhs == rhs);
-	}
+	bool operator!= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) { return !(lhs == rhs); }
 	template <class Key, class T, class Compare, class Alloc> 
-	bool operator<  ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
-		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-	}
+	bool operator<  ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) { return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); }
 	template <class Key, class T, class Compare, class Alloc> 
-	bool operator<= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
-		return !(rhs < lhs);
-	}
+	bool operator<= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) { return !(rhs < lhs); }
 	template <class Key, class T, class Compare, class Alloc> 
-	bool operator>  ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
-		return rhs < lhs;
-	}
+	bool operator>  ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) { return rhs < lhs; }
 	template <class Key, class T, class Compare, class Alloc> 
-	bool operator>= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
-		return !(lhs < rhs);
-	}
+	bool operator>= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) { return !(lhs < rhs); }
 	
 	template <class Key, class T, class Compare, class Alloc> 
 	void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y) {
@@ -465,6 +456,6 @@ namespace	ft {
 		x = y;
 		y = tmp;
 	}
-}
+} // namespace ft
 
 #endif

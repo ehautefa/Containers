@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/23 17:08:11 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/28 10:10:45 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,19 @@ namespace ft
 		
 		private:
 			node_pointer	_ptr;
+			node_pointer	_parent;
 		
 		public:
 
 		node_pointer		getPointer(void) const { return(_ptr); }
+		node_pointer		getParent(void) const { return(_parent); }
 		
 		/**** CONSTRUCTOR ****/
 		map_iterator( void ) : _ptr() {}
-		map_iterator( node_pointer ptr ) : _ptr(ptr) {}
+		map_iterator( node_pointer ptr ) : _ptr(ptr), _parent(ptr->_parent) {}
 		template <class Iter>
-  		map_iterator ( const map_iterator<Iter>& src ) : _ptr(src.getPointer()) {}
-		map_iterator	&operator=( map_iterator const & rhs ) {_ptr = rhs._ptr; return *this; }
+  		map_iterator ( const map_iterator<Iter>& src ) : _ptr(src.getPointer(), _parent(src.getParent())) {}
+		map_iterator	&operator=( map_iterator const & rhs ) {_ptr = rhs._ptr; _parent = rhs._parent; return *this; }
 		~map_iterator( void ) {}
 
 		/**** OPERATOR ****/
