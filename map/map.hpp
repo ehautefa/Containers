@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/28 10:23:19 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/28 13:49:22 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,6 @@ namespace	ft {
 		
 		allocator_type get_allocator() const { return (_alloc); }
 
-		
-		
-		
 		/****************~ELEMENT ACCESS~****************/
 		mapped_type& operator[] (const key_type& k) {
 			node_type	*position = _root;
@@ -113,8 +110,8 @@ namespace	ft {
 			node_type	*new_node = _node_alloc.allocate(1);
 			_node_alloc.construct(new_node, node_type(value_type(k, mapped_type()), parent, NULL, NULL, depth, depth, 0));
 			
-			min = k < min ? k : min;
-			max = k > max ? k : max;
+			min = k < min || parent == NULL ? k : min;
+			max = k > max || parent == NULL ? k : max;
 			_size++;
 			if (_root == NULL)
 				_root = new_node;
@@ -366,7 +363,10 @@ namespace	ft {
 		// }
 		
 		// pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
-		// pair<iterator,iterator> equal_range (const key_type& k);
+		
+		// pair<iterator,iterator> equal_range (const key_type& k) {
+			
+		// }
 		
 		iterator lower_bound (const key_type& k) {
 			node_type	*position = _root;
@@ -408,7 +408,7 @@ namespace	ft {
 		// }
 
 		void	debug() {
-			std::cout << "SIZE: " << _size << std::endl;
+			std::cout << "SIZE: " << _size << "	MIN: " << min << "	MAX: " << max << std::endl;
 			if (_root) {
 			node_type	*pos = _root;
 			pos->debug(0, ' ');
