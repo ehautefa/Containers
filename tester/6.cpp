@@ -204,6 +204,22 @@ void	test_swap() {
 	debug<char, int>(bar);
 }
 
+void	test_reverse_iterator() {
+	std::cout << "\nTEST REVERSE ITERATOR\n";
+	ft::map<char, int> test;
+
+	test['t'] = 456;
+	test['1'] = 2147483647;
+	test[')'] = -8;
+	test['7'] = 789;
+	test['$'] = 45;
+
+	// test.debug();
+	ft::map<char, int>::reverse_iterator	rit;
+	rit = test.rbegin();
+	for (; rit != test.rend(); rit++)
+		std::cout << "F " << rit->first << "	S " << rit->second << std::endl;
+}
 
 int main() {
 	test_constructor();
@@ -214,4 +230,5 @@ int main() {
 	test_insert();
 	test_bound();
 	test_swap();
+	test_reverse_iterator();
 }

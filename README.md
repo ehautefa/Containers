@@ -43,11 +43,11 @@ MAP								❌
 		size			✅
 		swap			✅
 		value_comp		❌
-	Iterator				❌
+	Iterator				✅
 		begin			✅		
-		end				❌
-		rbegin			❌
-		rend			❌
+		end				✅
+		rbegin			✅
+		rend			✅
 		lower_bound		✅
 		upper_bound		✅
 	Non-member fcts			✅

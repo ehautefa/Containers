@@ -282,15 +282,12 @@ namespace	ft {
 		/****************~ITERATORS~****************/
 		iterator begin() {
 			node_type	*pos = _root;
-			node_type	*parent;
 			
 			if (this->empty())
 				return _end;
-			while (pos && pos != _rend) {
-				parent = pos;
+			while (pos->_left && pos->_left != _rend)
 				pos = pos->_left;
-			}
-			return (iterator(parent));
+			return (iterator(pos));
 		}
 		
 		// const_iterator begin() const;
@@ -301,20 +298,17 @@ namespace	ft {
 		
 		reverse_iterator rbegin() {
 			node_type	*pos = _root;
-			node_type	*parent;
 			
 			if (this->empty())
-				return _rend;
-			while (pos && pos != _end) {
-				parent = pos;
+				return reverse_iterator(iterator(_rend));
+			while (pos->_right && pos->_right != _end)
 				pos = pos->_right;
-			}
-			return (reverse_iterator(parent));
+			return (reverse_iterator(iterator(pos)));
 		}
 		
 		// const_reverse_iterator rbegin() const;
 		
-		reverse_iterator rend() { return _rend; }
+		reverse_iterator rend() { return reverse_iterator(iterator(_rend)++); }
 		
 		// const_reverse_iterator rend() const;
 		
@@ -503,20 +497,19 @@ namespace	ft {
 		return true;
 	}
 
-	// template <class Key, class T, class Compare, class Alloc> 
-	// bool operator== ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
-	// 	if (lhs.size() != rhs.size())
-	// 		return false;
-	// 	map<Key, T, Compare, Alloc>::iterator	l_it = lhs.begin();		
-	// 	map<Key, T, Compare, Alloc>::iterator	r_it = rhs.begin();
-	// 	while (; l_it != l_ite; l_it++) {
-	// 		if (*l_it != *r_it)
-	// 			return false;
-	// 		r_it++;
-	// 	}
-	// 	return true;
-	// }
-	
+	template <class Key, class T, class Compare, class Alloc> 
+	bool operator== ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
+		if (lhs.size() != rhs.size())
+			return false;
+		typename map<Key, T>::iterator	l_it = lhs.begin();		
+		typename map<Key, T>::iterator	r_it = rhs.begin();
+		for (; l_it != lhs.end(); l_it++) {
+			if (*l_it != *r_it)
+				return false;
+			r_it++;
+		}
+		return true;
+	}
 	template <class Key, class T, class Compare, class Alloc> 
 	bool operator!= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) { return !(lhs == rhs); }
 	template <class Key, class T, class Compare, class Alloc> 
