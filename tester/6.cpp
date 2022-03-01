@@ -209,9 +209,9 @@ int main() {
 	test_constructor();
 	test_key_comp();
 	test_operator();
-	// test_count();
-	// test_iterator();
-	// test_insert();
-	// test_bound();
-	// test_swap();
+	test_count();
+	test_iterator();
+	test_insert();
+	test_bound();
+	test_swap();
 }

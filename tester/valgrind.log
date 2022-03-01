@@ -1,100 +1,15 @@
-==870733== Memcheck, a memory error detector
-==870733== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==870733== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==870733== Command: ./test2
-==870733== Parent PID: 870719
-==870733== 
-==870733== 
-==870733== HEAP SUMMARY:
-==870733==     in use at exit: 640 bytes in 10 blocks
-==870733==   total heap usage: 51 allocs, 41 frees, 84,032 bytes allocated
-==870733== 
-==870733== 64 bytes in 1 blocks are definitely lost in loss record 1 of 10
-==870733==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==870733==    by 0x4063D6: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==870733==    by 0x406116: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::_init_leaf() (map.hpp:139)
-==870733==    by 0x403D18: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::map(ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > > const&) (map.hpp:65)
-==870733==    by 0x401CC9: test_constructor() (test2.cpp:111)
-==870733==    by 0x403048: main (test2.cpp:209)
-==870733== 
-==870733== 64 bytes in 1 blocks are definitely lost in loss record 2 of 10
-==870733==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==870733==    by 0x4063D6: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==870733==    by 0x4061D1: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::_init_leaf() (map.hpp:142)
-==870733==    by 0x403D18: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::map(ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > > const&) (map.hpp:65)
-==870733==    by 0x401CC9: test_constructor() (test2.cpp:111)
-==870733==    by 0x403048: main (test2.cpp:209)
-==870733== 
-==870733== 64 bytes in 1 blocks are definitely lost in loss record 3 of 10
-==870733==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==870733==    by 0x4063D6: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==870733==    by 0x4073A6: ft::map<char, int, classcomp, std::allocator<ft::pair<char const, int> > >::_init_leaf() (map.hpp:139)
-==870733==    by 0x403DB0: ft::map<char, int, classcomp, std::allocator<ft::pair<char const, int> > >::map(classcomp const&, std::allocator<ft::pair<char const, int> > const&) (map.hpp:61)
-==870733==    by 0x401D09: test_constructor() (test2.cpp:114)
-==870733==    by 0x403048: main (test2.cpp:209)
-==870733== 
-==870733== 64 bytes in 1 blocks are definitely lost in loss record 4 of 10
-==870733==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==870733==    by 0x4063D6: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==870733==    by 0x407466: ft::map<char, int, classcomp, std::allocator<ft::pair<char const, int> > >::_init_leaf() (map.hpp:142)
-==870733==    by 0x403DB0: ft::map<char, int, classcomp, std::allocator<ft::pair<char const, int> > >::map(classcomp const&, std::allocator<ft::pair<char const, int> > const&) (map.hpp:61)
-==870733==    by 0x401D09: test_constructor() (test2.cpp:114)
-==870733==    by 0x403048: main (test2.cpp:209)
-==870733== 
-==870733== 64 bytes in 1 blocks are definitely lost in loss record 5 of 10
-==870733==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==870733==    by 0x4063D6: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==870733==    by 0x407706: ft::map<char, int, bool (*)(char, char), std::allocator<ft::pair<char const, int> > >::_init_leaf() (map.hpp:139)
-==870733==    by 0x403E5B: ft::map<char, int, bool (*)(char, char), std::allocator<ft::pair<char const, int> > >::map(bool (* const&)(char, char), std::allocator<ft::pair<char const, int> > const&) (map.hpp:61)
-==870733==    by 0x401D52: test_constructor() (test2.cpp:117)
-==870733==    by 0x403048: main (test2.cpp:209)
-==870733== 
-==870733== 64 bytes in 1 blocks are definitely lost in loss record 6 of 10
-==870733==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==870733==    by 0x4063D6: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==870733==    by 0x4077C6: ft::map<char, int, bool (*)(char, char), std::allocator<ft::pair<char const, int> > >::_init_leaf() (map.hpp:142)
-==870733==    by 0x403E5B: ft::map<char, int, bool (*)(char, char), std::allocator<ft::pair<char const, int> > >::map(bool (* const&)(char, char), std::allocator<ft::pair<char const, int> > const&) (map.hpp:61)
-==870733==    by 0x401D52: test_constructor() (test2.cpp:117)
-==870733==    by 0x403048: main (test2.cpp:209)
-==870733== 
-==870733== 64 bytes in 1 blocks are definitely lost in loss record 7 of 10
-==870733==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==870733==    by 0x404E66: __gnu_cxx::new_allocator<ft::node<int const, int, std::less<int const>, std::allocator<ft::pair<int const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==870733==    by 0x404BA6: ft::map<int, int, std::less<int>, std::allocator<ft::pair<int const, int> > >::_init_leaf() (map.hpp:139)
-==870733==    by 0x4030E6: ft::map<int, int, std::less<int>, std::allocator<ft::pair<int const, int> > >::map(std::less<int> const&, std::allocator<ft::pair<int const, int> > const&) (map.hpp:61)
-==870733==    by 0x4012F6: test_operator() (test2.cpp:39)
-==870733==    by 0x403052: main (test2.cpp:211)
-==870733== 
-==870733== 64 bytes in 1 blocks are definitely lost in loss record 8 of 10
-==870733==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==870733==    by 0x404E66: __gnu_cxx::new_allocator<ft::node<int const, int, std::less<int const>, std::allocator<ft::pair<int const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==870733==    by 0x404C61: ft::map<int, int, std::less<int>, std::allocator<ft::pair<int const, int> > >::_init_leaf() (map.hpp:142)
-==870733==    by 0x4030E6: ft::map<int, int, std::less<int>, std::allocator<ft::pair<int const, int> > >::map(std::less<int> const&, std::allocator<ft::pair<int const, int> > const&) (map.hpp:61)
-==870733==    by 0x4012F6: test_operator() (test2.cpp:39)
-==870733==    by 0x403052: main (test2.cpp:211)
-==870733== 
-==870733== 64 bytes in 1 blocks are definitely lost in loss record 9 of 10
-==870733==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==870733==    by 0x404E66: __gnu_cxx::new_allocator<ft::node<int const, int, std::less<int const>, std::allocator<ft::pair<int const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==870733==    by 0x404BA6: ft::map<int, int, std::less<int>, std::allocator<ft::pair<int const, int> > >::_init_leaf() (map.hpp:139)
-==870733==    by 0x4030E6: ft::map<int, int, std::less<int>, std::allocator<ft::pair<int const, int> > >::map(std::less<int> const&, std::allocator<ft::pair<int const, int> > const&) (map.hpp:61)
-==870733==    by 0x4015DC: test_operator() (test2.cpp:56)
-==870733==    by 0x403052: main (test2.cpp:211)
-==870733== 
-==870733== 64 bytes in 1 blocks are definitely lost in loss record 10 of 10
-==870733==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==870733==    by 0x404E66: __gnu_cxx::new_allocator<ft::node<int const, int, std::less<int const>, std::allocator<ft::pair<int const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==870733==    by 0x404C61: ft::map<int, int, std::less<int>, std::allocator<ft::pair<int const, int> > >::_init_leaf() (map.hpp:142)
-==870733==    by 0x4030E6: ft::map<int, int, std::less<int>, std::allocator<ft::pair<int const, int> > >::map(std::less<int> const&, std::allocator<ft::pair<int const, int> > const&) (map.hpp:61)
-==870733==    by 0x4015DC: test_operator() (test2.cpp:56)
-==870733==    by 0x403052: main (test2.cpp:211)
-==870733== 
-==870733== LEAK SUMMARY:
-==870733==    definitely lost: 640 bytes in 10 blocks
-==870733==    indirectly lost: 0 bytes in 0 blocks
-==870733==      possibly lost: 0 bytes in 0 blocks
-==870733==    still reachable: 0 bytes in 0 blocks
-==870733==         suppressed: 0 bytes in 0 blocks
-==870733== 
-==870733== For lists of detected and suppressed errors, rerun with: -s
-==870733== ERROR SUMMARY: 10 errors from 10 contexts (suppressed: 0 from 0)
+==68040== Memcheck, a memory error detector
+==68040== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==68040== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==68040== Command: ./test2
+==68040== Parent PID: 68025
+==68040== 
+==68040== 
+==68040== HEAP SUMMARY:
+==68040==     in use at exit: 0 bytes in 0 blocks
+==68040==   total heap usage: 120 allocs, 120 frees, 84,352 bytes allocated
+==68040== 
+==68040== All heap blocks were freed -- no leaks are possible
+==68040== 
+==68040== For lists of detected and suppressed errors, rerun with: -s
+==68040== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

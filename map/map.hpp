@@ -62,7 +62,12 @@ namespace	ft {
 		}
 		
 		map (const map& x) : _root(x._root ? x._root->clone(NULL) : NULL), _min(x._min), _max(x._max), _size(x.size()), _alloc(x.get_allocator()), _node_alloc(x._node_alloc), _comp(x.key_comp()) {
-			this->_init_leaf();
+			_end = _root;
+			while (_end && _end->_right)
+				_end = _end->_right;
+			_rend = _root;
+			while (_rend && _rend->_left)
+				_rend = _rend->_left;
 		}
 		
 		template <class InputIterator>
@@ -324,6 +329,20 @@ namespace	ft {
 				node_type	*pos = _root;
 				pos->destruct_all_node();
 				_root = NULL;
+				_end = NULL;
+				_rend = NULL;
+			}
+			else { 
+				if (this->_end) {
+					_node_alloc.destroy(this->_end);
+					_node_alloc.deallocate(this->_end, 1);
+					this->_end = NULL;
+				}
+				if (this->_rend) {
+					_node_alloc.destroy(this->_rend);
+					_node_alloc.deallocate(this->_rend, 1);
+					this->_rend = NULL;
+				}
 			}
 			_size = 0;
 		}
@@ -343,7 +362,9 @@ namespace	ft {
 					position = position->_left;
 				depth++;						
 			}
-			return (ft::make_pair<iterator, bool>(iterator(add_a_node(parent, depth, val.first)), true));	
+			node_type	*new_node = add_a_node(parent, depth, val.first);
+			new_node->_value.second = val.second;
+			return (ft::make_pair<iterator, bool>(iterator(new_node), true));	
 		}
 		
 		iterator insert (iterator position, const value_type& val) {
@@ -375,8 +396,8 @@ namespace	ft {
 		/****************~LOOKUP~****************/
 		size_type count (const key_type& k) const {
 			node_type	*position = _root;
-				
-			if ( _comp(_min, k) || _comp(k, _max))
+			
+			if ( _comp(k, _min) || _comp(_max, k))
 				return 0;
 			while ( position && position != _end && position != _rend ) {
 				if ( position->_value.first == k )
@@ -392,7 +413,7 @@ namespace	ft {
 		iterator find (const key_type& k) {
 			node_type	*position = _root;
 				
-			if ( _comp(_min, k) || _comp(k, _max))
+			if ( _comp(k, _min) || _comp(_max, k))
 				return this->end();
 			while ( position && position != _end && position != _rend ) {
 				if ( position->_value.first == k )
