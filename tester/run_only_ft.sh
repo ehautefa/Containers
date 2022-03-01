@@ -18,5 +18,5 @@ index=$1
 
 clang++ -Wall -Werror -Wextra -g3 -std=c++98 $index.cpp -o $BINARY1
 valgrind --tool=memcheck --leak-check=full --leak-resolution=high --track-origins=yes --show-reachable=yes --log-file=valgrind.log ./$BINARY1
-rm -rf $BINARY1
+# rm -rf $BINARY1
 

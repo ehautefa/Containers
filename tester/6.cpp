@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/28 13:48:29 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/28 16:28:06 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	debug(ft::map<Key, T> &map) {
 	std::cout << "SIZE: " << map.size() << std::endl;
 	
 	typename ft::map<Key, T>::iterator	it = map.begin();
-	for (; it != map.end(); it++) {
+	for (; it != map.end(); ++it) {
 		std::cout << "KEY: " << it->first << "	VALUE: " << it->second << std::endl;
 	}
 }
@@ -206,11 +206,11 @@ void	test_swap() {
 
 
 int main() {
-	// test_constructor();
-	// test_key_comp();
-	// test_operator();
+	test_constructor();
+	test_key_comp();
+	test_operator();
 	// test_count();
-	test_iterator();
+	// test_iterator();
 	// test_insert();
 	// test_bound();
 	// test_swap();

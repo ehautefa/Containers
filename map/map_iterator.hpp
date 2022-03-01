@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/28 13:51:12 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/02/28 16:07:42 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,11 @@ namespace ft
 	{ 
 		typedef Node        									node_type;
 		typedef	Node*											node_pointer;
-		typedef	typename node_type::key_type 					key_type;
-		typedef	typename node_type::mapped_type 				mapped_type;
-		typedef	typename node_type::key_compare 				key_compare;
-		typedef	typename node_type::allocator_type				allocator_type;
-		typedef typename std::size_t							size_type;
-		
 		typedef typename std::ptrdiff_t							difference_type;
 		typedef	typename node_type::value_type 					value_type;
 		typedef typename node_type::value_type*					pointer;
 		typedef typename node_type::value_type&					reference;
 		typedef bidirectional_iterator_tag			 			iterator_category;
-		
 		
 		private:
 			node_pointer	_ptr;
