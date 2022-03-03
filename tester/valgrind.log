@@ -1,88 +1,310 @@
-==212286== Memcheck, a memory error detector
-==212286== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==212286== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==212286== Command: ./test
-==212286== Parent PID: 212281
-==212286== 
-==212286== Stack overflow in thread #1: can't grow stack to 0x1ffe801000
-==212286== 
-==212286== Process terminating with default action of signal 11 (SIGSEGV)
-==212286==  Access not within mapped region at address 0x1FFE801FF8
-==212286== Stack overflow in thread #1: can't grow stack to 0x1ffe801000
-==212286==    at 0x407C78: ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >::destruct_all_node() (node.hpp:81)
-==212286==  If you believe this happened as a result of a stack
-==212286==  overflow in your program's main thread (unlikely but
-==212286==  possible), you can try to increase the size of the
-==212286==  main thread stack using the --main-stacksize= flag.
-==212286==  The main thread stack size used in this run was 8388608.
-==212286== Stack overflow in thread #1: can't grow stack to 0x1ffe801000
-==212286== 
-==212286== Process terminating with default action of signal 11 (SIGSEGV)
-==212286==  Access not within mapped region at address 0x1FFE801FE8
-==212286== Stack overflow in thread #1: can't grow stack to 0x1ffe801000
-==212286==    at 0x4831134: _vgnU_freeres (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so)
-==212286==  If you believe this happened as a result of a stack
-==212286==  overflow in your program's main thread (unlikely but
-==212286==  possible), you can try to increase the size of the
-==212286==  main thread stack using the --main-stacksize= flag.
-==212286==  The main thread stack size used in this run was 8388608.
-==212286== 
-==212286== HEAP SUMMARY:
-==212286==     in use at exit: 73,920 bytes in 5 blocks
-==212286==   total heap usage: 132 allocs, 127 frees, 82,048 bytes allocated
-==212286== 
-==212286== 64 bytes in 1 blocks are still reachable in loss record 1 of 5
-==212286==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==212286==    by 0x407056: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==212286==    by 0x406D96: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::_init_leaf() (map.hpp:144)
-==212286==    by 0x403C10: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::map(std::less<char> const&, std::allocator<ft::pair<char const, int> > const&) (map.hpp:61)
-==212286==    by 0x403407: test_erase() (6.cpp:226)
-==212286==    by 0x4035A5: main (6.cpp:286)
-==212286== 
-==212286== 64 bytes in 1 blocks are still reachable in loss record 2 of 5
-==212286==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==212286==    by 0x407056: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==212286==    by 0x406E51: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::_init_leaf() (map.hpp:147)
-==212286==    by 0x403C10: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::map(std::less<char> const&, std::allocator<ft::pair<char const, int> > const&) (map.hpp:61)
-==212286==    by 0x403407: test_erase() (6.cpp:226)
-==212286==    by 0x4035A5: main (6.cpp:286)
-==212286== 
-==212286== 64 bytes in 1 blocks are still reachable in loss record 3 of 5
-==212286==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==212286==    by 0x407056: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:115)
-==212286==    by 0x407255: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
-==212286==    by 0x403D8B: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
-==212286==    by 0x4034A6: test_erase() (6.cpp:236)
-==212286==    by 0x4035A5: main (6.cpp:286)
-==212286== 
-==212286== 1,024 bytes in 1 blocks are still reachable in loss record 4 of 5
-==212286==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==212286==    by 0x4C33E83: _IO_file_doallocate (filedoalloc.c:101)
-==212286==    by 0x4C4404F: _IO_doallocbuf (genops.c:347)
-==212286==    by 0x4C430AF: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:745)
-==212286==    by 0x4C41834: _IO_new_file_xsputn (fileops.c:1244)
-==212286==    by 0x4C41834: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
-==212286==    by 0x4C35540: fwrite (iofwrite.c:39)
-==212286==    by 0x4996823: std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
-==212286==    by 0x4996BDB: std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
-==212286==    by 0x403E04: void debug<char, int>(ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >&) (6.cpp:29)
-==212286==    by 0x401CA9: test_constructor() (6.cpp:108)
-==212286==    by 0x403578: main (6.cpp:277)
-==212286== 
-==212286== 72,704 bytes in 1 blocks are still reachable in loss record 5 of 5
-==212286==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==212286==    by 0x4909A99: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
-==212286==    by 0x4011B89: call_init.part.0 (dl-init.c:72)
-==212286==    by 0x4011C90: call_init (dl-init.c:30)
-==212286==    by 0x4011C90: _dl_init (dl-init.c:119)
-==212286==    by 0x4001139: ??? (in /usr/lib/x86_64-linux-gnu/ld-2.31.so)
-==212286== 
-==212286== LEAK SUMMARY:
-==212286==    definitely lost: 0 bytes in 0 blocks
-==212286==    indirectly lost: 0 bytes in 0 blocks
-==212286==      possibly lost: 0 bytes in 0 blocks
-==212286==    still reachable: 73,920 bytes in 5 blocks
-==212286==         suppressed: 0 bytes in 0 blocks
-==212286== 
-==212286== For lists of detected and suppressed errors, rerun with: -s
-==212286== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==100909== Memcheck, a memory error detector
+==100909== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==100909== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==100909== Command: ./test
+==100909== Parent PID: 100904
+==100909== 
+==100909== Invalid read of size 8
+==100909==    at 0x4047C3: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::begin() (map.hpp:290)
+==100909==    by 0x403F13: void debug<char, int>(ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >&) (6.cpp:31)
+==100909==    by 0x40359A: test_erase() (6.cpp:259)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Address 0x4db5450 is 16 bytes inside a block of size 64 free'd
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x4095CC: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::remove_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*) (map.hpp:489)
+==100909==    by 0x40945F: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase_root() (map.hpp:466)
+==100909==    by 0x405933: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase(ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >) (map.hpp:409)
+==100909==    by 0x40356A: test_erase() (6.cpp:257)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Block was alloc'd at
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403438: test_erase() (6.cpp:247)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== Invalid read of size 1
+==100909==    at 0x403F87: void debug<char, int>(ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >&) (6.cpp:33)
+==100909==    by 0x40359A: test_erase() (6.cpp:259)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Address 0x4db5440 is 0 bytes inside a block of size 64 free'd
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x4095CC: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::remove_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*) (map.hpp:489)
+==100909==    by 0x40945F: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase_root() (map.hpp:466)
+==100909==    by 0x405933: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase(ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >) (map.hpp:409)
+==100909==    by 0x40356A: test_erase() (6.cpp:257)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Block was alloc'd at
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403438: test_erase() (6.cpp:247)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== Invalid read of size 4
+==100909==    at 0x403FC9: void debug<char, int>(ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >&) (6.cpp:33)
+==100909==    by 0x40359A: test_erase() (6.cpp:259)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Address 0x4db5444 is 4 bytes inside a block of size 64 free'd
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x4095CC: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::remove_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*) (map.hpp:489)
+==100909==    by 0x40945F: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase_root() (map.hpp:466)
+==100909==    by 0x405933: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase(ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >) (map.hpp:409)
+==100909==    by 0x40356A: test_erase() (6.cpp:257)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Block was alloc'd at
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403438: test_erase() (6.cpp:247)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== Invalid read of size 8
+==100909==    at 0x4080FE: ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::operator++() (map_iterator.hpp:54)
+==100909==    by 0x403FFE: void debug<char, int>(ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >&) (6.cpp:32)
+==100909==    by 0x40359A: test_erase() (6.cpp:259)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Address 0x4db5458 is 24 bytes inside a block of size 64 free'd
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x4095CC: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::remove_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*) (map.hpp:489)
+==100909==    by 0x40945F: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase_root() (map.hpp:466)
+==100909==    by 0x405933: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase(ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >) (map.hpp:409)
+==100909==    by 0x40356A: test_erase() (6.cpp:257)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Block was alloc'd at
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403438: test_erase() (6.cpp:247)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== Invalid read of size 8
+==100909==    at 0x408150: ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::operator++() (map_iterator.hpp:60)
+==100909==    by 0x403FFE: void debug<char, int>(ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >&) (6.cpp:32)
+==100909==    by 0x40359A: test_erase() (6.cpp:259)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Address 0x4db5448 is 8 bytes inside a block of size 64 free'd
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x4095CC: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::remove_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*) (map.hpp:489)
+==100909==    by 0x40945F: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase_root() (map.hpp:466)
+==100909==    by 0x405933: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase(ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >) (map.hpp:409)
+==100909==    by 0x40356A: test_erase() (6.cpp:257)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Block was alloc'd at
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403438: test_erase() (6.cpp:247)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== Invalid read of size 8
+==100909==    at 0x408169: ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::operator++() (map_iterator.hpp:61)
+==100909==    by 0x403FFE: void debug<char, int>(ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >&) (6.cpp:32)
+==100909==    by 0x40359A: test_erase() (6.cpp:259)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Address 0x4db5448 is 8 bytes inside a block of size 64 free'd
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x4095CC: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::remove_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*) (map.hpp:489)
+==100909==    by 0x40945F: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase_root() (map.hpp:466)
+==100909==    by 0x405933: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase(ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >) (map.hpp:409)
+==100909==    by 0x40356A: test_erase() (6.cpp:257)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Block was alloc'd at
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403438: test_erase() (6.cpp:247)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== Invalid read of size 8
+==100909==    at 0x408182: ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::operator++() (map_iterator.hpp:61)
+==100909==    by 0x403FFE: void debug<char, int>(ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >&) (6.cpp:32)
+==100909==    by 0x40359A: test_erase() (6.cpp:259)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Address 0x4db5448 is 8 bytes inside a block of size 64 free'd
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x4095CC: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::remove_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*) (map.hpp:489)
+==100909==    by 0x40945F: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase_root() (map.hpp:466)
+==100909==    by 0x405933: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase(ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >) (map.hpp:409)
+==100909==    by 0x40356A: test_erase() (6.cpp:257)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Block was alloc'd at
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403438: test_erase() (6.cpp:247)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== Invalid read of size 8
+==100909==    at 0x4081BD: ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::operator++() (map_iterator.hpp:63)
+==100909==    by 0x403FFE: void debug<char, int>(ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >&) (6.cpp:32)
+==100909==    by 0x40359A: test_erase() (6.cpp:259)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Address 0x4db5448 is 8 bytes inside a block of size 64 free'd
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x4095CC: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::remove_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*) (map.hpp:489)
+==100909==    by 0x40945F: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase_root() (map.hpp:466)
+==100909==    by 0x405933: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase(ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >) (map.hpp:409)
+==100909==    by 0x40356A: test_erase() (6.cpp:257)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Block was alloc'd at
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403438: test_erase() (6.cpp:247)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== Invalid read of size 8
+==100909==    at 0x408200: ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >::destruct_all_node() (node.hpp:84)
+==100909==    by 0x404281: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::clear() (map.hpp:326)
+==100909==    by 0x40408B: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::~map() (map.hpp:88)
+==100909==    by 0x4035B6: test_erase() (6.cpp:269)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Address 0x4db5450 is 16 bytes inside a block of size 64 free'd
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x4095CC: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::remove_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*) (map.hpp:489)
+==100909==    by 0x40945F: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase_root() (map.hpp:466)
+==100909==    by 0x405933: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase(ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >) (map.hpp:409)
+==100909==    by 0x40356A: test_erase() (6.cpp:257)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Block was alloc'd at
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403438: test_erase() (6.cpp:247)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== Invalid read of size 8
+==100909==    at 0x408220: ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >::destruct_all_node() (node.hpp:86)
+==100909==    by 0x404281: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::clear() (map.hpp:326)
+==100909==    by 0x40408B: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::~map() (map.hpp:88)
+==100909==    by 0x4035B6: test_erase() (6.cpp:269)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Address 0x4db5458 is 24 bytes inside a block of size 64 free'd
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x4095CC: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::remove_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*) (map.hpp:489)
+==100909==    by 0x40945F: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase_root() (map.hpp:466)
+==100909==    by 0x405933: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase(ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >) (map.hpp:409)
+==100909==    by 0x40356A: test_erase() (6.cpp:257)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Block was alloc'd at
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403438: test_erase() (6.cpp:247)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== Invalid free() / delete / delete[] / realloc()
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x408268: ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >::destruct_all_node() (node.hpp:89)
+==100909==    by 0x404281: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::clear() (map.hpp:326)
+==100909==    by 0x40408B: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::~map() (map.hpp:88)
+==100909==    by 0x4035B6: test_erase() (6.cpp:269)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Address 0x4db5440 is 0 bytes inside a block of size 64 free'd
+==100909==    at 0x483CFBF: operator delete(void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x4082AF: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::deallocate(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long) (new_allocator.h:128)
+==100909==    by 0x4095CC: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::remove_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*) (map.hpp:489)
+==100909==    by 0x40945F: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase_root() (map.hpp:466)
+==100909==    by 0x405933: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::erase(ft::map_iterator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >) (map.hpp:409)
+==100909==    by 0x40356A: test_erase() (6.cpp:257)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909==  Block was alloc'd at
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403438: test_erase() (6.cpp:247)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== 
+==100909== HEAP SUMMARY:
+==100909==     in use at exit: 448 bytes in 7 blocks
+==100909==   total heap usage: 14 allocs, 8 frees, 74,496 bytes allocated
+==100909== 
+==100909== 64 bytes in 1 blocks are indirectly lost in loss record 1 of 7
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x407342: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::_init_leaf() (map.hpp:147)
+==100909==    by 0x403CD6: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::map(std::less<char> const&, std::allocator<ft::pair<char const, int> > const&) (map.hpp:61)
+==100909==    by 0x4032B7: test_erase() (6.cpp:226)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== 64 bytes in 1 blocks are indirectly lost in loss record 2 of 7
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x40340E: test_erase() (6.cpp:246)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== 64 bytes in 1 blocks are indirectly lost in loss record 3 of 7
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x403462: test_erase() (6.cpp:248)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== 64 bytes in 1 blocks are indirectly lost in loss record 4 of 7
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x40348C: test_erase() (6.cpp:249)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== 64 bytes in 1 blocks are indirectly lost in loss record 5 of 7
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x4034B6: test_erase() (6.cpp:250)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== 64 bytes in 1 blocks are indirectly lost in loss record 6 of 7
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40777D: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::add_a_node(ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > >*, unsigned long, char const&) (map.hpp:152)
+==100909==    by 0x403E54: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::operator[](char const&) (map.hpp:126)
+==100909==    by 0x4034E0: test_erase() (6.cpp:251)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== 448 (64 direct, 384 indirect) bytes in 1 blocks are definitely lost in loss record 7 of 7
+==100909==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==100909==    by 0x407546: __gnu_cxx::new_allocator<ft::node<char const, int, std::less<char const>, std::allocator<ft::pair<char const, int> > > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+==100909==    by 0x40727C: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::_init_leaf() (map.hpp:144)
+==100909==    by 0x403CD6: ft::map<char, int, std::less<char>, std::allocator<ft::pair<char const, int> > >::map(std::less<char> const&, std::allocator<ft::pair<char const, int> > const&) (map.hpp:61)
+==100909==    by 0x4032B7: test_erase() (6.cpp:226)
+==100909==    by 0x403668: main (6.cpp:281)
+==100909== 
+==100909== LEAK SUMMARY:
+==100909==    definitely lost: 64 bytes in 1 blocks
+==100909==    indirectly lost: 384 bytes in 6 blocks
+==100909==      possibly lost: 0 bytes in 0 blocks
+==100909==    still reachable: 0 bytes in 0 blocks
+==100909==         suppressed: 0 bytes in 0 blocks
+==100909== 
+==100909== For lists of detected and suppressed errors, rerun with: -s
+==100909== ERROR SUMMARY: 12 errors from 12 contexts (suppressed: 0 from 0)

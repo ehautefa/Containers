@@ -159,11 +159,11 @@ namespace	ft {
 				parent->_right = new_node;
 			else
 				parent->_left = new_node;
-			if (k < _min || _size == 1) {
+			if (k < _min || _size <= 1) {
 				new_node->_left = _rend;
 				_rend->_parent = new_node;
 			}
-			if (k > _max || _size == 1) {
+			if (k > _max || _size <= 1) {
 				new_node->_right = _end;
 				_end->_parent = new_node;
 			}
@@ -268,6 +268,8 @@ namespace	ft {
 		}
 
 		void	equilibre( node_type *pos ) {
+			if (this->size() <= 1)
+			 return ;
 			while (pos->_parent && pos->_delta >= -1 && pos->_delta <= 1) {
 				pos = pos->_parent;
 				this->set_depth(pos);
@@ -377,18 +379,18 @@ namespace	ft {
 		void	destroy_node(node_type *pos) {
 			node_type	*p = _root;
 			
-			if (pos->_value.first == _min) {
+			if (pos->_value.first == _min && _size > 1) {
 				while (p->_left)
 					p = p->_left;
 				p->_left = _rend;
 				_rend->_parent = p;
 				_min = p->_value.first;
 			}
-			if (pos->_value.first == _max) {
-				while (p->_right)
+			if (pos->_value.first == _max && _size > 1) {
+				while (p->_right) 
 					p = p->_right;
-				p->_right = _rend;
-				_rend->_parent = p;
+				p->_right = _end;
+				_end->_parent = p;
 				_max = p->_value.first;
 			}
 			_node_alloc.destroy(pos);
@@ -434,7 +436,7 @@ namespace	ft {
 				_root->_parent = NULL;
 				this->destroy_node(pos);
 			}
-			else if (_root->_left == _end) { // CHILD LEFT OR RIGHT ONLY
+			else if (_root->_right == _end) { // CHILD LEFT OR RIGHT ONLY
 				_root = _root->_left;
 				_root->_parent = NULL;
 				this->destroy_node(pos);
@@ -443,21 +445,24 @@ namespace	ft {
 				node_type	*min_right = pos->_right;
 				while (min_right->_left) // FIN MINIMUM RIGHT SUBTREE
 					min_right = min_right->_left;
-				// ROOT BECAME MINIMUM RIGHT SUBTREE
-				if (min_right->_parent->_right == min_right)
-					min_right->_parent->_right = pos;
-				else
-					min_right->_parent->_left = pos;
-				pos->_parent = min_right->_parent;
-				// MINIMUM RIGHT SUBTREE BECAME ROOT
-				_root = min_right;
-				_root->_left = pos->_left;
-				_root->_right = pos->_right;
-				_root->_left->_parent = _root;
-				_root->_right->_parent = _root;
-				_root->_parent = NULL;
-				pos->_left = NULL;
-				pos->_right = NULL;
+				min_right->swap(*pos);
+				std::cout << "MIN RIGHT\n";
+				min_right->debug(0, ' ');
+				// // ROOT BECAME MINIMUM RIGHT SUBTREE
+				// if (min_right->_parent->_right == min_right)
+				// 	min_right->_parent->_right = pos;
+				// else
+				// 	min_right->_parent->_left = pos;
+				// pos->_parent = min_right->_parent;
+				// // MINIMUM RIGHT SUBTREE BECAME ROOT
+				// _root = min_right;
+				// _root->_left = pos->_left;
+				// _root->_right = pos->_right;
+				// _root->_left->_parent = _root;
+				// _root->_right->_parent = _root;
+				// _root->_parent = NULL;
+				// pos->_left = NULL;
+				// pos->_right = NULL;
 				this->remove_node(pos);
 			}
 		}
@@ -489,22 +494,7 @@ namespace	ft {
 				node_type	*min_right = position->_right;
 				while (min_right->_left)
 					min_right = min_right->_left;
-				min_right->_left = position->_left;
-				position->_left->_parent = min_right;
-				min_right->_right = position->_right;
-				position->_right->_parent = min_right;
-				position->_parent = min_right->_parent;
-				if (min_right->_parent && min_right->_parent->_right == min_right)
-					min_right->_parent->_right = position;
-				else if (min_right->_parent)
-					min_right->_parent->_left = position;
-				min_right->_parent = parent;
-				if (parent && parent->_right == position)
-					parent->_right = min_right;
-				else if (parent)
-					parent->_left = min_right;
-				position->_right = NULL;
-				position->_left = NULL;
+				min_right->swap(*position);
 				remove_node(position);
 			}
 		}

@@ -236,32 +236,27 @@ void	test_erase() {
 	mymap['c']=30;
 
 	mymap.erase('b');
+	
+	mymap['b']=20;
+	mymap.erase('c');
 	debug(mymap);
-	// mymap.debug();
+	mymap.erase('b');
+	debug(mymap);
 	
-	// mymap['b']=20;
-	// mymap.debug();
-	// mymap.erase('c');
-	// debug(mymap);
-	// mymap.debug();
-	// mymap.erase('b');
-	// debug(mymap);
-	
-	// mymap['a']=10;
-	// mymap['b']=20;
-	// mymap['c']=30;
-	// mymap['d']=40;
-	// mymap['e']=50;
-	// mymap['f']=60;
+	mymap['a']=10;
+	mymap['b']=20;
+	mymap['c']=30;
+	mymap['d']=40;
+	mymap['e']=50;
+	mymap['f']=60;
 
 
-	// std::cout << "\nMY MAP\n";
-	// debug(mymap);
-	// mymap.debug();
-	// it=mymap.find('b');
-	// mymap.erase ('b');                   // erasing by iterator
-	// std::cout << "\nERASE 'b' ITERATOR\n";
-	// debug(mymap);
+	std::cout << "\nMY MAP\n";
+	debug(mymap);
+	it=mymap.find('b');
+	mymap.erase (it);              // erasing by iterator
+	std::cout << "\nERASE 'b' ITERATOR\n";
+	debug(mymap);
 
 	// std::cout << "\nERASE 'c' KEY\n";
 	// mymap.erase ('c');                  // erasing by key
@@ -274,14 +269,14 @@ void	test_erase() {
 }
 
 int main() {
-	test_constructor();
-	test_key_comp();
-	test_operator();
-	test_count();
-	test_iterator();
-	test_insert();
-	test_bound();
-	test_swap();
-	test_reverse_iterator();
+	// test_constructor();
+	// test_key_comp();
+	// test_operator();
+	// test_count();
+	// test_iterator();
+	// test_insert();
+	// test_bound();
+	// test_swap();
+	// test_reverse_iterator();
 	test_erase();
 }

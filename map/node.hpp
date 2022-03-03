@@ -66,7 +66,9 @@ namespace ft
 		void	display() {
 			std::cout << "KEY: " << this->_value.first << " 	VALUE: " << this->_value.second;
 			std::cout << "	DEPTH: " << this->_depth << "	DELTA: " << this->_delta;
-			std::cout << "	MAX_DEPTH: " << this->_max_depth << std::endl;
+			std::cout << "	MAX_DEPTH: " << this->_max_depth;
+			std::cout << "	PARENT: " << this->_parent << "	LEFT: " << this->_left;
+			std::cout << "	RIGHT: " << this->_right << std::endl;
 		}
 
 		void	debug(int i, char c) {
@@ -86,6 +88,38 @@ namespace ft
 			_node_alloc.destroy(this);
 			_node_alloc.deallocate(this, 1);
 		}	
+
+		node	&operator=( node const & rhs ) {
+			// _value = rhs._value;
+			_parent = rhs._parent;
+			_left = rhs._left;
+			_right = rhs._right;
+			_depth = rhs._depth;
+			_max_depth = rhs._max_depth;
+			_delta = rhs._delta;
+			_node_alloc = rhs._node_alloc;
+			return (*this);
+		}
+
+		void	swap_neighboor( node *x ) {
+			if (x->_parent && x->_parent->_left == x) 
+				x->_parent->_left = this;
+			else if (x->_parent && x->_parent->_right == x)
+				x->_parent->_right = this;
+			if (x->_left)
+				x->_left->_parent = this;
+			if (x->_right)
+				x->_right->_parent = this;
+		}
+
+		void	swap( node & x ) {
+			node	tmp = x;
+
+			this->swap_neighboor( &tmp );
+			x.swap_neighboor(this);
+			x = *this;
+			*this = tmp;
+		}
 
 	};
 
