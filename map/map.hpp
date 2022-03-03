@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/03 17:32:12 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/03 17:51:09 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -399,29 +399,6 @@ namespace	ft {
 			_node_alloc.deallocate(pos, 1);
 		}
 
-		void erase (iterator position) {
-			node_type	*pos = _root;
-			
-			while ( pos && pos != _end && pos != _rend ) {
-				if ( pos->_value.first == (*position).first)
-				{
-					if (position != iterator(pos))
-						return ;
-					else if (pos == _root)
-						this->erase_root();
-					else
-						this->erase_node(pos);
-					_size--;
-					return ;
-				}
-				if ( _comp(pos->_value.first, (*position).first ) )				
-					pos = pos->_right;
-				else
-					pos = pos->_left;
-			}
-			return 	;	
-		}
-
 		void	erase_root() {
 			node_type	*pos = _root;
 			
@@ -462,16 +439,8 @@ namespace	ft {
 				else if (to_link)
 					to_link->_left = NULL;
 			}
-			else if ((!to_erase->_left || to_erase->_left == _rend)) { // NO CHILD LEFT
-				to_link = to_erase->_right;
-				to_link->_parent = to_erase->_parent;
-				if (to_erase->_parent && to_erase->_parent->_right == to_erase)
-					to_erase->_parent->_right = to_link;
-				else if (to_erase->_parent)
-					to_erase->_parent->_left = to_link;
-			}
-			else if ((!to_erase->_right || to_erase->_right == _rend)) { // NO CHILD RIGHT
-				to_link = to_erase->_left;
+			else if (((!to_erase->_left || to_erase->_left == _rend)) || (!to_erase->_right || to_erase->_right == _rend)) { // ONLY ONE CHILD
+				to_link = !to_erase->_left || to_erase->_left == _rend ? to_erase->_right : to_erase->_left;
 				to_link->_parent = to_erase->_parent;
 				if (to_erase->_parent && to_erase->_parent->_right == to_erase)
 					to_erase->_parent->_right = to_link;
@@ -499,7 +468,7 @@ namespace	ft {
 			this->equilibre(to_link);			
 		}
 		
-		size_type erase (const key_type& k) {
+		size_type	erase (const key_type& k) {
 			node_type	*position = _root;
 				
 			while ( position && position != _end && position != _rend ) {
@@ -519,8 +488,50 @@ namespace	ft {
 			}
 			return 0;
 		}
+		
+		void	erase (iterator position) {
+			node_type	*pos = _root;
+			
+			while ( pos && pos != _end && pos != _rend ) {
+				if ( pos->_value.first == (*position).first)
+				{
+					if (position != iterator(pos))
+						return ;
+					else if (pos == _root)
+						this->erase_root();
+					else
+						this->erase_node(pos);
+					_size--;
+					return ;
+				}
+				if ( _comp(pos->_value.first, (*position).first ) )				
+					pos = pos->_right;
+				else
+					pos = pos->_left;
+			}
+		}
      	
-		 // void erase (iterator first, iterator last);
+		void	erase (iterator first, iterator last) {
+			node_type	*pos = _root;
+			iterator	tmp;
+			
+			while ( pos && pos != _end && pos != _rend ) {
+				if ( pos->_value.first == (*first).first)
+				{
+					while (first != last) {
+						tmp = first;
+						tmp++;
+						this->erase(first);
+						first = tmp;
+					}
+					return ;
+				}
+				if ( _comp(pos->_value.first, (*first).first ) )				
+					pos = pos->_right;
+				else
+					pos = pos->_left;
+			}
+		 }
 		 
 		void swap (map& x) {
 			map	tmp;
