@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 16:29:24 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/28 11:28:04 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/03 14:25:46 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,19 +102,21 @@ namespace ft
 		}
 
 		void	swap_neighboor( node *x ) {
-			if (x->_parent && x->_parent->_left == x) 
-				x->_parent->_left = this;
-			else if (x->_parent && x->_parent->_right == x)
-				x->_parent->_right = this;
-			if (x->_left)
+			if (x->_parent && x->_parent != this) {
+				if (x->_parent->_left == x)
+					x->_parent->_left = this;
+				else if (x->_parent->_right == x)
+					x->_parent->_right = this;
+			}
+			if (x->_left && x->_left != this)
 				x->_left->_parent = this;
-			if (x->_right)
+			if (x->_right && x->_right != this)
 				x->_right->_parent = this;
 		}
 
 		void	swap( node & x ) {
 			node	tmp = x;
-			// ATTENTION PROBLEME QUAND TU SWAP 2 voisins proches 
+
 			x.swap_neighboor(this);
 			this->swap_neighboor( &tmp );
 			x = *this;

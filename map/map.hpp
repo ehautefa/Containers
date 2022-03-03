@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/02 16:23:32 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/03 15:28:15 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -438,10 +438,15 @@ namespace	ft {
 				node_type	*min_right = pos->_right;
 				while (min_right->_left) // FIN MINIMUM RIGHT SUBTREE
 					min_right = min_right->_left;
-				min_right->swap(*pos); // SWAP ROOT WITH MIN
-				min_right->debug(0, ' ');
+				min_right->_right = pos->_right == min_right ? min_right->_right : pos->_right;
+				min_right->_parent->_left = min_right->_parent->_left == min_right ? NULL : min_right->_parent->_left;
+				min_right->_parent->_right = min_right->_parent->_right == min_right ? NULL : min_right->_parent->_right;
+				min_right->_parent = NULL;
+				min_right->_left = pos->_left;
+				min_right->_left->_parent = min_right;
+				min_right->_right->_parent = min_right;
 				_root = min_right;
-				this->remove_node(pos); // REMOVE POS
+				this->destroy_node(pos); // REMOVE POS
 			}
 		}
 

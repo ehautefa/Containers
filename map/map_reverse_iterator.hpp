@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/28 14:26:19 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/03 13:58:35 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace ft
 		pointer		getPointer(void) const { return(_ptr); }
 		
 		/**** CONSTRUCTOR ****/
-		map_reverse_iterator( void ) {}
+		map_reverse_iterator( void ) : _ptr() {}
 		explicit map_reverse_iterator( iterator_type it ) : _ptr(it--) {}
 		template <class Iter>
   		map_reverse_iterator (const map_reverse_iterator<Iter>& src) : _ptr(src._ptr) {}

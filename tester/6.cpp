@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/02 16:31:35 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/03 15:28:48 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,10 +254,9 @@ void	test_erase() {
 	std::cout << "\nMY MAP\n";
 	debug(mymap);
 	it=mymap.find('b');
-	mymap.erase (it);              // erasing by iterator
+	mymap.erase ('b');              // erasing by iterator
 	std::cout << "\nERASE 'b' ITERATOR\n";
 	debug(mymap);
-	mymap.debug();
 	std::cout << "\nERASE 'c' KEY\n";
 	mymap.erase ('c');                  // erasing by key
 	debug(mymap);
