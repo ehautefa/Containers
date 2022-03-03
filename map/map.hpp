@@ -422,22 +422,15 @@ namespace	ft {
 
 		void	erase_root() {
 			node_type	*pos = _root;
-			std::cout << "ERASE ROOT\n";
 			
 			if (this->size() == 1) { // NO CHILD
-				std::cout << "NO CHILD\n";
 				this->destroy_node(_root);
 				_root = NULL;
 				_end->_parent = NULL;
 				_rend->_parent = NULL;
 			}
-			else if (_root->_left == _rend) {
-				_root = _root->_right;
-				_root->_parent = NULL;
-				this->destroy_node(pos);
-			}
-			else if (_root->_right == _end) { // CHILD LEFT OR RIGHT ONLY
-				_root = _root->_left;
+			else if (_root->_left == _rend || _root->_right == _end) { // CHILD LEFT OR RIGHT ONLY
+				_root = _root->_left == _rend ? _root->_right : _root->_left;
 				_root->_parent = NULL;
 				this->destroy_node(pos);
 			}
@@ -445,25 +438,10 @@ namespace	ft {
 				node_type	*min_right = pos->_right;
 				while (min_right->_left) // FIN MINIMUM RIGHT SUBTREE
 					min_right = min_right->_left;
-				min_right->swap(*pos);
-				std::cout << "MIN RIGHT\n";
+				min_right->swap(*pos); // SWAP ROOT WITH MIN
 				min_right->debug(0, ' ');
-				// // ROOT BECAME MINIMUM RIGHT SUBTREE
-				// if (min_right->_parent->_right == min_right)
-				// 	min_right->_parent->_right = pos;
-				// else
-				// 	min_right->_parent->_left = pos;
-				// pos->_parent = min_right->_parent;
-				// // MINIMUM RIGHT SUBTREE BECAME ROOT
-				// _root = min_right;
-				// _root->_left = pos->_left;
-				// _root->_right = pos->_right;
-				// _root->_left->_parent = _root;
-				// _root->_right->_parent = _root;
-				// _root->_parent = NULL;
-				// pos->_left = NULL;
-				// pos->_right = NULL;
-				this->remove_node(pos);
+				_root = min_right;
+				this->remove_node(pos); // REMOVE POS
 			}
 		}
 
@@ -503,7 +481,6 @@ namespace	ft {
 			node_type	*position = _root;
 				
 			while ( position && position != _end && position != _rend ) {
-			std::cout << "ERASE\n";
 				if ( position->_value.first == k )
 				{
 					if(position == _root)

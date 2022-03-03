@@ -257,10 +257,10 @@ void	test_erase() {
 	mymap.erase (it);              // erasing by iterator
 	std::cout << "\nERASE 'b' ITERATOR\n";
 	debug(mymap);
-
-	// std::cout << "\nERASE 'c' KEY\n";
-	// mymap.erase ('c');                  // erasing by key
-	// debug(mymap);
+	mymap.debug();
+	std::cout << "\nERASE 'c' KEY\n";
+	mymap.erase ('c');                  // erasing by key
+	debug(mymap);
 
 	// it=mymap.find ('e');
 	// // mymap.erase ( it, mymap.end() );    // erasing by range

@@ -114,9 +114,9 @@ namespace ft
 
 		void	swap( node & x ) {
 			node	tmp = x;
-
-			this->swap_neighboor( &tmp );
+			// ATTENTION PROBLEME QUAND TU SWAP 2 voisins proches 
 			x.swap_neighboor(this);
+			this->swap_neighboor( &tmp );
 			x = *this;
 			*this = tmp;
 		}
