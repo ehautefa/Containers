@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/28 17:14:23 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:23:32 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ namespace	ft {
 			node_type	*position = _root;
 			node_type	*parent = NULL;
 			size_type	depth = 0;
-			
+
 			while ( position && position != _end && position != _rend ) {
 				parent = position;						
 				if (position->_value.first == k)
@@ -374,9 +374,164 @@ namespace	ft {
 			}
 		}
 		
-		// void erase (iterator position);
-		// size_type erase (const key_type& k);
-     	// void erase (iterator first, iterator last);
+		void	destroy_node(node_type *pos) {
+			node_type	*p = _root;
+			
+			if (pos->_value.first == _min) {
+				while (p->_left)
+					p = p->_left;
+				p->_left = _rend;
+				_rend->_parent = p;
+				_min = p->_value.first;
+			}
+			if (pos->_value.first == _max) {
+				while (p->_right)
+					p = p->_right;
+				p->_right = _rend;
+				_rend->_parent = p;
+				_max = p->_value.first;
+			}
+			_node_alloc.destroy(pos);
+			_node_alloc.deallocate(pos, 1);
+		}
+
+		void erase (iterator position) {
+			node_type	*pos = _root;
+			
+			while ( pos && pos != _end && pos != _rend ) {
+				if ( pos->_value.first == (*position).first)
+				{
+					if (position != iterator(pos))
+						return ;
+					else if (pos == _root)
+						this->erase_root();
+					else
+						this->remove_node(pos);
+					_size--;
+					return ;
+				}
+				if ( _comp(pos->_value.first, (*position).first ) )				
+					pos = pos->_right;
+				else
+					pos = pos->_left;
+			}
+			return 	;	
+		}
+
+		void	erase_root() {
+			node_type	*pos = _root;
+			std::cout << "ERASE ROOT\n";
+			
+			if (this->size() == 1) { // NO CHILD
+				std::cout << "NO CHILD\n";
+				this->destroy_node(_root);
+				_root = NULL;
+				_end->_parent = NULL;
+				_rend->_parent = NULL;
+			}
+			else if (_root->_left == _rend) {
+				_root = _root->_right;
+				_root->_parent = NULL;
+				this->destroy_node(pos);
+			}
+			else if (_root->_left == _end) { // CHILD LEFT OR RIGHT ONLY
+				_root = _root->_left;
+				_root->_parent = NULL;
+				this->destroy_node(pos);
+			}
+			else { // TWO CHILD
+				node_type	*min_right = pos->_right;
+				while (min_right->_left) // FIN MINIMUM RIGHT SUBTREE
+					min_right = min_right->_left;
+				// ROOT BECAME MINIMUM RIGHT SUBTREE
+				if (min_right->_parent->_right == min_right)
+					min_right->_parent->_right = pos;
+				else
+					min_right->_parent->_left = pos;
+				pos->_parent = min_right->_parent;
+				// MINIMUM RIGHT SUBTREE BECAME ROOT
+				_root = min_right;
+				_root->_left = pos->_left;
+				_root->_right = pos->_right;
+				_root->_left->_parent = _root;
+				_root->_right->_parent = _root;
+				_root->_parent = NULL;
+				pos->_left = NULL;
+				pos->_right = NULL;
+				this->remove_node(pos);
+			}
+		}
+
+		void	remove_node(node_type	*position) {
+			node_type	*parent = position->_parent;
+			node_type	*child;
+			
+			// NO CHILD OR ONE CHILD
+			if ((!position->_right && !position->_left) || (position->_right && !position->_left) || (position->_left && !position->_right)) {
+				if (position->_right) 
+					child = position->_right;
+				else if (position->_left)
+					child = position->_left;
+				else
+					child = NULL;
+				if (child)
+					child->_parent = parent;
+				if (parent && parent->_right == position)
+					parent->_right = child;
+				else if (parent)
+					parent->_left = child;
+				_node_alloc.destroy(position);
+				_node_alloc.deallocate(position, 1);
+				if (parent)
+					this->equilibre(parent);
+			} // TWO CHILD
+			else {
+				node_type	*min_right = position->_right;
+				while (min_right->_left)
+					min_right = min_right->_left;
+				min_right->_left = position->_left;
+				position->_left->_parent = min_right;
+				min_right->_right = position->_right;
+				position->_right->_parent = min_right;
+				position->_parent = min_right->_parent;
+				if (min_right->_parent && min_right->_parent->_right == min_right)
+					min_right->_parent->_right = position;
+				else if (min_right->_parent)
+					min_right->_parent->_left = position;
+				min_right->_parent = parent;
+				if (parent && parent->_right == position)
+					parent->_right = min_right;
+				else if (parent)
+					parent->_left = min_right;
+				position->_right = NULL;
+				position->_left = NULL;
+				remove_node(position);
+			}
+		}
+		
+		size_type erase (const key_type& k) {
+			node_type	*position = _root;
+				
+			while ( position && position != _end && position != _rend ) {
+			std::cout << "ERASE\n";
+				if ( position->_value.first == k )
+				{
+					if(position == _root)
+						this->erase_root();
+					else
+						this->remove_node(position);
+					_size--;
+					return 1;
+				}
+				if ( _comp(position->_value.first, k) )				
+					position = position->_right;
+				else
+					position = position->_left;
+			}
+			return 0;
+		}
+     	
+		 // void erase (iterator first, iterator last);
 		 
 		void swap (map& x) {
 			map	tmp;

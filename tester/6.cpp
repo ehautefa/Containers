@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/28 16:28:06 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:31:35 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,58 @@ void	test_reverse_iterator() {
 		std::cout << "F " << rit->first << "	S " << rit->second << std::endl;
 }
 
+void	test_erase() {
+	std::cout << "\nTEST ERASE\n";
+	ft::map<char,int> mymap;
+	ft::map<char,int>::iterator it;
+
+	// insert some values:
+	mymap['a']=10;
+
+	mymap.erase('a');
+	debug(mymap);
+	
+	mymap['b']=20;
+	mymap['c']=30;
+
+	mymap.erase('b');
+	debug(mymap);
+	// mymap.debug();
+	
+	// mymap['b']=20;
+	// mymap.debug();
+	// mymap.erase('c');
+	// debug(mymap);
+	// mymap.debug();
+	// mymap.erase('b');
+	// debug(mymap);
+	
+	// mymap['a']=10;
+	// mymap['b']=20;
+	// mymap['c']=30;
+	// mymap['d']=40;
+	// mymap['e']=50;
+	// mymap['f']=60;
+
+
+	// std::cout << "\nMY MAP\n";
+	// debug(mymap);
+	// mymap.debug();
+	// it=mymap.find('b');
+	// mymap.erase ('b');                   // erasing by iterator
+	// std::cout << "\nERASE 'b' ITERATOR\n";
+	// debug(mymap);
+
+	// std::cout << "\nERASE 'c' KEY\n";
+	// mymap.erase ('c');                  // erasing by key
+	// debug(mymap);
+
+	// it=mymap.find ('e');
+	// // mymap.erase ( it, mymap.end() );    // erasing by range
+	// std::cout << "\nERASE from 'e' to end ITERATOR\n";
+	// debug(mymap);
+}
+
 int main() {
 	test_constructor();
 	test_key_comp();
@@ -231,4 +283,5 @@ int main() {
 	test_bound();
 	test_swap();
 	test_reverse_iterator();
+	test_erase();
 }
