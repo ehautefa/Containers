@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/03 15:28:15 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/03 17:32:12 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,8 @@ namespace	ft {
 			}
 			_min = k < _min || parent == NULL ? k : _min;
 			_max = k > _max || parent == NULL ? k : _max;
-			this->equilibre(new_node);
+			if (new_node->_parent)
+				this->equilibre(new_node->_parent);
 			return new_node;
 		}
 	
@@ -240,15 +241,15 @@ namespace	ft {
 		}
 
 		void	set_depth(node_type *pos) {
-			if (pos->_left && pos->_right) {
+			if (pos->_left && pos->_left != _rend && pos->_right && pos->_right != _end) {
 				pos->_delta = pos->_left->_max_depth - pos->_right->_max_depth;
 				pos->_max_depth = pos->_left->_max_depth > pos->_right->_max_depth ? pos->_left->_max_depth : pos->_right->_max_depth;
 			}
-			else if (!pos->_left && pos->_right) {
+			else if ((!pos->_left || pos->_left == _rend) && (pos->_right && pos->_right != _end)) {
 				pos->_delta = pos->_depth - pos->_right->_max_depth;
 				pos->_max_depth = pos->_right->_max_depth;
 			}
-			else if (pos->_left && !pos->_right) {
+			else if ((pos->_left && pos->_left != _rend) && (!pos->_right || pos->_right == _end)) {
 				pos->_delta = pos->_left->_max_depth - pos->_depth;
 				pos->_max_depth = pos->_left->_max_depth;
 			}
@@ -260,9 +261,9 @@ namespace	ft {
 
 		void	refresh_depth(node_type * pos) {
 			pos->_depth = pos->_parent ? pos->_parent->_depth + 1 : 0;
-			if (pos->_left)
+			if (pos->_left && pos->_left != _rend)
 				this->refresh_depth(pos->_left);
-			if (pos->_right)
+			if (pos->_right && pos->_right != _end)
 				this->refresh_depth(pos->_right);
 			this->set_depth(pos);
 		}
@@ -271,9 +272,10 @@ namespace	ft {
 			if (this->size() <= 1)
 			 return ;
 			while (pos->_parent && pos->_delta >= -1 && pos->_delta <= 1) {
-				pos = pos->_parent;
 				this->set_depth(pos);
+				pos = pos->_parent;
 			}
+			this->set_depth(pos);
 			if (pos->_delta < -1 || pos->_delta > 1) {
 				this->refresh_depth(this->rebalance(pos));
 			}
@@ -408,7 +410,7 @@ namespace	ft {
 					else if (pos == _root)
 						this->erase_root();
 					else
-						this->remove_node(pos);
+						this->erase_node(pos);
 					_size--;
 					return ;
 				}
@@ -450,36 +452,51 @@ namespace	ft {
 			}
 		}
 
-		void	remove_node(node_type	*position) {
-			node_type	*parent = position->_parent;
-			node_type	*child;
+		void	erase_node(node_type *to_erase) {
+			node_type	*to_link;
 			
-			// NO CHILD OR ONE CHILD
-			if ((!position->_right && !position->_left) || (position->_right && !position->_left) || (position->_left && !position->_right)) {
-				if (position->_right) 
-					child = position->_right;
-				else if (position->_left)
-					child = position->_left;
-				else
-					child = NULL;
-				if (child)
-					child->_parent = parent;
-				if (parent && parent->_right == position)
-					parent->_right = child;
-				else if (parent)
-					parent->_left = child;
-				_node_alloc.destroy(position);
-				_node_alloc.deallocate(position, 1);
-				if (parent)
-					this->equilibre(parent);
-			} // TWO CHILD
-			else {
-				node_type	*min_right = position->_right;
-				while (min_right->_left)
-					min_right = min_right->_left;
-				min_right->swap(*position);
-				remove_node(position);
+			if ((!to_erase->_left || to_erase->_left == _rend) && (!to_erase->_right || to_erase->_right == _end)) { // NO CHILD
+				to_link = to_erase->_parent;
+				if (to_link && to_link->_right == to_erase)
+					to_link->_right = NULL;
+				else if (to_link)
+					to_link->_left = NULL;
 			}
+			else if ((!to_erase->_left || to_erase->_left == _rend)) { // NO CHILD LEFT
+				to_link = to_erase->_right;
+				to_link->_parent = to_erase->_parent;
+				if (to_erase->_parent && to_erase->_parent->_right == to_erase)
+					to_erase->_parent->_right = to_link;
+				else if (to_erase->_parent)
+					to_erase->_parent->_left = to_link;
+			}
+			else if ((!to_erase->_right || to_erase->_right == _rend)) { // NO CHILD RIGHT
+				to_link = to_erase->_left;
+				to_link->_parent = to_erase->_parent;
+				if (to_erase->_parent && to_erase->_parent->_right == to_erase)
+					to_erase->_parent->_right = to_link;
+				else if (to_erase->_parent)
+					to_erase->_parent->_left = to_link;
+			}
+			else { // TWO CHILD
+				to_link = to_erase->_right;
+				while (to_link->_left) // FIN MINIMUM RIGHT SUBTREE
+					to_link = to_link->_left;
+				to_link->_right = to_erase->_right == to_link ? to_link->_right : to_erase->_right;
+				to_link->_parent->_left = to_link->_parent->_left == to_link ? NULL : to_link->_parent->_left;
+				to_link->_parent->_right = to_link->_parent->_right == to_link ? NULL : to_link->_parent->_right;
+				to_link->_parent = to_erase->_parent;
+				to_link->_parent->_left = to_link->_parent->_left == to_erase ? to_link : to_link->_parent->_left;
+				to_link->_parent->_right = to_link->_parent->_right == to_erase ? to_link : to_link->_parent->_right;
+				to_link->_left = to_erase->_left;
+				if (to_link->_left)
+					to_link->_left->_parent = to_link;
+				if (to_link->_right)
+					to_link->_right->_parent = to_link;
+			}
+			this->destroy_node(to_erase);
+			this->refresh_depth(to_link);
+			this->equilibre(to_link);			
 		}
 		
 		size_type erase (const key_type& k) {
@@ -491,7 +508,7 @@ namespace	ft {
 					if(position == _root)
 						this->erase_root();
 					else
-						this->remove_node(position);
+						this->erase_node(position);
 					_size--;
 					return 1;
 				}

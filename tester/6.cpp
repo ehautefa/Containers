@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/03 15:28:48 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/03 17:35:14 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,9 +222,38 @@ void	test_reverse_iterator() {
 }
 
 void	test_erase() {
+	ft::map<int, int> map;
+	ft::map<int, int>::iterator it;
+	
+	map[-898] = 0;
+	map[78] = 1;
+	map[6] = 2;
+	map[54] = 3;
+	map[5] = 4;
+	map[123] = 5;
+	map[7] = 6;
+	map[-6] = 7;
+	map[-89] = 8;
+	map[7896] = 9;
+
+	debug(map);
+	it = map.find(78);
+	map.erase(it);
+	debug(map);
+	it = map.find(6);
+	map.erase(it);
+	debug(map);
+	it = map.find(-6);
+	map.erase(it);
+	debug(map);
+	it = map.find(54);
+	map.erase(it);
+	debug(map);
+}
+
+void	test_erase_root() {
 	std::cout << "\nTEST ERASE\n";
 	ft::map<char,int> mymap;
-	ft::map<char,int>::iterator it;
 
 	// insert some values:
 	mymap['a']=10;
@@ -253,29 +282,24 @@ void	test_erase() {
 
 	std::cout << "\nMY MAP\n";
 	debug(mymap);
-	it=mymap.find('b');
-	mymap.erase ('b');              // erasing by iterator
+	mymap.erase ('b');   
 	std::cout << "\nERASE 'b' ITERATOR\n";
 	debug(mymap);
 	std::cout << "\nERASE 'c' KEY\n";
-	mymap.erase ('c');                  // erasing by key
+	mymap.erase ('c');
 	debug(mymap);
-
-	// it=mymap.find ('e');
-	// // mymap.erase ( it, mymap.end() );    // erasing by range
-	// std::cout << "\nERASE from 'e' to end ITERATOR\n";
-	// debug(mymap);
 }
 
 int main() {
-	// test_constructor();
-	// test_key_comp();
-	// test_operator();
-	// test_count();
-	// test_iterator();
-	// test_insert();
-	// test_bound();
-	// test_swap();
-	// test_reverse_iterator();
+	test_constructor();
+	test_key_comp();
+	test_operator();
+	test_count();
+	test_iterator();
+	test_insert();
+	test_bound();
+	test_swap();
+	test_reverse_iterator();
+	test_erase_root();
 	test_erase();
 }
