@@ -34,7 +34,7 @@ MAP								❌
 		count			✅					
 		empty			✅
 		equal_range		❌
-		erase			❌
+		erase			✅
 		find			✅
 		get_allocator	✅			
 		insert			✅

@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/03 17:51:09 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/03 18:03:46 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -591,11 +591,11 @@ namespace	ft {
 		
 		// pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
 		
-		// pair<iterator,iterator> equal_range (const key_type& k) {
-			
-		// }
+		pair<iterator,iterator> equal_range (const key_type& k) {
+			return (make_pair<iterator,iterator>(lower_bound(k), upper_bound(k)));
+		}
 		
-		iterator lower_bound (const key_type& k) {
+		iterator lower_bound (const key_type& k	) {
 			node_type	*position = _root;
 				
 			while ( position && position != _end && position != _rend ) {
