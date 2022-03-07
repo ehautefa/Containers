@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/03 18:03:46 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/07 14:37:54 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ namespace	ft {
 			typedef	typename allocator_type::pointer							pointer;
 			typedef	typename allocator_type::const_pointer						const_pointer;
 			typedef	typename ft::map_iterator<node_type>						iterator;
-			// typedef const Type*												const_iterator;
+			typedef typename ft::const_map_iterator<node_type>					const_iterator;
 			typedef typename ft::map_reverse_iterator<iterator> 				reverse_iterator;
-			// typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+			typedef typename ft::map_reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef typename std::size_t										size_type;
 			typedef typename std::ptrdiff_t										difference_type;
 		
@@ -294,11 +294,19 @@ namespace	ft {
 			return (iterator(pos));
 		}
 		
-		// const_iterator begin() const;
+		const_iterator begin() const {
+			node_type	*pos = _root;
+			
+			if (this->empty())
+				return _end;
+			while (pos->_left && pos->_left != _rend)
+				pos = pos->_left;
+			return (iterator(pos));
+		}
 		
 		iterator end() { return (_end); }
 		
-		// const_iterator end() const;
+		const_iterator end() const { return (_end); }
 		
 		reverse_iterator rbegin() {
 			node_type	*pos = _root;
@@ -310,11 +318,19 @@ namespace	ft {
 			return (reverse_iterator(iterator(pos)));
 		}
 		
-		// const_reverse_iterator rbegin() const;
+		const_reverse_iterator rbegin() const {
+			node_type	*pos = _root;
+			
+			if (this->empty())
+				return reverse_iterator(iterator(_rend));
+			while (pos->_right && pos->_right != _end)
+				pos = pos->_right;
+			return (reverse_iterator(iterator(pos)));
+		}
 		
 		reverse_iterator rend() { return reverse_iterator(iterator(_rend)++); }
 		
-		// const_reverse_iterator rend() const;
+		const_reverse_iterator rend() const { return reverse_iterator(iterator(_rend)++); }
 		
 		/****************~CAPACITY~****************/
 		bool empty() const { if (_size == 0) {return (true);} return false;}
@@ -377,6 +393,8 @@ namespace	ft {
 				first++;
 			}
 		}
+		
+		private:
 		
 		void	destroy_node(node_type *pos) {
 			node_type	*p = _root;
@@ -467,6 +485,8 @@ namespace	ft {
 			this->refresh_depth(to_link);
 			this->equilibre(to_link);			
 		}
+
+		public:
 		
 		size_type	erase (const key_type& k) {
 			node_type	*position = _root;
@@ -575,21 +595,23 @@ namespace	ft {
 			return this->end();
 		}
 		
-		// const_iterator find (const key_type& k) const {
-		// 	node_type	*position = _root;
+		const_iterator find (const key_type& k) const {
+			node_type	*position = _root;
 				
-		// 	while ( position && position != _end && position != _rend ) {
-		// 		if ( position->_value.first == k )
-		// 			return (const_iterator(position));
-		// 		if ( _comp(position->_value.first, k) )				
-		// 			position = position->_right;
-		// 		else
-		// 			position = position->_left;
-		// 	}				
-		// 	return this->end();
-		// }
+			while ( position && position != _end && position != _rend ) {
+				if ( position->_value.first == k )
+					return (const_iterator(position));
+				if ( _comp(position->_value.first, k) )				
+					position = position->_right;
+				else
+					position = position->_left;
+			}				
+			return this->end();
+		}
 		
-		// pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
+		pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
+			return (make_pair<const_iterator,const_iterator>(lower_bound(k), upper_bound(k)));
+		}
 		
 		pair<iterator,iterator> equal_range (const key_type& k) {
 			return (make_pair<iterator,iterator>(lower_bound(k), upper_bound(k)));
@@ -609,10 +631,22 @@ namespace	ft {
 			return iterator(position);
 		}
 		
-		// const_iterator lower_bound (const key_type& k) const;
+		const_iterator lower_bound (const key_type& k) const {
+			node_type	*position = _root;
+				
+			while ( position && position != _end && position != _rend ) {
+				if ( position->_value.first == k )
+					return (iterator(position));
+				if ( _comp(position->_value.first, k) )				
+					position = position->_right;
+				else
+					position = position->_left;
+			}				
+			return const_iterator(position);
+		}
 		
 		iterator upper_bound (const key_type& k) {
-		node_type	*position = _root;
+			node_type	*position = _root;
 				
 			while ( position && position != _end && position != _rend ) {
 				if ( position->_value.first == k )
@@ -625,7 +659,19 @@ namespace	ft {
 			return iterator(position);
 		}
 					
-		// const_iterator upper_bound (const key_type& k) const;
+		const_iterator upper_bound (const key_type& k) const {
+			node_type	*position = _root;
+				
+			while ( position && position != _end && position != _rend ) {
+				if ( position->_value.first == k )
+					return (++(iterator(position)));
+				if ( _comp(position->_value.first, k) )				
+					position = position->_right;
+				else
+					position = position->_left;
+			}				
+			return iterator(position);
+		}
 		
 		/****************~OBSERVERS~****************/
 		key_compare key_comp() const { return (_comp); }

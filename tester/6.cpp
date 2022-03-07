@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/03 17:53:07 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/07 14:38:28 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,21 @@ void	test_erase() {
 	debug(map);
 	map.erase(map.begin(), map.end());
 	debug(map);
+}
+
+void	test_const_iterator() {
+	ft::map<int, int> map;
+	
+	map[1] = 32;
+	map[-28] = 112;
+	map[99] = 21474836;
+	map[5] = 47;
+
+	// ft::map<int, int>::const_iterator it = map.begin();
+	// ft::map<int, int>::const_iterator ite = map.end();
+	// for (; it != ite; it++) {
+	// 	std::cout << it->first << " ";
+	// }
 }
 
 void	test_erase_root() {

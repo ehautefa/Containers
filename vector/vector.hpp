@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/11 14:57:03 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:14:09 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ namespace	ft
 				value_type	old_value;
 				value_type	tmp		= val;
 
-				if (position == this->end()) { this->push_back(val); return this->end();}
+				if (position == this->end()) { this->push_back(val); return (this->end() - 1);}
 				_capacity = _capacity == 0 ? 1 : _capacity;
 				if (_size + 1 > _capacity) {
 					try { this->reserve(_capacity * 2); }
@@ -357,9 +357,10 @@ namespace	ft
 
 			/************* ~SWAP~ *************/
 			void swap (vector& x) {
-				vector	tmp = x;
-				x = *this;
-				*this = tmp;
+				ft::swap(_arr, x._arr);
+				ft::swap(_alloc, x._alloc);
+				ft::swap(_size, x._size);
+				ft::swap(_capacity, x._capacity);
 			}
 
 			void	debug()
@@ -374,9 +375,7 @@ namespace	ft
 	/************* ~SWAP~ *************/
 	template <class T, class Alloc>
 	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {
-		vector<T,Alloc>	tmp = x;
-		x = y;
-		y = tmp;
+		x.swap(y);
 	}
 
 	/************* ~RELATIONAL OPERATOR~ *************/
