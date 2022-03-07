@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 16:34:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/09 17:30:17 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:51:45 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,14 @@ namespace	ft {
 		value_type& 		top() 							{ return( c.back() ); }
 		const value_type&	top() const 					{ return( c.back() ); }
 
-		bool operator== (const stack & rhs) { return(this->c == rhs.c); }
-  		bool operator!= (const stack & rhs) { return(this->c != rhs.c); }
-  		bool operator<  (const stack & rhs) { return(this->c <  rhs.c); }	
-  		bool operator<= (const stack & rhs) { return(this->c <= rhs.c); }	
-  		bool operator>  (const stack & rhs) { return(this->c >  rhs.c); }
-  		bool operator>= (const stack & rhs) { return(this->c >= rhs.c); }
-	};		
+		friend bool operator== (const stack & lhs, const stack & rhs) { return(lhs.c == rhs.c); }
+		friend bool operator!= (const stack & lhs, const stack & rhs) { return(lhs.c != rhs.c); }
+		friend bool operator<  (const stack & lhs, const stack & rhs) { return(lhs.c <  rhs.c); }
+		friend bool operator<= (const stack & lhs, const stack & rhs) { return(lhs.c <= rhs.c); }
+		friend bool operator>  (const stack & lhs, const stack & rhs) { return(lhs.c >  rhs.c); }
+		friend bool operator>= (const stack & lhs, const stack & rhs) { return(lhs.c >= rhs.c); }
+	};
+
 }
 
 #endif
