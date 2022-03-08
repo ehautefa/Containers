@@ -13,9 +13,7 @@
 #ifndef MAP_CONST_ITERATOR_HPP
 #define MAP_CONST_ITERATOR_HPP
 
-#include "../utils/iterator_traits.hpp"
-#include "../map/node.hpp"
-#include "map_iterator.hpp"
+
 
 namespace	ft {
 	template < class Node >

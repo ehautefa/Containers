@@ -13,7 +13,7 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
-#include "../vector/vector.hpp"
+#include "vector.hpp"
 
 namespace	ft {
 	template <class T, class Container = vector<T> >

@@ -9,7 +9,7 @@
 	#include <vector>
 	namespace ft = std;
 #else
-	#include "../vector/vector.hpp"
+	#include "../vector.hpp"
 #endif
 
 template<class T>
@@ -20,6 +20,31 @@ void debug(ft::vector<T>& v) {
 	std::cout << "\n_size: " << v.size() << std::endl;
 	std::cout << "_capacity: " << v.capacity() << std::endl;
 	std::cout << std::endl;
+}
+
+void	test_maz_insert() {
+	std::cout << "HERE\n";
+	ft::vector<int> myvector (3,100);
+	ft::vector<int>::iterator it;
+
+	it = myvector.begin();
+	it = myvector.insert ( it , 200 );
+
+	myvector.insert (it,2,300);
+
+	// "it" no longer valid, get a new one:
+	it = myvector.begin();
+
+	ft::vector<int> anothervector (2,400);
+	myvector.insert (it+2,anothervector.begin(),anothervector.end());
+
+	int myarray [] = { 501,502,503 };
+	myvector.insert (myvector.begin(), myarray, myarray+3);
+
+	std::cout << "myvector contains:";
+	for (it=myvector.begin(); it<myvector.end(); it++)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
 }
 
 void test_push_back() {
@@ -191,7 +216,8 @@ int 	main() {
 	test_swap();
 	test_assign();
 	test_insert();
-	test_iterator();
-	test_erase();
-	test_operator();
+	// test_iterator();
+	// test_erase();
+	// test_operator();
+	// test_maz_insert();
 }

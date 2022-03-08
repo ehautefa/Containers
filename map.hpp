@@ -13,10 +13,10 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include "node.hpp"
-#include "map_iterator.hpp"
-#include "map_reverse_iterator.hpp"
-#include "map_const_iterator.hpp"
+#include "map/node.hpp"
+#include "map/map_iterator.hpp"
+#include "map/map_reverse_iterator.hpp"
+#include "map/map_const_iterator.hpp"
 
 namespace	ft {
 	
@@ -36,7 +36,7 @@ namespace	ft {
 			typedef	typename allocator_type::pointer							pointer;
 			typedef	typename allocator_type::const_pointer						const_pointer;
 			typedef	typename ft::map_iterator<node_type>						iterator;
-			typedef typename ft::const_map_iterator<node_type>					const_iterator;
+			typedef typename ft::map_iterator<node_type>						const_iterator;
 			typedef typename ft::map_reverse_iterator<iterator> 				reverse_iterator;
 			typedef typename ft::map_reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef typename std::size_t										size_type;

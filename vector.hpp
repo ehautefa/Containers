@@ -16,12 +16,12 @@
 #include <iostream>
 #include <iterator>
 #include <cstdlib>
-#include "vector_iterator.hpp"
-#include "../utils/enable_if.hpp"
-#include "../utils/utils.hpp"
-#include "../utils/is_integral.hpp"
-#include "../utils/compare.hpp"
-#include "../utils/iterator_traits.hpp"
+#include "vector/vector_iterator.hpp"
+#include "utils/enable_if.hpp"
+#include "utils/utils.hpp"
+#include "utils/is_integral.hpp"
+#include "utils/compare.hpp"
+#include "utils/iterator_traits.hpp"
 
 
 namespace	ft
@@ -218,20 +218,24 @@ namespace	ft
 				value_type	old_value;
 				value_type	tmp		= val;
 
-				if (position == this->end()) { this->push_back(val); return (this->end() - 1);}
+				std::cout << "here " << position << " " <<  this ->end() <<std::endl;
+				if (position >= this->end()) { this->push_back(val); return (this->end() - 1);}
 				_capacity = _capacity == 0 ? 1 : _capacity;
+				std::cout << "here" <<std::endl;
 				if (_size + 1 > _capacity) {
 					try { this->reserve(_capacity * 2); }
 					catch (std::exception & e) { throw std::length_error("vector::_M_fill_insert");}
 				}
 				iterator	to_ret	= &_arr[ft::distance(this->begin(), position)];
 				_size++;
+				std::cout << "here" <<std::endl;
 				for (position = to_ret; position != this->end(); ++position) {
 					old_value = tmp;
 					tmp = *position;
 					_alloc.destroy(position);
 					_alloc.construct(position, old_value);
 				}
+				std::cout << "here" <<std::endl;
 				return (to_ret);
 			}
 

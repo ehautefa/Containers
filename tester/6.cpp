@@ -21,7 +21,7 @@
 	#include <vector>
 	namespace ft = std;
 #else
-	#include "../map/map.hpp"
+	#include "../map.hpp"
 #endif
 
 template <class Key, class T>
