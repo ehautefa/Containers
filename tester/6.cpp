@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/10 18:36:13 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/10 20:41:53 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,16 +311,34 @@ void	test_erase_root() {
 	debug(mymap);
 }
 
+void	test_value_comp() {
+	ft::map<char,int> mymap;
+
+	mymap['x']=1001;
+	mymap['y']=2002;
+	mymap['z']=3003;
+
+	std::cout << "mymap contains:\n";
+
+	ft::pair<char,int> highest = *mymap.rbegin();          // last element
+
+	ft::map<char,int>::iterator it = mymap.begin();
+	do {
+		std::cout << it->first << " => " << it->second << '\n';
+	} while ( mymap.value_comp()(*it++, highest) );
+}
+
 int main() {
-	// test_constructor();
-	// test_key_comp();
-	// test_operator();
-	// test_count();
-	// test_iterator();
-	// test_insert();
+	test_constructor();
+	test_key_comp();
+	test_operator();
+	test_count();
+	test_iterator();
+	test_insert();
 	test_bound();
-	// test_swap();
-	// test_reverse_iterator();
-	// test_erase_root();
-	// test_erase();
+	test_swap();
+	test_reverse_iterator();
+	test_erase_root();
+	test_erase();
+	test_value_comp();
 }

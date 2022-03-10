@@ -34,7 +34,7 @@ then
 		printf "$BOLDRED Check $1 : [error]$RESET\n"
 	fi
 else
-	NB_TEST=7
+	NB_TEST=9
 	index=1
 	while ((index < NB_TEST))
 	do

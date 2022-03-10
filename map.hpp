@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/10 19:15:18 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/10 20:42:21 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,19 @@ namespace	ft {
 			typedef typename ft::map_reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef typename std::size_t										size_type;
 			typedef typename std::ptrdiff_t										difference_type;
+
+			class value_compare
+			{
+				friend class map<Key, T, Compare, Alloc>;
+				protected:
+					Compare  comp;
+					value_compare(Compare c) : comp(c) {}
+				public:
+					bool operator()(const value_type & x, const value_type & y) const
+					{ return comp(x.first, y.first); }
+			};
+
+			
 		
 		private:
 			node_type			*_root;
@@ -559,11 +572,15 @@ namespace	ft {
 		 }
 		 
 		void swap (map& x) {
-			map	tmp;
-			
-			tmp = *this;
-			*this = x;
-			x = tmp;
+			ft::swap(_root, x._root);
+			ft::swap(_rend, x._rend);
+			ft::swap(_end, x._end);
+			ft::swap(_min, x._min);
+			ft::swap(_max, x._max);
+			ft::swap(_size, x._size);
+			ft::swap(_alloc, x._alloc);
+			ft::swap(_node_alloc, x._node_alloc);
+			ft::swap(_comp, x._comp);
 		}
 
 		
@@ -615,11 +632,11 @@ namespace	ft {
 		}
 		
 		pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
-			return (make_pair<const_iterator,const_iterator>(lower_bound(k), upper_bound(k)));
+			return (ft::make_pair<const_iterator,const_iterator>(lower_bound(k), upper_bound(k)));
 		}
 		
 		pair<iterator,iterator> equal_range (const key_type& k) {
-			return (make_pair<iterator,iterator>(lower_bound(k), upper_bound(k)));
+			return (ft::make_pair<iterator,iterator>(lower_bound(k), upper_bound(k)));
 		}
 		
 		iterator lower_bound (const key_type& k	) {
@@ -689,9 +706,7 @@ namespace	ft {
 		/****************~OBSERVERS~****************/
 		key_compare key_comp() const { return (_comp); }
 		
-		// value_compare value_comp() const {
-			
-		// }
+		value_compare value_comp() const { return value_compare(_comp); }
 
 		void	debug() {
 			std::cout << "SIZE: " << _size << std::endl;
@@ -737,9 +752,7 @@ namespace	ft {
 	
 	template <class Key, class T, class Compare, class Alloc> 
 	void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y) {
-		map<Key,T,Compare,Alloc>	tmp = x;
-		x = y;
-		y = tmp;
+		x.swap(y);
 	}
 } // namespace ft
 
