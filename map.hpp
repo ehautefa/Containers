@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/10 20:42:21 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/10 21:43:31 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ namespace	ft {
 			
 		
 		private:
-			node_type			*_root;
-			node_type			*_rend;
-			node_type			*_end;
-			key_type			_min;
-			key_type			_max;
-			size_type			_size;
-			allocator_type		_alloc;
-			node_allocator_type	_node_alloc;
-			key_compare			_comp;
+			node_type				*_root;
+			node_type				*_rend;
+			node_type				*_end;
+			key_type				_min;
+			key_type				_max;
+			size_type				_size;
+			allocator_type			_alloc;
+			node_allocator_type		_node_alloc;
+			key_compare				_comp;
 
 			
 	
@@ -89,14 +89,13 @@ namespace	ft {
 			_size = 0;
 			_comp = comp;
 			_alloc = alloc;
+			_root = NULL;
+			_end = NULL;
+			_rend = NULL;
+			_min = 0;
+			_max = 0;
 
-			while (first != last)
-			{
-				*this[*first.value_type.first] = *first.value_type.second;
-				first++;
-				_size++;
-			}
-			this->_init_leaf();
+			insert(first, last);
 		}
 		
 		~map() { this->clear(); }
@@ -351,7 +350,7 @@ namespace	ft {
 		/****************~CAPACITY~****************/
 		bool empty() const { if (_size == 0) {return (true);} return false;}
 		size_type size() const { return _size; }
-		size_type max_size() const { return (_alloc.max_size()); }
+		size_type max_size() const { return (_node_alloc.max_size()); }
 		
 		/****************~MOFIFIERS~****************/
 		void clear() {
@@ -381,13 +380,13 @@ namespace	ft {
 			node_type	*position = _root;
 			node_type	*parent = NULL;
 			size_type	depth = 0;
-				
+			
 			if (this->empty() && _end == NULL && _rend == NULL)
 				this->_init_leaf();
 			while ( position && position != _end && position != _rend ) {
 				parent = position;						
-				if (position->_value.first == val.first)
-					return (ft::make_pair<iterator, bool>(iterator(position), false));
+				if (position->_value.first == val.first) {
+					return (ft::make_pair<iterator, bool>(iterator(position), false));}
 				if (_comp(position->_value.first, val.first)) // position key < k
 					position = position->_right;
 				else
@@ -708,23 +707,7 @@ namespace	ft {
 		
 		value_compare value_comp() const { return value_compare(_comp); }
 
-		void	debug() {
-			std::cout << "SIZE: " << _size << std::endl;
-			if (_root) {
-			node_type	*pos = _root;
-			pos->debug(0, ' ');
-			}
-		}
-
 	}; // class map
-
-	template <class Key, class Compare>
-	bool	operator== ( Key const & lhs, Key const & rhs) {
-		std::cout << "using == surcharge\n";
-		if (Compare(lhs, rhs) || Compare(rhs, lhs))
-			return false;
-		return true;
-	}
 
 	template <class Key, class T, class Compare, class Alloc> 
 	bool operator== ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {

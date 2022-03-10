@@ -27,13 +27,23 @@ Random access: elements accessed in any order, may store and retrieve values, pr
 
 #############		TO DO			#############
 
+TESTER
+	VECTOR
+		reverse iterator mly		❌
+		const reverse iterator mly	❌
+	MAP
+		compilation mly				❌
+		const iterator				❌
+		monkey tester				❌
+		comprendre value comp		❌
 
-MAP								❌
-	member fcts				❌
+
+MAP								✅
+	member fcts				✅
 		clear			✅					
 		count			✅					
 		empty			✅
-		equal_range		❌
+		equal_range		✅
 		erase			✅
 		find			✅
 		get_allocator	✅			
@@ -42,7 +52,7 @@ MAP								❌
 		max_size		✅			
 		size			✅
 		swap			✅
-		value_comp		❌
+		value_comp		✅
 	Iterator				✅
 		begin			✅		
 		end				✅
