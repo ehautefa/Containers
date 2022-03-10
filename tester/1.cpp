@@ -8,7 +8,7 @@
 	#include <vector>
 	namespace ft = std;
 #else
-	#include "../vector/vector.hpp"
+	#include "../vector.hpp"
 #endif
 
 void	debug_main(ft::vector<int> & v)

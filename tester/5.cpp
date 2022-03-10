@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 16:57:17 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/09 17:33:26 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/10 11:40:10 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 	#include <vector>
 	namespace ft = std;
 #else
-	#include "../stack/stack.hpp"
+	#include "../stack.hpp"
 #endif
 
 void	debug(ft::stack<int, ft::vector<int> > &stk) {

@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/07 16:35:32 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/10 16:08:46 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ namespace ft
 		typedef	iterator												iterator_type;
 		
 		private:
-			pointer	_ptr;
+			iterator_type	_ptr;
 		
 		public:
 
 		/**** CONSTRUCTOR ****/
-		reverse_iterator( void ) {}
+		reverse_iterator( void ) : _ptr() {}
 		explicit reverse_iterator( iterator_type it ) : _ptr(it - 1) {}
 		template <class Iter>
   		reverse_iterator (const reverse_iterator<Iter>& src) : _ptr(src.base()) {}

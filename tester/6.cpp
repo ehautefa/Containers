@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:41:10 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/07 16:47:11 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/10 18:36:13 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,16 +171,18 @@ void	test_bound() {
 	mymap['a']=20;
 	mymap['b']=40;
 	mymap['c']=60;
-	mymap['d']=80;
-	mymap['e']=100;
+	mymap['e']=80;
+	mymap['f']=100;
 
-	itlow=mymap.lower_bound ('b');  // itlow points to b
+	itlow=mymap.lower_bound ('d');  // itlow points to b
 	itup=mymap.upper_bound ('d');   // itup points to e (not d!)
 
-	debug<char, int>(mymap);
-	ft::map<char,int> anothermap;
-  	anothermap.insert(itlow, itup);
-	debug<char, int>(anothermap);
+	mymap.erase(itlow,itup);        // erases [itlow,itup)
+
+	// print content:
+	for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+
 }
 
 void	test_swap() {
@@ -310,15 +312,15 @@ void	test_erase_root() {
 }
 
 int main() {
-	test_constructor();
-	test_key_comp();
-	test_operator();
-	test_count();
-	test_iterator();
-	test_insert();
+	// test_constructor();
+	// test_key_comp();
+	// test_operator();
+	// test_count();
+	// test_iterator();
+	// test_insert();
 	test_bound();
-	test_swap();
-	test_reverse_iterator();
-	test_erase_root();
-	test_erase();
+	// test_swap();
+	// test_reverse_iterator();
+	// test_erase_root();
+	// test_erase();
 }

@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/07 16:08:24 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/10 19:15:18 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ namespace	ft {
 			node_type	*parent = NULL;
 			size_type	depth = 0;
 
+			if (this->empty() && _end == NULL && _rend == NULL)
+				this->_init_leaf();
 			while ( position && position != _end && position != _rend ) {
 				parent = position;						
 				if (position->_value.first == k)
@@ -347,7 +349,7 @@ namespace	ft {
 				_end = NULL;
 				_rend = NULL;
 			}
-			else { 
+			else {
 				if (this->_end) {
 					_node_alloc.destroy(this->_end);
 					_node_alloc.deallocate(this->_end, 1);
@@ -367,6 +369,8 @@ namespace	ft {
 			node_type	*parent = NULL;
 			size_type	depth = 0;
 				
+			if (this->empty() && _end == NULL && _rend == NULL)
+				this->_init_leaf();
 			while ( position && position != _end && position != _rend ) {
 				parent = position;						
 				if (position->_value.first == val.first)
@@ -536,7 +540,7 @@ namespace	ft {
 			node_type	*pos = _root;
 			iterator	tmp;
 			
-			while ( pos && pos != _end && pos != _rend ) {
+			while ( pos && first != last && pos != _end && pos != _rend ) {
 				if ( pos->_value.first == (*first).first)
 				{
 					while (first != last) {
@@ -624,10 +628,12 @@ namespace	ft {
 			while ( position && position != _end && position != _rend ) {
 				if ( position->_value.first == k )
 					return (iterator(position));
-				if ( _comp(position->_value.first, k) )				
+				if ( position->_right && _comp(position->_value.first, k) )				
 					position = position->_right;
-				else
+				else if (position->_left && position->_left != _rend && !_comp(position->_value.first, k))
 					position = position->_left;
+				else
+					return (iterator(position));
 			}				
 			return iterator(position);
 		}
@@ -638,12 +644,14 @@ namespace	ft {
 			while ( position && position != _end && position != _rend ) {
 				if ( position->_value.first == k )
 					return (iterator(position));
-				if ( _comp(position->_value.first, k) )				
+				if ( position->_right && _comp(position->_value.first, k) )				
 					position = position->_right;
-				else
+				else if (position->_left && position->_left != _rend && !_comp(position->_value.first, k))
 					position = position->_left;
+				else
+					return (iterator(position));
 			}				
-			return const_iterator(position);
+			return iterator(position);
 		}
 		
 		iterator upper_bound (const key_type& k) {
@@ -652,10 +660,12 @@ namespace	ft {
 			while ( position && position != _end && position != _rend ) {
 				if ( position->_value.first == k )
 					return (++(iterator(position)));
-				if ( _comp(position->_value.first, k) )				
+				if ( position->_right && _comp(position->_value.first, k) )				
 					position = position->_right;
-				else
+				else if (position->_left && position->_left != _rend && !_comp(position->_value.first, k))
 					position = position->_left;
+				else
+					return (iterator(position));
 			}				
 			return iterator(position);
 		}
@@ -666,10 +676,12 @@ namespace	ft {
 			while ( position && position != _end && position != _rend ) {
 				if ( position->_value.first == k )
 					return (++(iterator(position)));
-				if ( _comp(position->_value.first, k) )				
+				if ( position->_right && _comp(position->_value.first, k) )				
 					position = position->_right;
-				else
+				else if (position->_left && position->_left != _rend && !_comp(position->_value.first, k))
 					position = position->_left;
+				else
+					return (iterator(position));
 			}				
 			return iterator(position);
 		}
