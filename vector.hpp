@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:11:18 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/07 15:14:09 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/10 11:07:23 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,25 +217,22 @@ namespace	ft
 			iterator insert (iterator position, const value_type& val) {
 				value_type	old_value;
 				value_type	tmp		= val;
+				difference_type		index = ft::distance(this->begin(), position);
 
-				std::cout << "here " << position << " " <<  this ->end() <<std::endl;
 				if (position >= this->end()) { this->push_back(val); return (this->end() - 1);}
 				_capacity = _capacity == 0 ? 1 : _capacity;
-				std::cout << "here" <<std::endl;
 				if (_size + 1 > _capacity) {
 					try { this->reserve(_capacity * 2); }
 					catch (std::exception & e) { throw std::length_error("vector::_M_fill_insert");}
 				}
-				iterator	to_ret	= &_arr[ft::distance(this->begin(), position)];
+				iterator	to_ret	= &_arr[index];
 				_size++;
-				std::cout << "here" <<std::endl;
 				for (position = to_ret; position != this->end(); ++position) {
 					old_value = tmp;
 					tmp = *position;
 					_alloc.destroy(position);
 					_alloc.construct(position, old_value);
 				}
-				std::cout << "here" <<std::endl;
 				return (to_ret);
 			}
 
@@ -244,6 +241,8 @@ namespace	ft
 				size_t	cap			= _capacity;
 				size_t 	i			= ft::distance(this->begin(), position);
 
+				if (n == 0)
+					return ;
 				if (position == this->end()) { 
 					for (size_t i = 0; i < n; i++)
 						this->push_back(val);
@@ -332,7 +331,7 @@ namespace	ft
 
 			void reserve (size_type n) {
 				if (n > this->max_size())
-					throw std::length_error("vector::_M_fill_insert");
+					throw std::length_error("vector::reserve");
 				else if (n > _capacity)
 				{
 					vector	tmp = *this;
@@ -347,7 +346,8 @@ namespace	ft
 			}
 
 			void	pop_back() {
-				this->resize(_size - 1);
+				_size--;
+				_alloc.destroy(&_arr[_size]);
 			}
 			
 			void push_back (const value_type& val) {

@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:29:13 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/21 17:05:37 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/10 10:22:19 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,6 @@ namespace	ft {
 			typedef const T&					reference;
 
 	};
-
-	template<class InputIterator>
-  	typename iterator_traits<InputIterator>::difference_type distance (InputIterator first, InputIterator last) {
-		typename iterator_traits<InputIterator>::difference_type	to_ret = 0;
-		for (; first != last; first++)
-			to_ret++;
-		return (to_ret);
-	  }
 
 }
 

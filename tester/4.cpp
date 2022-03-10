@@ -18,7 +18,6 @@ void debug(ft::vector<T>& v) {
 	for (size_t i=0; i<v.size(); i++)
 		std::cout << v[i] << (i != v.size() - 1 ? ", " : "");
 	std::cout << "\n_size: " << v.size() << std::endl;
-	std::cout << "_capacity: " << v.capacity() << std::endl;
 	std::cout << std::endl;
 }
 
@@ -149,6 +148,7 @@ void test_insert() {
 	ft::vector<int> v(10, 3);
 	std::deque<int> d(10, 9);
 
+	debug(v);
 	v.insert(v.begin() + 2, 4);
 	debug(v);
 	v.insert(v.begin() + 5, 4, 5);
@@ -216,8 +216,8 @@ int 	main() {
 	test_swap();
 	test_assign();
 	test_insert();
-	// test_iterator();
-	// test_erase();
-	// test_operator();
-	// test_maz_insert();
+	test_iterator();
+	test_erase();
+	test_operator();
+	test_maz_insert();
 }
