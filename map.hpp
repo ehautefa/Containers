@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/16 19:27:08 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 19:45:06 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,16 +171,16 @@ namespace	ft {
 				parent->_right = new_node;
 			else
 				parent->_left = new_node;
-			if (k < _min || _size <= 1) {
+			if (_comp(k, _min) || _size <= 1) {
 				new_node->_left = _rend;
 				_rend->_parent = new_node;
 			}
-			if (k > _max || _size <= 1) {
+			if (_comp(_max, k) || _size <= 1) {
 				new_node->_right = _end;
 				_end->_parent = new_node;
 			}
-			_min = k < _min || parent == NULL ? k : _min;
-			_max = k > _max || parent == NULL ? k : _max;
+			_min =_comp(k, _min) || parent == NULL ? k : _min;
+			_max = _comp(_max, k) || parent == NULL ? k : _max;
 			if (new_node->_parent)
 				this->equilibre(new_node->_parent);
 			return new_node;
