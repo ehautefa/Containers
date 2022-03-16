@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/16 19:31:30 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 20:38:58 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ namespace ft
 		typedef typename iterator_traits<iterator>::difference_type		difference_type;
 		typedef typename iterator_traits<iterator>::pointer			  	pointer;
 		typedef typename iterator_traits<iterator>::reference			reference;
-		// typedef typename iterator_traits<iterator>::iterator_category  	iterator_category;
+		typedef typename iterator_traits<iterator>::category 		 	iterator_category;
 		typedef	iterator												iterator_type;
 		
 		private:
@@ -50,7 +50,6 @@ namespace ft
 
 		/**** OPERATOR ****/
 		reference			operator*()			{ return (*_ptr); }
-		const reference		operator*() const 	{ return (*_ptr); }
 		reverse_iterator	operator+ (difference_type n) const { return (reverse_iterator(_ptr - n + 1));}
 
 		reverse_iterator	&operator++() {--_ptr;return *this;}
@@ -65,7 +64,6 @@ namespace ft
 		reverse_iterator	&operator-=( value_type n ) { _ptr = _ptr + n; return(*this);}
 
 		pointer				operator->() 		{ return &(operator*()); }
-		const pointer		operator->() const 	{ return &(operator*()); }
 		reference	operator[] ( difference_type n ) const {return (base()[-n-1]);}
 	};
 

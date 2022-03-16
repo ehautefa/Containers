@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/16 19:45:06 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 20:40:50 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "map/node.hpp"
 #include "map/map_iterator.hpp"
+#include "map/map_reverse_iterator.hpp"
 #include "utils/reverse_iterator.hpp"
 
 namespace	ft {
@@ -36,8 +37,8 @@ namespace	ft {
 			typedef	typename allocator_type::const_pointer						const_pointer;
 			typedef	typename ft::map_iterator<value_type, node_type>			iterator;
 			typedef	typename ft::map_iterator<value_type const, node_type const> const_iterator;
-			typedef typename ft::reverse_iterator<iterator>						reverse_iterator;
-			typedef typename ft::reverse_iterator<const_iterator>				const_reverse_iterator;
+			typedef typename ft::map_reverse_iterator<iterator>					reverse_iterator;
+			typedef typename ft::map_reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef typename std::size_t										size_type;
 			typedef typename std::ptrdiff_t										difference_type;
 
