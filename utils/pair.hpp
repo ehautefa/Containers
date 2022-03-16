@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:54:41 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/02/22 11:19:41 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 17:59:31 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace	ft
 	pair<T1,T2> make_pair(T1 x, T2 y) { return ( pair<T1,T2>(x,y) ); }
 
 	template <class T1, class T2>
-	bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return (lhs.first == lhs.first && lhs.second == rhs.second); }
+	bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return (lhs.first == rhs.first && lhs.second == rhs.second); }
 	template <class T1, class T2>
   	bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return (!(lhs == rhs)); }
 	template <class T1, class T2>

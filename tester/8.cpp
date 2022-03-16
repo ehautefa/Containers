@@ -190,38 +190,38 @@ int main()
 	print(mymap);
 	print(map2);
 
-	std::cout << std::setw(40) << "map == map2: " << (mymap == map2) << std::endl;
-	print(mymap);
-	print(map2);
-	std::cout << std::endl;
+	std::cout << "map == map2: " << (mymap == map2) << std::endl;
+	// print(mymap);
+	// print(map2);
+	// std::cout << std::endl;
 
-	mymap.clear();
-	print(mymap);
-	print(map2);
+	// mymap.clear();
+	// print(mymap);
+	// print(map2);
 
-	mymap["satan"] = 666;
-	print(mymap);
-	print(map2);
-	std::cout << std::setw(40) << "mymap == map2: " << (mymap == map2) << std::endl;
-	print(mymap);
-	print(map2);
-	std::cout << std::endl;
-	std::cout << std::setw(40) << "mymap <= map2: " << (mymap <= map2) << std::endl;
-	print(mymap);
-	print(map2);
-	std::cout << std::endl;
-	std::cout << std::setw(40) << "mymap >= map2: " << (mymap >= map2) << std::endl;
-	print(mymap);
-	print(map2);
-	std::cout << std::endl;
-	std::cout << std::setw(40) << "mymap > map2: " << (mymap > map2) << std::endl;
-	print(mymap);
-	print(map2);
-	std::cout << std::endl;
-	std::cout << std::setw(40) << "mymap < map2: " << (mymap > map2) << std::endl;
-	print(mymap);
-	print(map2);
-	std::cout << std::endl;
+	// mymap["satan"] = 666;
+	// print(mymap);
+	// print(map2);
+	// std::cout << std::setw(40) << "mymap == map2: " << (mymap == map2) << std::endl;
+	// print(mymap);
+	// print(map2);
+	// std::cout << std::endl;
+	// std::cout << std::setw(40) << "mymap <= map2: " << (mymap <= map2) << std::endl;
+	// print(mymap);
+	// print(map2);
+	// std::cout << std::endl;
+	// std::cout << std::setw(40) << "mymap >= map2: " << (mymap >= map2) << std::endl;
+	// print(mymap);
+	// print(map2);
+	// std::cout << std::endl;
+	// std::cout << std::setw(40) << "mymap > map2: " << (mymap > map2) << std::endl;
+	// print(mymap);
+	// print(map2);
+	// std::cout << std::endl;
+	// std::cout << std::setw(40) << "mymap < map2: " << (mymap > map2) << std::endl;
+	// print(mymap);
+	// print(map2);
+	// std::cout << std::endl;
 
 	return 0;
 }

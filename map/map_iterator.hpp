@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/16 10:41:51 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 19:18:27 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@
 #define MAP_ITERATOR_HPP
 
 #include "../utils/iterator_traits.hpp"
-#include "../map/node.hpp"
+#include "node.hpp"
+
 
 namespace ft
 {
-	template < class Node >
+	template < class Pair, class Node >
 	struct map_iterator
 	{ 
 		typedef Node        									node_type;
 		typedef	Node*											node_pointer;
+		typedef	Pair						 					value_type;
+		typedef value_type *									pointer;
+		typedef const value_type *								const_pointer;
+		typedef value_type &									reference;
+		typedef const value_type &								const_reference;
 		typedef typename std::ptrdiff_t							difference_type;
-		typedef	typename node_type::value_type 					value_type;
-		typedef typename node_type::pointer						pointer;
-		typedef typename node_type::reference					reference;
 		typedef bidirectional_iterator_tag			 			iterator_category;
 		
 		private:
@@ -39,14 +42,20 @@ namespace ft
 		/**** CONSTRUCTOR ****/
 		map_iterator( void ) : _ptr() {}
 		map_iterator( node_pointer ptr ) : _ptr(ptr) {}
-		template <class Iter>
-  		map_iterator ( const map_iterator<Iter>& src ) : _ptr(src.getPointer()) {}
+		template <class Value, class Iter>
+  		map_iterator ( const map_iterator<Value, Iter>& src ) : _ptr(src.getPointer()) {}
 		map_iterator	&operator=( map_iterator const & rhs ) {_ptr = rhs._ptr; return *this; }
 		~map_iterator( void ) {}
 
+		operator map_iterator<value_type const, node_type const>() const {
+			return map_iterator<value_type const, node_type const>(_ptr);
+		}
+
 		/**** OPERATOR ****/
-		reference		operator*() 	const {return (_ptr->_value);}
-		pointer			operator->() 	const {return &(operator*());}
+		reference			operator*() 		{ return (_ptr->_value); }
+		const_reference		operator*() const	{ return (_ptr->_value); }
+		pointer				operator->() 		{ return &(operator*()); }
+		const_pointer		operator->() const	{ return &(operator*()); }
 
 		map_iterator	&operator++() {
 			if (!_ptr)
@@ -89,8 +98,8 @@ namespace ft
 		map_iterator	operator--( int ) { map_iterator tmp(*this); operator--(); return tmp;}
 	};
 
-	template <class Iterator1, class Iterator2 > bool 	operator==(const map_iterator<Iterator1>& lhs, const map_iterator<Iterator2>& rhs) {return (lhs.getPointer() == rhs.getPointer());}
-	template <class Iterator1, class Iterator2 > bool 	operator!=(const map_iterator<Iterator1>& lhs, const map_iterator<Iterator2>& rhs) {return (!( lhs == rhs ));}
+	template <class Iterator1, class Iterator2 > bool 	operator==(const Iterator1 & lhs, const Iterator2 & rhs) {return (lhs.getPointer() == rhs.getPointer());}
+	template <class Iterator1, class Iterator2 > bool 	operator!=(const Iterator1 & lhs, const Iterator2 & rhs) {return (!( lhs == rhs ));}
 
 }
 

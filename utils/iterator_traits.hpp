@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:29:13 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/10 10:22:19 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:47:42 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ namespace	ft {
 			typedef T							value_type;
 			typedef T*							pointer;
 			typedef T&							reference;
-
 	};
 
 	template <class T>
@@ -70,9 +69,7 @@ namespace	ft {
 			typedef T							value_type;
 			typedef const T*					pointer;
 			typedef const T&					reference;
-
 	};
-
 }
 
 #endif

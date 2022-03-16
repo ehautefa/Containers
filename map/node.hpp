@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 16:29:24 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/07 17:56:00 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:54:13 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,6 @@ namespace ft
 		}
 
 		value_type	getValue() const { return _value;}
-		// const value_type	getConstValue() const { return _value;}
-
-		void	display() {
-			std::cout << "KEY: " << this->_value.first << " 	VALUE: " << this->_value.second;
-			std::cout << "	DEPTH: " << this->_depth << "	DELTA: " << this->_delta;
-			std::cout << "	MAX_DEPTH: " << this->_max_depth;
-			std::cout << "	PARENT: " << this->_parent << "	LEFT: " << this->_left;
-			std::cout << "	RIGHT: " << this->_right << std::endl;
-		}
-
-		void	debug(int i, char c) {
-			std::cout << i << " " << c << "	:";
-			this->display();
-			if (this->_left)
-				this->_left->debug(i + 1, 'l');
-			if (this->_right)
-				this->_right->debug(i + 1, 'r');
-		}	
 
 		void	destruct_all_node() {
 			if (_left)
@@ -93,7 +75,6 @@ namespace ft
 		}	
 
 		node	&operator=( node const & rhs ) {
-			// _value = rhs._value;
 			_parent = rhs._parent;
 			_left = rhs._left;
 			_right = rhs._right;
@@ -132,6 +113,7 @@ namespace ft
 	bool	operator==(node<Key, T, Compare, Alloc> const & rhs, node<Key, T, Compare, Alloc> const & lhs) {
 		return (lhs._value == rhs._value);
 	}
+
 	
 } // namespace ft
 

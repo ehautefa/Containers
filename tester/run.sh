@@ -24,14 +24,17 @@ then
 	sed "s/STL/1/g" $1.cpp > $MAIN1
 	sed "s/STL/0/g" $1.cpp > $MAIN2
 	clang++ -Wall -Werror -Wextra -std=c++98 $MAIN1  -o $BINARY1
-	clang++ -Wall -Werror -Wextra -g3 -std=c++98 $MAIN2 -o $BINARY2
-	./$BINARY1 > $RES1
-	valgrind --tool=memcheck --leak-check=full --leak-resolution=high --track-origins=yes --show-reachable=yes --log-file=valgrind.log ./$BINARY2 > $RES2
-	if diff -y $RES1 $RES2
+	clang++ -Wall -Werror -Wextra -fstandalone-debug -g3 -std=c++98 $MAIN2 -o $BINARY2
+	if [ -e $BINARY2 ]
 	then
-		printf "$BOLDGREEN Check $1 : [success]$RESET\n"
-	else
-		printf "$BOLDRED Check $1 : [error]$RESET\n"
+		./$BINARY1 > $RES1
+		valgrind --tool=memcheck --leak-check=full --leak-resolution=high --track-origins=yes --show-reachable=yes --log-file=valgrind.log ./$BINARY2 > $RES2
+		if diff -y $RES1 $RES2
+		then
+			printf "$BOLDGREEN Check $1 : [success]$RESET\n"
+		else
+			printf "$BOLDRED Check $1 : [error]$RESET\n"
+		fi
 	fi
 else
 	NB_TEST=9

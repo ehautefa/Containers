@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_iterator.hpp                                :+:      :+:    :+:   */
+/*   reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/16 10:53:50 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 19:31:30 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTOR_ITERATOR_HPP
-#define VECTOR_ITERATOR_HPP
+#ifndef REVERSE_ITERATOR_HPP
+#define REVERSE_ITERATOR_HPP
 
-#include "../utils/iterator_traits.hpp"
+#include "iterator_traits.hpp"
 
 namespace ft
 {
@@ -25,7 +25,7 @@ namespace ft
 		typedef typename iterator_traits<iterator>::difference_type		difference_type;
 		typedef typename iterator_traits<iterator>::pointer			  	pointer;
 		typedef typename iterator_traits<iterator>::reference			reference;
-		typedef typename iterator_traits<iterator>::category  			iterator_category;
+		// typedef typename iterator_traits<iterator>::iterator_category  	iterator_category;
 		typedef	iterator												iterator_type;
 		
 		private:
@@ -35,16 +35,22 @@ namespace ft
 
 		/**** CONSTRUCTOR ****/
 		reverse_iterator( void ) : _ptr() {}
-		explicit reverse_iterator( iterator_type it ) : _ptr(it - 1) {}
+		explicit reverse_iterator( iterator_type it ) : _ptr(--it) {}
 		template <class Iter>
-  		reverse_iterator (const reverse_iterator<Iter>& src) : _ptr(src.base() - 1) {}
+  		reverse_iterator (const reverse_iterator<Iter>& src) {
+			  iterator_type tmp = src.base();
+			  --tmp;
+			  _ptr = tmp;
+		}
 		~reverse_iterator( void ) {}
 
 		/**** BASE ****/
-		iterator_type base() const {return (iterator_type(_ptr + 1));}
+		iterator_type base() const { iterator_type to_ret = _ptr; return (++to_ret);}
+		// iterator_type base() const {return (iterator_type(_ptr + 1));}
 
 		/**** OPERATOR ****/
-		reference			operator*() const {return (*_ptr);}
+		reference			operator*()			{ return (*_ptr); }
+		const reference		operator*() const 	{ return (*_ptr); }
 		reverse_iterator	operator+ (difference_type n) const { return (reverse_iterator(_ptr - n + 1));}
 
 		reverse_iterator	&operator++() {--_ptr;return *this;}
@@ -58,7 +64,8 @@ namespace ft
 
 		reverse_iterator	&operator-=( value_type n ) { _ptr = _ptr + n; return(*this);}
 
-		pointer		operator->() const {return &(operator*());}
+		pointer				operator->() 		{ return &(operator*()); }
+		const pointer		operator->() const 	{ return &(operator*()); }
 		reference	operator[] ( difference_type n ) const {return (base()[-n-1]);}
 	};
 

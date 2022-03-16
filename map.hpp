@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 10:52:53 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/10 21:43:31 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 19:27:08 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 #include "map/node.hpp"
 #include "map/map_iterator.hpp"
-#include "map/map_reverse_iterator.hpp"
-#include "map/map_const_iterator.hpp"
+#include "utils/reverse_iterator.hpp"
 
 namespace	ft {
 	
@@ -35,10 +34,10 @@ namespace	ft {
 			typedef	typename allocator_type::const_reference					const_reference;
 			typedef	typename allocator_type::pointer							pointer;
 			typedef	typename allocator_type::const_pointer						const_pointer;
-			typedef	typename ft::map_iterator<node_type>						iterator;
-			typedef typename ft::map_iterator<node_type>						const_iterator;
-			typedef typename ft::map_reverse_iterator<iterator> 				reverse_iterator;
-			typedef typename ft::map_reverse_iterator<const_iterator>			const_reverse_iterator;
+			typedef	typename ft::map_iterator<value_type, node_type>			iterator;
+			typedef	typename ft::map_iterator<value_type const, node_type const> const_iterator;
+			typedef typename ft::reverse_iterator<iterator>						reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 			typedef typename std::size_t										size_type;
 			typedef typename std::ptrdiff_t										difference_type;
 
@@ -53,8 +52,6 @@ namespace	ft {
 					{ return comp(x.first, y.first); }
 			};
 
-			
-		
 		private:
 			node_type				*_root;
 			node_type				*_rend;
@@ -324,28 +321,20 @@ namespace	ft {
 		const_iterator end() const { return (_end); }
 		
 		reverse_iterator rbegin() {
-			node_type	*pos = _root;
-			
 			if (this->empty())
 				return reverse_iterator(iterator(_rend));
-			while (pos->_right && pos->_right != _end)
-				pos = pos->_right;
-			return (reverse_iterator(iterator(pos)));
+			return (reverse_iterator(iterator(_end)));
 		}
 		
 		const_reverse_iterator rbegin() const {
-			node_type	*pos = _root;
-			
 			if (this->empty())
 				return reverse_iterator(iterator(_rend));
-			while (pos->_right && pos->_right != _end)
-				pos = pos->_right;
-			return (reverse_iterator(iterator(pos)));
+			return (reverse_iterator(iterator(_end)));
 		}
 		
-		reverse_iterator rend() { return reverse_iterator(iterator(_rend)++); }
+		reverse_iterator rend() { return reverse_iterator(this->begin()); }
 		
-		const_reverse_iterator rend() const { return reverse_iterator(iterator(_rend)++); }
+		const_reverse_iterator rend() const { return reverse_iterator(this->begin()); }
 		
 		/****************~CAPACITY~****************/
 		bool empty() const { if (_size == 0) {return (true);} return false;}
@@ -711,16 +700,12 @@ namespace	ft {
 
 	template <class Key, class T, class Compare, class Alloc> 
 	bool operator== ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
-		if (lhs.size() != rhs.size())
-			return false;
-		typename map<Key, T>::iterator	l_it = lhs.begin();		
-		typename map<Key, T>::iterator	r_it = rhs.begin();
-		for (; l_it != lhs.end(); l_it++) {
-			if (*l_it != *r_it)
-				return false;
-			r_it++;
-		}
-		return true;
+		typename ft::map<Key,T,Compare,Alloc>::const_iterator l_beg = lhs.begin();
+		typename ft::map<Key,T,Compare,Alloc>::const_iterator r_beg = rhs.begin();
+		typename ft::map<Key,T,Compare,Alloc>::const_iterator l_end = lhs.end();
+		if (lhs.size() == rhs.size() && ft::equal(l_beg, l_end, r_beg))
+			return true;
+		return false;
 	}
 	template <class Key, class T, class Compare, class Alloc> 
 	bool operator!= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) { return !(lhs == rhs); }
