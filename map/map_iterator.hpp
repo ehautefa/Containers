@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/16 20:23:49 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 20:59:22 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,11 @@ namespace ft
 		}
 		
 		map_iterator	operator--( int ) { map_iterator tmp(*this); operator--(); return tmp;}
+		
+		friend bool 	operator==(const map_iterator & lhs, const map_iterator & rhs) {return (lhs._ptr == rhs._ptr);}
+		friend bool 	operator!=(const map_iterator & lhs, const map_iterator & rhs) {return (!( lhs == rhs ));}
 	};
 
-	template <class Iterator1, class Iterator2 > bool 	operator==(const Iterator1 & lhs, const Iterator2 & rhs) {return (lhs.getPointer() == rhs.getPointer());}
-	template <class Iterator1, class Iterator2 > bool 	operator!=(const Iterator1 & lhs, const Iterator2 & rhs) {return (!( lhs == rhs ));}
 
 }
 

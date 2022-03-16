@@ -37,7 +37,7 @@ then
 		fi
 	fi
 else
-	NB_TEST=9
+	NB_TEST=10
 	index=1
 	while ((index < NB_TEST))
 	do

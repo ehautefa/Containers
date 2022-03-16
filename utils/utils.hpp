@@ -6,9 +6,12 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:25:38 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/10 11:42:22 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 20:51:50 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef UTILS_HPP
+#define UTILS_HPP
 
 #include <string>
 #include <sstream>
@@ -42,3 +45,5 @@ namespace	ft {
 	  }
 
 }
+
+#endif
