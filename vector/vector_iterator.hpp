@@ -6,7 +6,7 @@
 /*   By: ehautefa <ehautefa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:52:39 by ehautefa          #+#    #+#             */
-/*   Updated: 2022/03/10 16:08:46 by ehautefa         ###   ########.fr       */
+/*   Updated: 2022/03/16 10:53:50 by ehautefa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,6 @@
 
 namespace ft
 {
-	// template <typename Category, typename T, typename Distance = ptrdiff_t, typename Pointer = T*, typename Reference = T&>
-	// class iterator {
-	// 	typedef T         value_type;
-	// 	typedef Distance  difference_type;
-	// 	typedef Pointer   pointer;
-	// 	typedef Reference reference;
-	// 	typedef Category  iterator_category;
-	// };
-
-	// template <typename Category, typename T, typename Distance = ptrdiff_t, typename Pointer = T*, typename Reference = T&>
-	// class const_iterator {
-	// 	typedef T         value_type;
-	// 	typedef Distance  difference_type;
-	// 	typedef Pointer   pointer;
-	// 	typedef Reference reference;
-	// 	typedef Category  iterator_category;	
-	// };
 
 	template <typename iterator>
 	struct reverse_iterator
@@ -54,7 +37,7 @@ namespace ft
 		reverse_iterator( void ) : _ptr() {}
 		explicit reverse_iterator( iterator_type it ) : _ptr(it - 1) {}
 		template <class Iter>
-  		reverse_iterator (const reverse_iterator<Iter>& src) : _ptr(src.base()) {}
+  		reverse_iterator (const reverse_iterator<Iter>& src) : _ptr(src.base() - 1) {}
 		~reverse_iterator( void ) {}
 
 		/**** BASE ****/
