@@ -23,58 +23,61 @@
 
 namespace ft
 {
-	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key,T> > >
+	template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T>>>
 	struct node
 	{
-		typedef	Key												key_type;
-		typedef	T												mapped_type;
-		typedef	pair<const key_type,mapped_type>				value_type;
-		typedef	Compare											key_compare;
-		typedef	Alloc											allocator_type;
-		typedef typename allocator_type::template rebind<node<key_type, mapped_type> >::other	node_allocator_type;
-		typedef	value_type& 									reference;
-		typedef	const value_type& 								const_reference;
-		typedef	value_type*				 						pointer;
-		typedef	const value_type& 								const_pointer;
-		typedef typename std::size_t							size_type;
-		typedef typename std::ptrdiff_t							difference_type;
-			
-		value_type 					_value;
-		node						*_parent;
-		node						*_left;
-		node						*_right;
-		size_type					_depth;
-		size_type					_max_depth;
-		difference_type				_delta;
-		node_allocator_type			_node_alloc;
+		typedef Key key_type;
+		typedef T mapped_type;
+		typedef pair<const key_type, mapped_type> value_type;
+		typedef Compare key_compare;
+		typedef Alloc allocator_type;
+		typedef typename allocator_type::template rebind<node<key_type, mapped_type>>::other node_allocator_type;
+		typedef value_type &reference;
+		typedef const value_type &const_reference;
+		typedef value_type *pointer;
+		typedef const value_type &const_pointer;
+		typedef typename std::size_t size_type;
+		typedef typename std::ptrdiff_t difference_type;
 
-		node( void ) : _value(), _parent(NULL), _left(NULL), _right(NULL), _depth(0), _max_depth(0), _delta(0) {}
-		node( value_type value, node *parent, node *left, node *right, size_type depth, size_type max_depth, difference_type delta ) : _value(value), _parent(parent), _left(left), _right(right), _depth(depth), _max_depth(max_depth), _delta(delta) {}
+		value_type _value;
+		node *_parent;
+		node *_left;
+		node *_right;
+		size_type _depth;
+		size_type _max_depth;
+		difference_type _delta;
+		node_allocator_type _node_alloc;
+
+		node(void) : _value(), _parent(NULL), _left(NULL), _right(NULL), _depth(0), _max_depth(0), _delta(0) {}
+		node(value_type value, node *parent, node *left, node *right, size_type depth, size_type max_depth, difference_type delta) : _value(value), _parent(parent), _left(left), _right(right), _depth(depth), _max_depth(max_depth), _delta(delta) {}
 		~node() {}
 
-		node *clone(node * parent) {
-			node	*pos 		= _node_alloc.allocate(1);
-			node	*f_left		= _left ? _left->clone(pos) : NULL;
-			node	*f_right	= _right ? _right->clone(pos) : NULL;
+		node *clone(node *parent)
+		{
+			node *pos = _node_alloc.allocate(1);
+			node *f_left = _left ? _left->clone(pos) : NULL;
+			node *f_right = _right ? _right->clone(pos) : NULL;
 
-			node	to_insert(_value, parent, f_left, f_right, _depth, _max_depth, _delta);
+			node to_insert(_value, parent, f_left, f_right, _depth, _max_depth, _delta);
 
 			_node_alloc.construct(pos, to_insert);
 			return pos;
 		}
 
-		value_type	getValue() const { return _value;}
+		value_type getValue() const { return _value; }
 
-		void	destruct_all_node() {
+		void destruct_all_node()
+		{
 			if (_left)
 				_left->destruct_all_node();
 			if (_right)
 				_right->destruct_all_node();
 			_node_alloc.destroy(this);
 			_node_alloc.deallocate(this, 1);
-		}	
+		}
 
-		node	&operator=( node const & rhs ) {
+		node &operator=(node const &rhs)
+		{
 			_parent = rhs._parent;
 			_left = rhs._left;
 			_right = rhs._right;
@@ -85,8 +88,10 @@ namespace ft
 			return (*this);
 		}
 
-		void	swap_neighboor( node *x ) {
-			if (x->_parent && x->_parent != this) {
+		void swap_neighboor(node *x)
+		{
+			if (x->_parent && x->_parent != this)
+			{
 				if (x->_parent->_left == x)
 					x->_parent->_left = this;
 				else if (x->_parent->_right == x)
@@ -98,23 +103,23 @@ namespace ft
 				x->_right->_parent = this;
 		}
 
-		void	swap( node & x ) {
-			node	tmp = x;
+		void swap(node &x)
+		{
+			node tmp = x;
 
 			x.swap_neighboor(this);
-			this->swap_neighboor( &tmp );
+			this->swap_neighboor(&tmp);
 			x = *this;
 			*this = tmp;
 		}
-
 	};
 
-	template <class Key, class T, class Compare, class Alloc> 
-	bool	operator==(node<Key, T, Compare, Alloc> const & rhs, node<Key, T, Compare, Alloc> const & lhs) {
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator==(node<Key, T, Compare, Alloc> const &rhs, node<Key, T, Compare, Alloc> const &lhs)
+	{
 		return (lhs._value == rhs._value);
 	}
 
-	
 } // namespace ft
 
 #endif

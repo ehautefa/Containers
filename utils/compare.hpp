@@ -15,41 +15,42 @@
 
 #include <iostream>
 
-namespace	ft
+namespace ft
 {
-  /*******************/
- /*** LEXICO COMP ***/
-/*******************/
+	/*******************/
+	/*** LEXICO COMP ***/
+	/*******************/
 
 	template <class InputIterator1, class InputIterator2>
-  	bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2)
+	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2)
 	{
 		try
 		{
 			while (first1 != last1)
 			{
-				if (first2==last2 || *first2<*first1)
+				if (first2 == last2 || *first2 < *first1)
 					return false;
-				else if (*first1<*first2)
+				else if (*first1 < *first2)
 					return true;
 				++first1;
 				++first2;
 			}
 		}
-		catch (const std::exception & e) {
+		catch (const std::exception &e)
+		{
 			throw e;
 		}
-		return (first2!=last2);
+		return (first2 != last2);
 	}
 
 	template <class InputIterator1, class InputIterator2, class Compare>
-  	bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, Compare comp)
+	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, Compare comp)
 	{
 		try
 		{
 			while (first1 != last1)
 			{
-				if (first2==last2 || comp(*first2, *first1))
+				if (first2 == last2 || comp(*first2, *first1))
 					return false;
 				else if (comp(*first1, *first2))
 					return true;
@@ -57,30 +58,31 @@ namespace	ft
 				++first2;
 			}
 		}
-		catch(const std::exception& e)
+		catch (const std::exception &e)
 		{
 			throw e;
 		}
-		return (first2!=last2);
+		return (first2 != last2);
 	}
 
-  /*******************/
- /*****  EQUAL  *****/
-/*******************/
+	/*******************/
+	/*****  EQUAL  *****/
+	/*******************/
 
 	template <class InputIterator1, class InputIterator2>
- 	bool equal (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
+	bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 	{
-		try {
+		try
+		{
 			while (first1 != last1)
 			{
-				if (!( *first1 == *first2 ))
+				if (!(*first1 == *first2))
 					return false;
 				++first1;
 				++first2;
 			}
 		}
-		catch(const std::exception& e)
+		catch (const std::exception &e)
 		{
 			throw e;
 		}
@@ -88,9 +90,10 @@ namespace	ft
 	}
 
 	template <class InputIterator1, class InputIterator2, class BinaryPredicate>
-  	bool equal (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate pred)
+	bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate pred)
 	{
-		try {
+		try
+		{
 			while (first1 != last1)
 			{
 				if (!pred(*first1, *first2))
@@ -99,7 +102,7 @@ namespace	ft
 				++first2;
 			}
 		}
-		catch(const std::exception& e)
+		catch (const std::exception &e)
 		{
 			throw e;
 		}
